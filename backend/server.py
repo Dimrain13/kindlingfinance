@@ -163,8 +163,33 @@ async def exchange_public_token(
         plaid_accounts = await PlaidService.get_accounts(access_token)
         
         for plaid_account in plaid_accounts:
-            # Convert Plaid enum types to strings
-            account_type = str(plaid_account.subtype.value) if plaid_account.subtype else str(plaid_account.type.value)
+            # Convert Plaid enum types to strings and map to our enum values
+            raw_type = str(plaid_account.subtype.value) if plaid_account.subtype else str(plaid_account.type.value)
+            
+            # Map Plaid types to our AccountType enum
+            type_mapping = {
+                'checking': 'checking',
+                'savings': 'savings',
+                'credit card': 'credit_card',
+                'credit': 'credit_card',
+                'loan': 'loan',
+                'auto': 'loan',
+                'commercial': 'loan',
+                'construction': 'loan',
+                'consumer': 'loan',
+                'home equity': 'loan',
+                'line of credit': 'loan',
+                'mortgage': 'mortgage',
+                'overdraft': 'loan',
+                'student': 'loan',
+                'brokerage': 'investment',
+                'ira': 'investment',
+                'retirement': 'investment',
+                '401k': 'investment',
+                'crypto exchange': 'crypto',
+            }
+            
+            account_type = type_mapping.get(raw_type.lower(), 'manual')
             
             account_doc = {
                 "id": str(uuid.uuid4()),
