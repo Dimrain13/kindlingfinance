@@ -222,6 +222,9 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
             )
             ai_categorized = True
         
+        # Convert date to datetime if it's a date object
+        txn_date = datetime.combine(txn.date, datetime.min.time()) if hasattr(txn.date, 'year') and not isinstance(txn.date, datetime) else txn.date
+        
         txn_doc = {
             "id": str(uuid.uuid4()),
             "user_id": user_id,
@@ -231,7 +234,7 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
             "description": txn.name,
             "transaction_type": txn_type,
             "category": category,
-            "date": txn.date,
+            "date": txn_date,
             "merchant_name": txn.merchant_name,
             "is_recurring": False,
             "pending": txn.pending,
