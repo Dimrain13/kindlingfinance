@@ -139,10 +139,20 @@ const Insights = () => {
                 >
                   <CardHeader>
                     <div className="flex items-start justify-between">
-                      <CardTitle className="text-lg flex items-center space-x-2">
-                        {getPriorityIcon(insight.priority)}
-                        <span>{insight.title}</span>
-                      </CardTitle>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg flex items-center space-x-2">
+                          {getPriorityIcon(insight.priority)}
+                          <span>{insight.title}</span>
+                        </CardTitle>
+                        {insight.monthly_savings > 0 && (
+                          <div className="mt-2 inline-flex items-center bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
+                            <span className="text-green-700 dark:text-green-300 font-bold text-lg">
+                              ${insight.monthly_savings.toFixed(0)}/mo
+                            </span>
+                            <span className="text-green-600 dark:text-green-400 text-xs ml-2">savings</span>
+                          </div>
+                        )}
+                      </div>
                       <div className="flex items-center space-x-2">
                         <span className="text-xs font-semibold px-2 py-1 rounded-full bg-white dark:bg-gray-800">
                           Priority {insight.priority}/5
@@ -152,9 +162,25 @@ const Insights = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-700 dark:text-gray-300">{insight.description}</p>
+                    
+                    {/* Affiliate Link Button */}
+                    {insight.affiliate_link && (
+                      <div className="mt-4">
+                        <a 
+                          href={insight.affiliate_link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all"
+                        >
+                          <Sparkles className="h-4 w-4 mr-2" />
+                          {insight.affiliate_text || 'Learn More'}
+                        </a>
+                      </div>
+                    )}
+                    
                     <div className="mt-3 flex items-center space-x-2">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 capitalize">
-                        {insight.insight_type}
+                        {insight.insight_type.replace('_', ' ')}
                       </span>
                       <span className="text-xs text-gray-500">
                         {new Date(insight.created_at).toLocaleDateString()}
