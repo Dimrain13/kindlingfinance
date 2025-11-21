@@ -113,8 +113,8 @@ CRITICAL RULES:
             sorted_txns = sorted(expense_txns, key=lambda x: x.get('date', ''), reverse=True)
             
             # Build comprehensive transaction list for pattern detection
-            context = f"# TRANSACTION DATA FOR ANALYSIS\n\n"
-            context += f"**Financial Summary:**\n"
+            context = "# TRANSACTION DATA FOR ANALYSIS\n\n"
+            context += "**Financial Summary:**\n"
             context += f"- Total Expenses: ${total_expenses:.2f}\n"
             context += f"- Total Income: ${total_income:.2f}\n"
             context += f"- Net: ${total_income - total_expenses:.2f}\n"
@@ -136,15 +136,15 @@ CRITICAL RULES:
                 amount = abs(txn.get('amount', 0))
                 spending_by_category[category] = spending_by_category.get(category, 0) + amount
             
-            context += f"\n**SPENDING BY CATEGORY:**\n"
+            context += "\n**SPENDING BY CATEGORY:**\n"
             for category, amount in sorted(spending_by_category.items(), key=lambda x: x[1], reverse=True):
                 percentage = (amount / total_expenses * 100) if total_expenses > 0 else 0
                 context += f"- {category}: ${amount:.2f} ({percentage:.1f}%)\n"
             
-            context += f"\n**YOUR ANALYSIS TASK:**\n"
-            context += f"Study this transaction data carefully. Look for patterns, recurring charges, "
-            context += f"price changes, and spending habits that present real savings opportunities. "
-            context += f"Base your insights only on what you actually observe in this data."
+            context += "\n**YOUR ANALYSIS TASK:**\n"
+            context += "Study this transaction data carefully. Look for patterns, recurring charges, "
+            context += "price changes, and spending habits that present real savings opportunities. "
+            context += "Base your insights only on what you actually observe in this data."
             
             message = UserMessage(text=context)
             response = await chat.send_message(message)
