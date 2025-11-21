@@ -8,6 +8,7 @@ const Insights = () => {
   const [insights, setInsights] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categorizing, setCategorizing] = useState(false);
 
   useEffect(() => {
     loadInsights();
