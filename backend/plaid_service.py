@@ -86,6 +86,7 @@ class PlaidService:
     async def get_institution_name(access_token: str) -> str:
         """Get institution name from item"""
         try:
+            plaid_client = get_plaid_client()
             item_request = ItemGetRequest(access_token=access_token)
             item_response = plaid_client.item_get(item_request)
             institution_id = item_response.item.institution_id
