@@ -71,8 +71,6 @@ const Accounts = () => {
               </span>
             </div>
           </div>
-        </div>
-
         {/* Assets Section */}
         {assetAccounts.length > 0 && (
           <>
