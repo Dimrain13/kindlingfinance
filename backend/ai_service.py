@@ -150,7 +150,8 @@ Be CONCISE. Focus on MONEY SAVED per month. Include affiliate opportunities."""
                 
                 insights = json.loads(response)
                 return insights
-            except:
+            except Exception as parse_err:
+                print(f"Failed to parse insights JSON: {parse_err}")
                 return [{
                     "title": "Review Your Subscriptions",
                     "description": "Check for unused subscriptions to save money.",
