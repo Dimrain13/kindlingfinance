@@ -227,15 +227,10 @@ const ModernBillCalendar = () => {
         {/* Summary */}
         {currentMonthBills.length > 0 && (
           <div className="mt-4 p-4 bg-gradient-to-r from-violet-50 to-fuchsia-50 dark:from-violet-900/20 dark:to-fuchsia-900/20 rounded-xl">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-center">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {currentMonthBills.length} {currentMonthBills.length === 1 ? 'bill' : 'bills'} unpaid
               </span>
-              <Link to="/bills">
-                <Button variant="link" size="sm" className="text-violet-600 hover:text-violet-700">
-                  View Details →
-                </Button>
-              </Link>
             </div>
           </div>
         )}
