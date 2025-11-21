@@ -65,10 +65,16 @@ const Insights = () => {
           <h1 className="text-3xl font-bold">AI Insights</h1>
           <p className="text-gray-600 mt-1">Powered by ChatGPT</p>
         </div>
-        <Button onClick={generateInsights} disabled={loading}>
-          <RefreshCw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
-          Generate New Insights
-        </Button>
+        <div className="flex gap-3">
+          <Button onClick={categorizeAll} disabled={categorizing} variant="outline">
+            <Sparkles size={16} className={`mr-2 ${categorizing ? 'animate-spin' : ''}`} />
+            {categorizing ? 'Categorizing...' : 'Categorize All'}
+          </Button>
+          <Button onClick={generateInsights} disabled={loading}>
+            <RefreshCw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
+            Generate Insights
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
