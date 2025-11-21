@@ -9,7 +9,6 @@ import Dashboard from './pages/Dashboard';
 import Accounts from './pages/Accounts';
 import Transactions from './pages/Transactions';
 import Budgets from './pages/Budgets';
-import Bills from './pages/Bills';
 import Insights from './pages/Insights';
 import Reports from './pages/Reports';
 import './App.css';
