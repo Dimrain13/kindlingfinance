@@ -33,6 +33,19 @@ const Insights = () => {
     }
   };
 
+  const categorizeAll = async () => {
+    setCategorizing(true);
+    try {
+      const response = await api.post('/ai/categorize-all');
+      alert(`Successfully categorized ${response.data.total} transactions!`);
+      loadSuggestions();
+    } catch (error) {
+      alert('Failed to categorize transactions');
+    } finally {
+      setCategorizing(false);
+    }
+  };
+
   const generateInsights = async () => {
     setLoading(true);
     try {
