@@ -262,6 +262,26 @@ const Insights = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Total Potential Savings */}
+            {insights.some(i => i.monthly_savings > 0) && (
+              <Card className="shadow-lg border-0 bg-gradient-to-br from-green-500 to-emerald-500 text-white">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm opacity-90">Potential Monthly Savings</p>
+                      <p className="text-3xl font-bold mt-2">
+                        ${insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0).toFixed(0)}
+                      </p>
+                      <p className="text-sm opacity-90 mt-1">
+                        =${(insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0) * 12).toFixed(0)}/year
+                      </p>
+                    </div>
+                    <TrendingUp className="h-16 w-16 opacity-80" />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
 
