@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Receipt, Search, Filter, Download } from 'lucide-react';
+import { Receipt, Search, Filter, Download, Plus } from 'lucide-react';
+import AddTransactionModal from '../components/AddTransactionModal';
 
 const Transactions = () => {
   const [transactions, setTransactions] = useState([]);
