@@ -237,17 +237,14 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
     for txn in result["added"]:
         from category_mapping import get_transaction_type_from_category
         
-        # Use AI to categorize if no category
-        category = txn.category[0] if txn.category else None
-        ai_categorized = False
-        
-        if not category:
-            category = await ai_service.categorize_transaction(
-                txn.name,
-                txn.amount,
-                txn.merchant_name
-            )
-            ai_categorized = True
+        # Always use AI to categorize for better accuracy
+        # Plaid categories are often generic, AI gives better results
+        category = await ai_service.categorize_transaction(
+            txn.name,
+            txn.amount,
+            txn.merchant_name
+        )
+        ai_categorized = True
         
         # Determine transaction type from category
         txn_type = get_transaction_type_from_category(category)
