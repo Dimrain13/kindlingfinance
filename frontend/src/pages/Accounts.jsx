@@ -54,9 +54,22 @@ const Accounts = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Accounts
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
-              {accounts.length} {accounts.length === 1 ? 'account' : 'accounts'} • Total: ${totalBalance.toFixed(2)}
+            <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
+              {accounts.length} {accounts.length === 1 ? 'account' : 'accounts'}
             </p>
+            <div className="mt-3 flex flex-wrap gap-4 text-sm">
+              <span className="text-green-600 font-semibold">
+                Assets: ${totalAssets.toFixed(2)}
+              </span>
+              {totalLiabilities > 0 && (
+                <span className="text-red-600 font-semibold">
+                  Liabilities: ${totalLiabilities.toFixed(2)}
+                </span>
+              )}
+              <span className="text-blue-600 font-bold">
+                Net Worth: ${netWorth.toFixed(2)}
+              </span>
+            </div>
           </div>
         </div>
 
