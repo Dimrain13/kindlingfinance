@@ -112,10 +112,16 @@ class PlaidService:
             next_cursor = cursor
             
             while has_more:
-                request = TransactionsSyncRequest(
-                    access_token=access_token,
-                    cursor=next_cursor
-                )
+                # Create request - only include cursor if it's not None
+                if next_cursor:
+                    request = TransactionsSyncRequest(
+                        access_token=access_token,
+                        cursor=next_cursor
+                    )
+                else:
+                    request = TransactionsSyncRequest(
+                        access_token=access_token
+                    )
                 response = plaid_client.transactions_sync(request)
                 
                 added.extend(response.added)
