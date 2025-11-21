@@ -116,7 +116,7 @@ Be CONCISE. Focus on MONEY SAVED per month. Include affiliate opportunities."""
                     category = txn.get('category', 'Other')
                     spending_by_category[category] = spending_by_category.get(category, 0) + abs(txn['amount'])
             
-            context = f"MONTHLY ANALYSIS:\n"
+            context = "MONTHLY ANALYSIS:\n"
             context += f"Income: ${total_income:.2f} | Expenses: ${total_expenses:.2f} | Net: ${(total_income - total_expenses):.2f}\n\n"
             
             if recurring:
@@ -126,7 +126,7 @@ Be CONCISE. Focus on MONEY SAVED per month. Include affiliate opportunities."""
                 context += "\n"
             
             if price_increases:
-                context += f"PRICE INCREASES DETECTED:\n"
+                context += "PRICE INCREASES DETECTED:\n"
                 for inc in price_increases[:5]:
                     context += f"- {inc['merchant']}: ${inc['old_amount']:.2f} → ${inc['new_amount']:.2f} (+{inc['percent_change']:.1f}%)\n"
                 context += "\n"
