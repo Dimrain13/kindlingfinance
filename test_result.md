@@ -105,6 +105,78 @@
 user_problem_statement: "Test the enhanced AI Insights page with savings recommendations"
 
 frontend:
+  - task: "AI Insights page loads without errors"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to verify AI Insights page loads cleanly without JavaScript errors and displays proper UI components"
+
+  - task: "Generate Insights button functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test Generate Insights button click functionality and verify insights are generated and displayed"
+
+  - task: "Monthly savings display in insights"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to verify monthly savings amounts are prominently displayed when insights have savings data (>$0)"
+
+  - task: "Affiliate link buttons display"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to check if affiliate link buttons appear when insights contain affiliate_link data"
+
+  - task: "Total potential savings card"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to verify 'Potential Monthly Savings' card appears and shows aggregate savings when insights have savings data"
+
+  - task: "Priority indicators for insights"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Insights.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to verify priority indicators (colors and icons) display correctly based on insight priority levels"
+
   - task: "Login functionality with test credentials"
     implemented: true
     working: true
@@ -113,72 +185,9 @@ frontend:
     priority: "high"
     needs_retesting: false
     status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to test login with test@example.com / testpass123 for credit card liability testing"
         -working: true
         -agent: "testing"
         -comment: "✅ TESTED: Login functionality works perfectly with test credentials (test@example.com / testpass123). Successfully redirected to dashboard after login."
-
-  - task: "Accounts page shows Assets and Liabilities separately"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/pages/Accounts.jsx"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to verify Accounts page header shows 'Assets: $0.00' and 'Net Worth: $0.00' for test user with no accounts. Should also verify visual distinction between assets and liabilities sections."
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Accounts page correctly displays 'Assets: $0.00' and 'Net Worth: $0.00' in header for test user with no accounts. Shows '0 accounts' count and 'No accounts yet' message as expected. Liabilities section correctly hidden when no liability accounts exist."
-
-  - task: "Dashboard Net Worth calculation (Assets - Liabilities)"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/pages/Dashboard.jsx"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to verify dashboard properly calculates and displays Net Worth as separate from Total Balance. Should show $0.00 values correctly for test user."
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Dashboard correctly shows separate cards for 'Total Balance: $0.00' and 'Net Worth: $0.00'. Both cards are properly implemented and display correct values for test user with no accounts."
-
-  - task: "Visual distinction between assets and liabilities"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/pages/Accounts.jsx"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to verify visual styling distinguishes between asset and liability accounts when they exist. Assets should have green styling, liabilities should have red styling with 'OWED' indicator."
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Visual distinction is properly implemented. Code analysis shows green styling (.text-green-600, .bg-green-100) ready for assets and red styling (.text-red-600, .bg-red-100, .border-red-500) ready for liabilities. Assets section will show with 💰 emoji and green colors, liabilities with 💳 emoji and red colors with 'OWED' indicator when accounts exist."
-
-  - task: "No console errors during navigation"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/pages/Dashboard.jsx"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to verify no JavaScript console errors during dashboard and accounts page navigation"
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: No JavaScript console errors detected during navigation between dashboard and accounts pages. Minor: Network errors from third-party services (PostHog analytics, Plaid) are expected and don't affect core functionality."
 
 metadata:
   created_by: "testing_agent"
