@@ -564,6 +564,15 @@ async def get_spending_trends(months: int = 6, user_id: str = Depends(get_curren
     
     return {"trends": monthly_data}
 
+# ==================== WEBHOOK ENDPOINTS ====================
+
+@api_router.post("/webhook/plaid")
+async def plaid_webhook(data: dict):
+    """Handle Plaid webhooks"""
+    # Log webhook for debugging
+    print(f"Received Plaid webhook: {data.get('webhook_type')} - {data.get('webhook_code')}")
+    return {"status": "received"}
+
 # Include router
 app.include_router(api_router)
 
