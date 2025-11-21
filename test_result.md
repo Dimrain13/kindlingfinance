@@ -196,7 +196,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All credit card liability testing completed successfully"
+    - "AI Insights page loads without errors"
+    - "Generate Insights button functionality"
+    - "Monthly savings display in insights"
+    - "Total potential savings card"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
