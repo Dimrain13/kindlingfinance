@@ -39,21 +39,21 @@ const Layout = ({ children }) => {
           <p className="text-sm text-blue-100 mt-2">{user?.name}</p>
         </div>
         
-        <nav className="flex-1 p-4 space-y-1">
+        <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                   isActive
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    ? 'bg-white text-blue-600 shadow-lg'
+                    : 'text-blue-100 hover:bg-white hover:bg-opacity-10 hover:text-white'
                 }`
               }
             >
               <item.icon size={20} />
-              <span className="font-medium">{item.label}</span>
+              <span className="font-semibold">{item.label}</span>
             </NavLink>
           ))}
         </nav>
