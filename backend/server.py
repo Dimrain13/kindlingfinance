@@ -235,8 +235,7 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
     
     # Process added transactions
     for txn in result["added"]:
-        # Determine transaction type
-        txn_type = TransactionType.EXPENSE if txn.amount > 0 else TransactionType.INCOME
+        from category_mapping import get_transaction_type_from_category
         
         # Use AI to categorize if no category
         category = txn.category[0] if txn.category else None
@@ -249,6 +248,9 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
                 txn.merchant_name
             )
             ai_categorized = True
+        
+        # Determine transaction type from category
+        txn_type = get_transaction_type_from_category(category)
         
         # Convert date to datetime if it's a date object
         txn_date = datetime.combine(txn.date, datetime.min.time()) if hasattr(txn.date, 'year') and not isinstance(txn.date, datetime) else txn.date
