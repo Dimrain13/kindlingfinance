@@ -91,10 +91,11 @@ const Insights = () => {
             <Button 
               onClick={categorizeAll} 
               disabled={categorizing}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg"
+              variant="outline"
+              className="shadow-md"
             >
               <Sparkles size={16} className={`mr-2 ${categorizing ? 'animate-spin' : ''}`} />
-              {categorizing ? 'Categorizing...' : 'Categorize All'}
+              {categorizing ? 'Re-categorizing...' : 'Re-categorize Existing'}
             </Button>
             <Button 
               onClick={generateInsights} 
