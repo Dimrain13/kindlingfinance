@@ -684,12 +684,12 @@ async def plaid_webhook(data: dict):
             # Find the plaid item
             plaid_item = await plaid_items_collection.find_one({"item_id": item_id})
             if plaid_item:
-                print(f"Auto-syncing transactions for item {item_id}")
+                print(f"🔄 Webhook triggered: Auto-syncing transactions for item {item_id}")
                 try:
                     await sync_plaid_transactions(plaid_item["id"], plaid_item["user_id"])
-                    print(f"Successfully synced transactions")
+                    print(f"✅ Successfully synced and auto-categorized new transactions")
                 except Exception as e:
-                    print(f"Error syncing transactions: {e}")
+                    print(f"❌ Error syncing transactions: {e}")
     
     return {"status": "received"}
 
