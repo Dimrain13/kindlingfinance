@@ -163,11 +163,14 @@ async def exchange_public_token(
         plaid_accounts = await PlaidService.get_accounts(access_token)
         
         for plaid_account in plaid_accounts:
+            # Convert Plaid enum types to strings
+            account_type = str(plaid_account.subtype.value) if plaid_account.subtype else str(plaid_account.type.value)
+            
             account_doc = {
                 "id": str(uuid.uuid4()),
                 "user_id": user_id,
                 "name": plaid_account.name,
-                "account_type": plaid_account.subtype or plaid_account.type,
+                "account_type": account_type,
                 "balance": float(plaid_account.balances.current or 0),
                 "institution_name": institution_name,
                 "plaid_account_id": plaid_account.account_id,
