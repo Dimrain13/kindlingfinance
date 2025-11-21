@@ -75,6 +75,7 @@ class PlaidService:
     async def get_accounts(access_token: str) -> list:
         """Get accounts from Plaid"""
         try:
+            plaid_client = get_plaid_client()
             request = AccountsGetRequest(access_token=access_token)
             response = plaid_client.accounts_get(request)
             return response.accounts
