@@ -102,12 +102,16 @@ const Accounts = () => {
         ))}
       </div>
 
-      {accounts.length === 0 && (
-        <div className="text-center py-12">
-          <Wallet className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">No accounts yet. Link a bank account to get started!</p>
-        </div>
-      )}
+        {accounts.length === 0 && (
+          <Card className="col-span-full">
+            <CardContent className="text-center py-12">
+              <Wallet className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-xl font-medium text-gray-600 mb-2">No accounts yet</p>
+              <p className="text-gray-500">Link a bank account from the Dashboard to get started!</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
