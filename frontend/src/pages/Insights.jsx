@@ -49,13 +49,17 @@ const Insights = () => {
   };
 
   const generateInsights = async () => {
+    console.log('Generate Insights button clicked');
     setLoading(true);
     try {
-      await api.post('/ai/generate-insights');
+      console.log('Making API call to /ai/generate-insights');
+      const response = await api.post('/ai/generate-insights');
+      console.log('API call successful:', response);
       loadInsights();
       alert('Insights generated successfully!');
     } catch (error) {
-      alert('Failed to generate insights');
+      console.error('Error generating insights:', error);
+      alert('Failed to generate insights: ' + (error.response?.data?.detail || error.message));
     } finally {
       setLoading(false);
     }
