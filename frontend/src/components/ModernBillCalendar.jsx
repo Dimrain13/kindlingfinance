@@ -85,26 +85,16 @@ const ModernBillCalendar = () => {
   return (
     <Card className="shadow-lg border-0 hover:shadow-xl transition-shadow duration-200">
       <CardHeader className="bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50 dark:from-violet-900/20 dark:via-purple-900/20 dark:to-fuchsia-900/20">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 p-2.5 rounded-xl shadow-lg">
-              <Calendar className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <CardTitle className="text-xl">Bills Calendar</CardTitle>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
-                ${totalDue.toFixed(2)} due this month
-              </p>
-            </div>
+        <div className="flex items-center space-x-3">
+          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-600 p-2.5 rounded-xl shadow-lg">
+            <Calendar className="h-5 w-5 text-white" />
           </div>
-          <Button 
-            size="sm"
-            className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
-            disabled
-          >
-            <Plus size={16} className="mr-1" />
-            Add Bill
-          </Button>
+          <div>
+            <CardTitle className="text-xl">Bills Calendar</CardTitle>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
+              ${totalDue.toFixed(2)} due this month
+            </p>
+          </div>
         </div>
       </CardHeader>
       
