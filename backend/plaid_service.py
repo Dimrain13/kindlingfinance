@@ -104,6 +104,7 @@ class PlaidService:
     async def sync_transactions(access_token: str, cursor: Optional[str] = None) -> dict:
         """Sync transactions from Plaid"""
         try:
+            plaid_client = get_plaid_client()
             added = []
             modified = []
             removed = []
