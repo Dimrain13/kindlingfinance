@@ -172,15 +172,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All tasks completed successfully"
+    - "Login functionality with test credentials"
+    - "Accounts page shows Assets and Liabilities separately"
+    - "Dashboard Net Worth calculation (Assets - Liabilities)"
+    - "Visual distinction between assets and liabilities"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
     -agent: "testing"
-    -message: "Starting comprehensive testing of FinanceHub Dashboard with Modern Bill Calendar integration. Will test login, calendar display, navigation cleanup, and error checking."
-    -agent: "testing"
-    -message: "TESTING COMPLETE: 5/6 requirements passed. Login works, Bills Calendar integrated with gradient styling, Bills nav link removed, no console errors. ISSUE FOUND: Add Bill button still present in Bills Calendar header - needs removal."
-    -agent: "testing"
-    -message: "RE-TESTING COMPLETE: ALL 6/6 requirements now PASSED! Fixed Button import issue in ModernBillCalendar.jsx that was causing JavaScript errors. Verified Add Bill button completely removed from Bills Calendar header. Dashboard fully functional with all requirements met."
+    -message: "Starting comprehensive testing of credit card liability handling in FinanceHub. Will test login, accounts page asset/liability separation, dashboard net worth calculation, and visual distinctions."
