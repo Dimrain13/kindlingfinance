@@ -244,12 +244,17 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
         existing = await transactions_collection.find_one({"plaid_transaction_id": txn.transaction_id})
         if not existing:
             await transactions_collection.insert_one(txn_doc)
+            print(f"Inserted transaction: {txn.name} - ${txn.amount}")
+        else:
+            print(f"Transaction already exists: {txn.transaction_id}")
     
     # Update cursor
     await plaid_items_collection.update_one(
         {"id": plaid_item_db_id},
         {"$set": {"cursor": result["cursor"]}}
     )
+    
+    print(f"Transaction sync complete. Updated cursor to: {result['cursor']}")
 
 @api_router.post("/plaid/sync")
 async def sync_transactions(user_id: str = Depends(get_current_user)):
