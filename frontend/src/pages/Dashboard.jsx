@@ -49,8 +49,8 @@ const Dashboard = () => {
 
   const onSuccess = useCallback(async (publicToken) => {
     try {
-      await api.post('/plaid/exchange-token', { public_token: publicToken });
-      alert('Account linked successfully!');
+      const response = await api.post('/plaid/exchange-token', { public_token: publicToken });
+      alert(`✅ ${response.data.message}\n\n💡 AI is automatically categorizing your transactions!`);
       loadDashboard();
       createLinkToken();
     } catch (error) {
