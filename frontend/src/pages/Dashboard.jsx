@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { usePlaidLink } from 'react-plaid-link';
 import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import BillCalendarWidget from '../components/BillCalendarWidget';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
