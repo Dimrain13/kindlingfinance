@@ -36,7 +36,7 @@ class AIService:
             chat = LlmChat(
                 api_key=self.api_key,
                 session_id="batch-categorization",
-                system_message="You are a financial assistant. Categorize each transaction with ONLY a category name. Categories: Groceries, Dining, Transportation, Utilities, Entertainment, Healthcare, Shopping, Bills, Income, Transfer, Gas, Mortgage, Rent, Insurance, Subscriptions, Travel, Gifts, Clothing, Electronics, Home, Fitness, Education, Personal Care, Pet Care, Charity, Other. Return as JSON object with transaction index as key and category as value."
+                system_message="You are a financial assistant. Categorize each transaction with a category name. Use these categories:\n\nINCOME: Income, Salary, Paycheck, Wages, Bonus, Refund, Interest, Dividend\n\nEXPENSES: Groceries, Dining, Transportation, Gas, Utilities, Entertainment, Healthcare, Shopping, Bills, Mortgage, Rent, Insurance, Subscriptions, Travel, Gifts, Clothing, Electronics, Home, Fitness, Education, Personal Care, Pet Care, Charity, Other\n\nTRANSFERS: Transfer, Credit Card Payment, Loan Payment, Savings\n\nReturn as JSON object with transaction index as key and category as value. ONLY return the JSON, nothing else."
             ).with_model("openai", "gpt-4o-mini")
             
             # Build transaction list
