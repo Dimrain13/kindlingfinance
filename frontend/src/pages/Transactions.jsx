@@ -14,6 +14,7 @@ const Transactions = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedType, setSelectedType] = useState('All');
+  const [showAddModal, setShowAddModal] = useState(false);
 
   useEffect(() => {
     loadTransactions();
