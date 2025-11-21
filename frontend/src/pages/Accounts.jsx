@@ -37,13 +37,23 @@ const Accounts = () => {
     return <div className="p-6">Loading...</div>;
   }
 
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Accounts</h1>
-      </div>
+  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="p-6 space-y-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Accounts
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              {accounts.length} {accounts.length === 1 ? 'account' : 'accounts'} • Total: ${totalBalance.toFixed(2)}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {accounts.map((account) => (
           <Card key={account.id} className="shadow-lg hover:shadow-xl transition-all duration-200 border-0">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
