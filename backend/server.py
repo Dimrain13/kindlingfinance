@@ -499,6 +499,93 @@ async def delete_bill(bill_id: str, user_id: str = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Bill not found")
     return {"message": "Bill deleted"}
 
+
+@api_router.post("/test/seed-transactions")
+async def seed_test_transactions(user_id: str = Depends(get_current_user)):
+    """Seed test transactions for demo purposes"""
+    from datetime import timedelta
+    
+    test_transactions = [
+        # Subscriptions - recurring
+        {"description": "Netflix Subscription", "amount": -15.99, "category": "Entertainment", "days_ago": 5, "merchant": "Netflix"},
+        {"description": "Netflix Subscription", "amount": -15.99, "category": "Entertainment", "days_ago": 35, "merchant": "Netflix"},
+        {"description": "Spotify Premium", "amount": -10.99, "category": "Entertainment", "days_ago": 10, "merchant": "Spotify"},
+        {"description": "Spotify Premium", "amount": -10.99, "category": "Entertainment", "days_ago": 40, "merchant": "Spotify"},
+        {"description": "Disney+ Subscription", "amount": -13.99, "category": "Entertainment", "days_ago": 15, "merchant": "Disney+"},
+        {"description": "Adobe Creative Cloud", "amount": -54.99, "category": "Subscriptions", "days_ago": 8, "merchant": "Adobe"},
+        {"description": "Planet Fitness Membership", "amount": -22.99, "category": "Fitness", "days_ago": 12, "merchant": "Planet Fitness"},
+        
+        # Cellular - suggest Mint Mobile
+        {"description": "T-Mobile Wireless", "amount": -85.00, "category": "Bills", "days_ago": 7, "merchant": "T-Mobile"},
+        {"description": "T-Mobile Wireless", "amount": -85.00, "category": "Bills", "days_ago": 37, "merchant": "T-Mobile"},
+        
+        # Internet - price increase
+        {"description": "Comcast Internet", "amount": -79.99, "category": "Utilities", "days_ago": 5, "merchant": "Comcast"},
+        {"description": "Comcast Internet", "amount": -69.99, "category": "Utilities", "days_ago": 65, "merchant": "Comcast"},
+        {"description": "Comcast Internet", "amount": -69.99, "category": "Utilities", "days_ago": 95, "merchant": "Comcast"},
+        
+        # Bank fees
+        {"description": "Overdraft Fee", "amount": -35.00, "category": "Financial", "days_ago": 20, "merchant": "Bank"},
+        {"description": "ATM Fee", "amount": -3.50, "category": "Financial", "days_ago": 14, "merchant": "ATM"},
+        
+        # Coffee - overspending
+        {"description": "Starbucks", "amount": -6.75, "category": "Food & Dining", "days_ago": 1, "merchant": "Starbucks"},
+        {"description": "Starbucks", "amount": -7.25, "category": "Food & Dining", "days_ago": 3, "merchant": "Starbucks"},
+        {"description": "Starbucks", "amount": -6.50, "category": "Food & Dining", "days_ago": 5, "merchant": "Starbucks"},
+        {"description": "Starbucks", "amount": -8.00, "category": "Food & Dining", "days_ago": 8, "merchant": "Starbucks"},
+        {"description": "Starbucks", "amount": -6.75, "category": "Food & Dining", "days_ago": 10, "merchant": "Starbucks"},
+        
+        # Groceries
+        {"description": "Whole Foods", "amount": -127.43, "category": "Groceries", "days_ago": 4, "merchant": "Whole Foods"},
+        {"description": "Trader Joes", "amount": -68.21, "category": "Groceries", "days_ago": 11, "merchant": "Trader Joe's"},
+        
+        # Income
+        {"description": "Payroll Deposit", "amount": 3250.00, "category": "Income", "days_ago": 15, "merchant": "Employer"},
+    ]
+    
+    # Create account for test transactions
+    test_account = await accounts_collection.find_one({"user_id": user_id})
+    if not test_account:
+        account_doc = {
+            "id": str(uuid.uuid4()),
+            "user_id": user_id,
+            "name": "Test Checking Account",
+            "account_type": "checking",
+            "balance": 2500.00,
+            "institution_name": "Test Bank",
+            "currency": "USD",
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        await accounts_collection.insert_one(account_doc)
+        test_account = account_doc
+    
+    # Insert test transactions
+    now = datetime.utcnow()
+    for txn_data in test_transactions:
+        txn_date = now - timedelta(days=txn_data["days_ago"])
+        
+        txn_doc = {
+            "id": str(uuid.uuid4()),
+            "user_id": user_id,
+            "account_id": test_account["id"],
+            "description": txn_data["description"],
+            "merchant_name": txn_data.get("merchant"),
+            "amount": txn_data["amount"],
+            "category": txn_data["category"],
+            "transaction_type": "income" if txn_data["amount"] > 0 else "expense",
+            "date": txn_date.date().isoformat(),
+            "created_at": txn_date,
+            "ai_categorized": True
+        }
+        await transactions_collection.insert_one(txn_doc)
+    
+    return {
+        "message": "Test transactions created",
+        "count": len(test_transactions),
+        "note": "You can now click 'Generate Insights' to see AI analysis"
+    }
+
 # ==================== AI & INSIGHTS ENDPOINTS ====================
 
 @api_router.post("/ai/categorize-all")
