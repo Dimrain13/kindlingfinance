@@ -659,7 +659,7 @@ async def get_dashboard_stats(user_id: str = Depends(get_current_user)):
         total_balance=total_balance,
         total_income=total_income,
         total_expenses=total_expenses,
-        net_worth=total_balance,
+        net_worth=net_worth,
         spending_by_category=spending_by_category,
         recent_transactions=recent_transactions
     )
