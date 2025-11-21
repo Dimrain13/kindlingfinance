@@ -58,14 +58,14 @@ const Layout = ({ children }) => {
           ))}
         </nav>
         
-        <div className="p-4 border-t dark:border-gray-700">
+        <div className="p-4 border-t border-white border-opacity-20">
           <Button
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full justify-start text-blue-100 hover:bg-white hover:bg-opacity-10 hover:text-white"
             onClick={logout}
           >
             <LogOut size={20} className="mr-3" />
-            Sign Out
+            <span className="font-semibold">Sign Out</span>
           </Button>
         </div>
       </div>
