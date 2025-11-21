@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the credit card liability handling in FinanceHub"
+user_problem_statement: "Test the enhanced AI Insights page with savings recommendations"
 
 frontend:
   - task: "Login functionality with test credentials"
