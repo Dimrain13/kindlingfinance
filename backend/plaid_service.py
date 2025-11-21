@@ -32,12 +32,15 @@ class PlaidService:
     async def create_link_token(user_id: str) -> dict:
         """Create a Plaid Link token for user authentication"""
         try:
+            backend_url = os.getenv('REACT_APP_BACKEND_URL', 'http://localhost:8001')
+            
             request = LinkTokenCreateRequest(
                 user=LinkTokenCreateRequestUser(client_user_id=user_id),
                 client_name="FinanceHub",
                 products=[Products("transactions"), Products("auth")],
                 country_codes=[CountryCode("US")],
-                language="en"
+                language="en",
+                webhook=f"{backend_url}/api/webhook/plaid"
             )
             response = plaid_client.link_token_create(request)
             return {
@@ -45,7 +48,13 @@ class PlaidService:
                 "expiration": response.expiration
             }
         except plaid.ApiException as e:
-            raise Exception(f"Plaid API error: {e}")
+            error_msg = f"Plaid API error: {e.status} - {e.body if hasattr(e, 'body') else str(e)}"
+            print(error_msg)
+            raise Exception(error_msg)
+        except Exception as e:
+            error_msg = f"Unexpected error: {str(e)}"
+            print(error_msg)
+            raise Exception(error_msg)
 
     @staticmethod
     async def exchange_public_token(public_token: str) -> dict:
