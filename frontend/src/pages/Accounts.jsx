@@ -73,53 +73,130 @@ const Accounts = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {accounts.map((account) => (
-          <Card key={account.id} className="shadow-lg hover:shadow-xl transition-all duration-200 border-0">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="bg-blue-600 p-2 rounded-lg">
-                    <Wallet className="h-5 w-5 text-white" />
-                  </div>
-                  <CardTitle className="text-lg">{account.name}</CardTitle>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => deleteAccount(account.id)}
-                  className="hover:bg-red-50 dark:hover:bg-red-900/20"
-                >
-                  <Trash2 className="h-4 w-4 text-red-600" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Institution</span>
-                  <span className="text-sm font-semibold">{account.institution_name || 'Manual'}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Type</span>
-                  <span className="text-sm font-semibold capitalize">{account.account_type.replace('_', ' ')}</span>
-                </div>
-                {account.mask && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Account</span>
-                    <span className="text-sm font-mono">****{account.mask}</span>
-                  </div>
-                )}
-                <div className="border-t pt-3 mt-3">
-                  <p className="text-3xl font-bold text-blue-600">
-                    ${account.balance.toFixed(2)}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">{account.currency}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {/* Assets Section */}
+        {assetAccounts.length > 0 && (
+          <>
+            <div className="col-span-full">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                <span className="bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-lg mr-2">💰</span>
+                Assets
+              </h2>
+            </div>
+            <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {assetAccounts.map((account) => (
+                <Card key={account.id} className="shadow-lg hover:shadow-xl transition-all duration-200 border-0">
+                  <CardHeader className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-green-600 p-2 rounded-lg">
+                          <Wallet className="h-5 w-5 text-white" />
+                        </div>
+                        <CardTitle className="text-lg">{account.name}</CardTitle>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteAccount(account.id)}
+                        className="hover:bg-red-50 dark:hover:bg-red-900/20"
+                      >
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Institution</span>
+                        <span className="text-sm font-semibold">{account.institution_name || 'Manual'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Type</span>
+                        <span className="text-sm font-semibold capitalize">{account.account_type.replace('_', ' ')}</span>
+                      </div>
+                      {account.mask && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Account</span>
+                          <span className="text-sm font-mono">****{account.mask}</span>
+                        </div>
+                      )}
+                      <div className="border-t pt-3 mt-3">
+                        <p className="text-3xl font-bold text-green-600">
+                          ${account.balance.toFixed(2)}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">{account.currency}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Liabilities Section */}
+        {liabilityAccounts.length > 0 && (
+          <>
+            <div className="col-span-full mt-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+                <span className="bg-red-100 dark:bg-red-900/30 px-3 py-1 rounded-lg mr-2">💳</span>
+                Liabilities
+              </h2>
+            </div>
+            <div className="col-span-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {liabilityAccounts.map((account) => (
+                <Card key={account.id} className="shadow-lg hover:shadow-xl transition-all duration-200 border-0 border-l-4 border-red-500">
+                  <CardHeader className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-gray-800 dark:to-gray-700">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-red-600 p-2 rounded-lg">
+                          <Wallet className="h-5 w-5 text-white" />
+                        </div>
+                        <CardTitle className="text-lg">{account.name}</CardTitle>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => deleteAccount(account.id)}
+                        className="hover:bg-red-50 dark:hover:bg-red-900/20"
+                      >
+                        <Trash2 className="h-4 w-4 text-red-600" />
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Institution</span>
+                        <span className="text-sm font-semibold">{account.institution_name || 'Manual'}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Type</span>
+                        <span className="text-sm font-semibold capitalize bg-red-100 dark:bg-red-900/30 px-2 py-1 rounded text-red-700 dark:text-red-300">
+                          {account.account_type.replace('_', ' ')}
+                        </span>
+                      </div>
+                      {account.mask && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Account</span>
+                          <span className="text-sm font-mono">****{account.mask}</span>
+                        </div>
+                      )}
+                      <div className="border-t border-red-200 pt-3 mt-3">
+                        <div className="flex items-baseline gap-2">
+                          <p className="text-3xl font-bold text-red-600">
+                            ${Math.abs(account.balance).toFixed(2)}
+                          </p>
+                          <span className="text-xs text-red-500 font-semibold">OWED</span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">{account.currency}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
         {accounts.length === 0 && (
