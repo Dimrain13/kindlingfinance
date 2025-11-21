@@ -664,8 +664,25 @@ async def get_spending_trends(months: int = 6, user_id: str = Depends(get_curren
 @api_router.post("/webhook/plaid")
 async def plaid_webhook(data: dict):
     """Handle Plaid webhooks"""
-    # Log webhook for debugging
-    print(f"Received Plaid webhook: {data.get('webhook_type')} - {data.get('webhook_code')}")
+    webhook_type = data.get('webhook_type')
+    webhook_code = data.get('webhook_code')
+    item_id = data.get('item_id')
+    
+    print(f"Received Plaid webhook: {webhook_type} - {webhook_code} for item {item_id}")
+    
+    # Handle transaction updates
+    if webhook_type == "TRANSACTIONS":
+        if webhook_code in ["INITIAL_UPDATE", "HISTORICAL_UPDATE", "DEFAULT_UPDATE"]:
+            # Find the plaid item
+            plaid_item = await plaid_items_collection.find_one({"item_id": item_id})
+            if plaid_item:
+                print(f"Auto-syncing transactions for item {item_id}")
+                try:
+                    await sync_plaid_transactions(plaid_item["id"], plaid_item["user_id"])
+                    print(f"Successfully synced transactions")
+                except Exception as e:
+                    print(f"Error syncing transactions: {e}")
+    
     return {"status": "received"}
 
 # Include router
