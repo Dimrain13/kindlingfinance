@@ -341,6 +341,8 @@ async def delete_account(account_id: str, user_id: str = Depends(get_current_use
 @api_router.post("/transactions", response_model=Transaction)
 async def create_transaction(txn_data: TransactionCreate, user_id: str = Depends(get_current_user)):
     """Create a manual transaction"""
+    from category_mapping import get_transaction_type_from_category
+    
     # Verify account belongs to user
     account = await accounts_collection.find_one({"id": txn_data.account_id, "user_id": user_id})
     if not account:
@@ -356,6 +358,9 @@ async def create_transaction(txn_data: TransactionCreate, user_id: str = Depends
             txn_data.merchant_name
         )
         ai_categorized = True
+    
+    # Get transaction type from category
+    txn_type = txn_data.transaction_type if txn_data.transaction_type else get_transaction_type_from_category(category)
     
     txn_doc = {
         "id": str(uuid.uuid4()),
