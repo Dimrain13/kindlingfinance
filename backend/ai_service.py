@@ -185,8 +185,6 @@ Be CONCISE. Focus on MONEY SAVED per month. Include affiliate opportunities."""
                                    'disney', 'gym', 'fitness', 'youtube', 'adobe', 'microsoft',
                                    'dropbox', 'icloud', 'membership', 'subscription']
             
-            is_subscription = any(kw in merchant for kw in subscription_keywords)
-            
             if merchant not in merchant_counts:
                 merchant_counts[merchant] = 0
                 merchant_amounts[merchant] = []
