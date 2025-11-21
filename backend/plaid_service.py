@@ -33,6 +33,7 @@ class PlaidService:
         """Create a Plaid Link token for user authentication"""
         try:
             backend_url = os.getenv('REACT_APP_BACKEND_URL', 'http://localhost:8001')
+            plaid_client = get_plaid_client()
             
             request = LinkTokenCreateRequest(
                 user=LinkTokenCreateRequestUser(client_user_id=user_id),
