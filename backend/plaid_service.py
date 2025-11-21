@@ -37,7 +37,7 @@ class PlaidService:
             request = LinkTokenCreateRequest(
                 user=LinkTokenCreateRequestUser(client_user_id=user_id),
                 client_name="FinanceHub",
-                products=[Products("transactions"), Products("auth")],
+                products=[Products("transactions")],
                 country_codes=[CountryCode("US")],
                 language="en",
                 webhook=f"{backend_url}/api/webhook/plaid"
