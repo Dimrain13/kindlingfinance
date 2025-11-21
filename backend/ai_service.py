@@ -224,5 +224,4 @@ CRITICAL RULES:
             print(f"AI savings suggestions error: {e}")
             return []
 
-# Create global instance
-ai_service = AIService(api_key="your-api-key-here")
+ai_service = AIService()
