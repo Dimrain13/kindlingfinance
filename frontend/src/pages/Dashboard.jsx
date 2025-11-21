@@ -213,6 +213,38 @@ const Dashboard = () => {
           </Card>
         </div>
 
+        {/* Quick Actions */}
+        <Card className="shadow-lg border-0 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+          <CardContent className="pt-6">
+            <div className="flex flex-wrap gap-3">
+              <Link to="/transactions">
+                <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
+                  <Plus size={16} className="mr-2" />
+                  Add Transaction
+                </Button>
+              </Link>
+              <Link to="/budgets">
+                <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
+                  <PieChartIcon size={16} className="mr-2" />
+                  Create Budget
+                </Button>
+              </Link>
+              <Link to="/bills">
+                <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
+                  <Calendar size={16} className="mr-2" />
+                  Add Bill
+                </Button>
+              </Link>
+              <Link to="/insights">
+                <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
+                  <Sparkles size={16} className="mr-2" />
+                  View Insights
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Charts and Recent Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Spending by Category Chart */}
