@@ -23,7 +23,6 @@ const Layout = ({ children }) => {
     { path: '/accounts', icon: Wallet, label: 'Accounts' },
     { path: '/transactions', icon: Receipt, label: 'Transactions' },
     { path: '/budgets', icon: PiggyBank, label: 'Budgets' },
-    { path: '/bills', icon: Calendar, label: 'Bills' },
     { path: '/insights', icon: Lightbulb, label: 'AI Insights' },
     { path: '/reports', icon: TrendingUp, label: 'Reports' },
   ];
