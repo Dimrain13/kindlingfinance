@@ -1,10 +1,14 @@
-from typing import List, Dict
+from emergentintegrations.llm.chat import LlmChat, UserMessage
+import os
+from dotenv import load_dotenv
 import json
-from llm_chat import LlmChat, UserMessage
+from typing import List, Dict
+
+load_dotenv()
 
 class AIService:
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self):
+        self.api_key = os.getenv('EMERGENT_LLM_KEY')
     
     async def batch_categorize_transactions(self, transactions: List[Dict]) -> Dict[str, str]:
         """Categorize transactions using AI"""
