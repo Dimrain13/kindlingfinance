@@ -4,7 +4,7 @@ import api from '../utils/api';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { usePlaidLink } from 'react-plaid-link';
-import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
