@@ -207,10 +207,16 @@ async def exchange_public_token(
             }
             await accounts_collection.insert_one(account_doc)
         
-        # Sync transactions
+        # Sync transactions in background (will auto-categorize with AI)
+        print(f"Starting transaction sync for new account: {institution_name}")
         await sync_plaid_transactions(plaid_item_doc["id"], user_id)
+        print(f"Transaction sync complete with AI categorization")
         
-        return {"message": "Successfully linked account", "institution": institution_name}
+        return {
+            "message": "Successfully linked account and synced transactions", 
+            "institution": institution_name,
+            "info": "Transactions are being automatically categorized by AI"
+        }
     
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
