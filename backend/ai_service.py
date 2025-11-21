@@ -232,7 +232,7 @@ Be CONCISE. Focus on MONEY SAVED per month. Include affiliate opportunities."""
                     txn_date = datetime.fromisoformat(txn_date_str.replace('Z', '+00:00'))
                 else:
                     continue
-            except:
+            except (ValueError, AttributeError):
                 continue
             
             if txn_date >= one_month_ago:
