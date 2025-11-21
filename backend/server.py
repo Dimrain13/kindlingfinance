@@ -123,10 +123,14 @@ async def get_current_user_info(user_id: str = Depends(get_current_user)):
 async def create_link_token(user_id: str = Depends(get_current_user)):
     """Create Plaid Link token"""
     try:
+        print(f"Creating Plaid link token for user: {user_id}")
         result = await PlaidService.create_link_token(user_id)
+        print(f"Successfully created link token")
         return result
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        error_msg = str(e)
+        print(f"ERROR creating link token: {error_msg}")
+        raise HTTPException(status_code=400, detail=error_msg)
 
 @api_router.post("/plaid/exchange-token")
 async def exchange_public_token(
