@@ -666,6 +666,9 @@ async def categorize_all_transactions(user_id: str = Depends(get_current_user)):
 @api_router.post("/ai/generate-insights")
 async def generate_insights(user_id: str = Depends(get_current_user)):
     """Generate AI insights for user"""
+    # Clear old insights first
+    await insights_collection.delete_many({"user_id": user_id})
+    
     # Get recent transactions
     transactions = await transactions_collection.find({"user_id": user_id}).sort("date", -1).limit(100).to_list(100)
     
