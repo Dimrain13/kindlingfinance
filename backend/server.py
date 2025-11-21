@@ -125,7 +125,7 @@ async def create_link_token(user_id: str = Depends(get_current_user)):
     try:
         print(f"Creating Plaid link token for user: {user_id}")
         result = await PlaidService.create_link_token(user_id)
-        print(f"Successfully created link token")
+        print("Successfully created link token")
         return result
     except Exception as e:
         error_msg = str(e)
@@ -210,7 +210,7 @@ async def exchange_public_token(
         # Sync transactions in background (will auto-categorize with AI)
         print(f"Starting transaction sync for new account: {institution_name}")
         await sync_plaid_transactions(plaid_item_doc["id"], user_id)
-        print(f"Transaction sync complete with AI categorization")
+        print("Transaction sync complete with AI categorization")
         
         return {
             "message": "Successfully linked account and synced transactions", 
@@ -708,7 +708,7 @@ async def plaid_webhook(data: dict):
                 print(f"🔄 Webhook triggered: Auto-syncing transactions for item {item_id}")
                 try:
                     await sync_plaid_transactions(plaid_item["id"], plaid_item["user_id"])
-                    print(f"✅ Successfully synced and auto-categorized new transactions")
+                    print("✅ Successfully synced and auto-categorized new transactions")
                 except Exception as e:
                     print(f"❌ Error syncing transactions: {e}")
     
