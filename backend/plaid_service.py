@@ -61,6 +61,7 @@ class PlaidService:
     async def exchange_public_token(public_token: str) -> dict:
         """Exchange public token for access token"""
         try:
+            plaid_client = get_plaid_client()
             request = ItemPublicTokenExchangeRequest(public_token=public_token)
             response = plaid_client.item_public_token_exchange(request)
             return {
