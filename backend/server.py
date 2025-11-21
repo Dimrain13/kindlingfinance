@@ -600,7 +600,28 @@ async def get_dashboard_stats(user_id: str = Depends(get_current_user)):
     """Get dashboard statistics"""
     # Get all accounts
     accounts = await accounts_collection.find({"user_id": user_id}).to_list(100)
-    total_balance = sum(acc.get("balance", 0) for acc in accounts)
+    
+    # Define liability account types
+    liability_types = ["credit_card", "mortgage", "loan"]
+    
+    # Calculate assets and liabilities separately
+    total_assets = sum(
+        acc.get("balance", 0) 
+        for acc in accounts 
+        if acc.get("account_type") not in liability_types
+    )
+    
+    total_liabilities = sum(
+        abs(acc.get("balance", 0))
+        for acc in accounts 
+        if acc.get("account_type") in liability_types
+    )
+    
+    # Net worth = assets - liabilities
+    net_worth = total_assets - total_liabilities
+    
+    # Total balance shown is net worth (not summing liabilities as assets)
+    total_balance = net_worth
     
     # Get transactions for current month
     start_of_month = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
