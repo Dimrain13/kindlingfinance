@@ -494,6 +494,8 @@ async def delete_bill(bill_id: str, user_id: str = Depends(get_current_user)):
 @api_router.post("/ai/categorize-all")
 async def categorize_all_transactions(user_id: str = Depends(get_current_user)):
     """AI categorize all uncategorized transactions"""
+    from category_mapping import get_transaction_type_from_category
+    
     # Get uncategorized transactions
     uncategorized = await transactions_collection.find({
         "user_id": user_id,
@@ -518,10 +520,15 @@ async def categorize_all_transactions(user_id: str = Depends(get_current_user)):
                 idx_int = int(idx)
                 if idx_int < len(batch):
                     txn = batch[idx_int]
+                    
+                    # Determine transaction type from category
+                    txn_type = get_transaction_type_from_category(category)
+                    
                     await transactions_collection.update_one(
                         {"id": txn["id"]},
                         {"$set": {
                             "category": category,
+                            "transaction_type": txn_type,
                             "ai_categorized": True,
                             "updated_at": datetime.utcnow()
                         }}
