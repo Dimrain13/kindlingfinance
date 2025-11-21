@@ -107,81 +107,63 @@ user_problem_statement: "Test the credit card liability handling in FinanceHub"
 frontend:
   - task: "Login functionality with test credentials"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/pages/Login.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "testing"
-        -comment: "Initial testing required for login with test@example.com / testpass123"
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Login functionality works perfectly with test credentials (test@example.com / testpass123). Successfully navigates to dashboard after login."
+        -comment: "Need to test login with test@example.com / testpass123 for credit card liability testing"
 
-  - task: "Modern Bill Calendar integration on dashboard"
+  - task: "Accounts page shows Assets and Liabilities separately"
     implemented: true
-    working: true
-    file: "/app/frontend/src/components/ModernBillCalendar.jsx"
+    working: "NA"
+    file: "/app/frontend/src/pages/Accounts.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "testing"
-        -comment: "Need to verify calendar displays properly with gradient styling"
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Bills Calendar successfully integrated on dashboard. Shows 'Bills Calendar' heading, calendar grid with November 2025 display, and proper gradient styling with 46 violet/purple/fuchsia elements. Shows '$0.00 due this month' for new user."
+        -comment: "Need to verify Accounts page header shows 'Assets: $0.00' and 'Net Worth: $0.00' for test user with no accounts. Should also verify visual distinction between assets and liabilities sections."
 
-  - task: "Bills navigation link removal from sidebar"
+  - task: "Dashboard Net Worth calculation (Assets - Liabilities)"
     implemented: true
-    working: true
-    file: "/app/frontend/src/components/Layout.jsx"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        -working: "NA"
-        -agent: "testing"
-        -comment: "Need to verify Bills link is not present in sidebar navigation"
-        -working: true
-        -agent: "testing"
-        -comment: "✅ TESTED: Bills navigation link successfully removed from sidebar. Current navigation items: Dashboard, Accounts, Transactions, Budgets, AI Insights, Reports. No 'Bills' link present."
-
-  - task: "Add Bill quick action button removal"
-    implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/pages/Dashboard.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "testing"
-        -comment: "Need to verify Add Bill button is not present in Quick Actions section"
-        -working: false
-        -agent: "testing"
-        -comment: "❌ TESTED: Add Bill button is still present on the dashboard. Found 1 'Add Bill' button in the Bills Calendar component header. This button should be removed as per requirements."
-        -working: true
-        -agent: "testing"
-        -comment: "✅ RE-TESTED: Add Bill button successfully removed! Fixed Button import issue in ModernBillCalendar.jsx. Verified NO 'Add Bill' buttons exist anywhere on dashboard. Bills Calendar header now contains only: Calendar icon, 'Bills Calendar' title, and '$0.00 due this month' subtitle as expected."
+        -comment: "Need to verify dashboard properly calculates and displays Net Worth as separate from Total Balance. Should show $0.00 values correctly for test user."
 
-  - task: "Dashboard loads without console errors"
+  - task: "Visual distinction between assets and liabilities"
     implemented: true
-    working: true
-    file: "/app/frontend/src/pages/Dashboard.jsx"
+    working: "NA"
+    file: "/app/frontend/src/pages/Accounts.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "testing"
-        -comment: "Need to verify no JavaScript console errors during dashboard load"
-        -working: true
+        -comment: "Need to verify visual styling distinguishes between asset and liability accounts when they exist. Assets should have green styling, liabilities should have red styling with 'OWED' indicator."
+
+  - task: "No console errors during navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Dashboard.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
         -agent: "testing"
-        -comment: "✅ TESTED: Dashboard loads without any console errors. No JavaScript errors detected during testing."
+        -comment: "Need to verify no JavaScript console errors during dashboard and accounts page navigation"
 
 metadata:
   created_by: "testing_agent"
