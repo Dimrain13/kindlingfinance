@@ -102,7 +102,7 @@ SPECIFIC SERVICE ALTERNATIVES TO SUGGEST:
 - Planet Fitness → YouTube workout videos or outdoor running (free)
 - Bank overdraft fees → Chime or Current (no fee accounts)
 
-OUTPUT FORMAT (JSON array, 3-5 insights max):
+OUTPUT FORMAT (JSON array, exactly 4 UNIQUE insights):
 [
   {
     "title": "Cut Coffee Shop Spending",
@@ -116,12 +116,14 @@ OUTPUT FORMAT (JSON array, 3-5 insights max):
 ]
 
 CRITICAL RULES:
+- Generate EXACTLY 4 UNIQUE insights (no duplicates!)
+- Pick the 4 HIGHEST savings opportunities from different categories
 - Be CONCISE (max 35 words per description)
 - Use exact merchant names and amounts from the data
 - Only suggest if you see the actual spending pattern
 - Calculate realistic savings
 - Priority: 5=huge savings (>$50/mo), 4=good ($30-50), 3=moderate ($15-30), 2=small (<$15)
-- Include affiliate_link for Amazon products or service referrals
+- Include affiliate_link for Amazon products or service referrals when relevant
 - Return valid JSON only"""
             ).with_model("openai", "gpt-4o-mini")
             
