@@ -119,5 +119,3 @@ class PlaidService:
             }
         except plaid.ApiException as e:
             raise Exception(f"Transaction sync error: {e}")
-
-from typing import Optional
