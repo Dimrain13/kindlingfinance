@@ -98,15 +98,14 @@ const ModernBillCalendar = () => {
               </p>
             </div>
           </div>
-          <Link to="/bills">
-            <Button 
-              size="sm"
-              className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
-            >
-              <Plus size={16} className="mr-1" />
-              Add Bill
-            </Button>
-          </Link>
+          <Button 
+            size="sm"
+            className="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700"
+            disabled
+          >
+            <Plus size={16} className="mr-1" />
+            Add Bill
+          </Button>
         </div>
       </CardHeader>
       
