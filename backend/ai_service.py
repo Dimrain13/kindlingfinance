@@ -30,6 +30,39 @@ class AIService:
             print(f"AI categorization error: {e}")
             return "Other"
     
+    async def batch_categorize_transactions(self, transactions: List[Dict]) -> Dict[str, str]:
+        """Batch categorize multiple transactions at once"""
+        try:
+            chat = LlmChat(
+                api_key=self.api_key,
+                session_id="batch-categorization",
+                system_message="You are a financial assistant. Categorize each transaction with ONLY a category name. Categories: Groceries, Dining, Transportation, Utilities, Entertainment, Healthcare, Shopping, Bills, Income, Transfer, Gas, Mortgage, Rent, Insurance, Subscriptions, Travel, Gifts, Clothing, Electronics, Home, Fitness, Education, Personal Care, Pet Care, Charity, Other. Return as JSON object with transaction index as key and category as value."
+            ).with_model("openai", "gpt-4o-mini")
+            
+            # Build transaction list
+            txn_list = ""
+            for i, txn in enumerate(transactions[:50]):  # Limit to 50 at a time
+                desc = txn.get('description', 'Unknown')
+                amount = abs(txn.get('amount', 0))
+                merchant = txn.get('merchant_name', '')
+                txn_list += f"{i}: {desc} - ${amount:.2f}" + (f" at {merchant}" if merchant else "") + "\n"
+            
+            message = UserMessage(text=f"Categorize these transactions:\n{txn_list}")
+            response = await chat.send_message(message)
+            
+            # Parse JSON response
+            import json
+            try:
+                categories = json.loads(response)
+                return categories
+            except:
+                print("Failed to parse batch categorization response")
+                return {}
+                
+        except Exception as e:
+            print(f"Batch categorization error: {e}")
+            return {}
+    
     async def generate_insights(self, transactions: List[Dict], total_income: float, total_expenses: float) -> List[Dict]:
         """Generate AI-powered financial insights"""
         try:
