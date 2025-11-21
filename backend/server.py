@@ -369,7 +369,7 @@ async def create_transaction(txn_data: TransactionCreate, user_id: str = Depends
         "plaid_transaction_id": None,
         "amount": txn_data.amount,
         "description": txn_data.description,
-        "transaction_type": txn_data.transaction_type,
+        "transaction_type": txn_type,
         "category": category,
         "date": txn_data.date,
         "merchant_name": txn_data.merchant_name,
@@ -383,7 +383,7 @@ async def create_transaction(txn_data: TransactionCreate, user_id: str = Depends
     await transactions_collection.insert_one(txn_doc)
     
     # Update account balance
-    if txn_data.transaction_type == TransactionType.EXPENSE:
+    if txn_type == "expense":
         new_balance = account["balance"] - txn_data.amount
     else:
         new_balance = account["balance"] + txn_data.amount
