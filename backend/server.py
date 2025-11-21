@@ -491,6 +491,47 @@ async def delete_bill(bill_id: str, user_id: str = Depends(get_current_user)):
 
 # ==================== AI & INSIGHTS ENDPOINTS ====================
 
+@api_router.post("/ai/categorize-all")
+async def categorize_all_transactions(user_id: str = Depends(get_current_user)):
+    """AI categorize all uncategorized transactions"""
+    # Get uncategorized transactions
+    uncategorized = await transactions_collection.find({
+        "user_id": user_id,
+        "$or": [
+            {"category": "Other"},
+            {"ai_categorized": False}
+        ]
+    }).limit(200).to_list(200)
+    
+    print(f"Found {len(uncategorized)} transactions to categorize")
+    
+    categorized_count = 0
+    batch_size = 50
+    
+    for i in range(0, len(uncategorized), batch_size):
+        batch = uncategorized[i:i+batch_size]
+        categories = await ai_service.batch_categorize_transactions(batch)
+        
+        # Update transactions
+        for idx, category in categories.items():
+            try:
+                idx_int = int(idx)
+                if idx_int < len(batch):
+                    txn = batch[idx_int]
+                    await transactions_collection.update_one(
+                        {"id": txn["id"]},
+                        {"$set": {
+                            "category": category,
+                            "ai_categorized": True,
+                            "updated_at": datetime.utcnow()
+                        }}
+                    )
+                    categorized_count += 1
+            except Exception as e:
+                print(f"Error updating transaction: {e}")
+    
+    return {"message": f"Categorized {categorized_count} transactions", "total": len(uncategorized)}
+
 @api_router.post("/ai/generate-insights")
 async def generate_insights(user_id: str = Depends(get_current_user)):
     """Generate AI insights for user"""
