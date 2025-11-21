@@ -15,17 +15,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Initialize Plaid client
-configuration = plaid.Configuration(
-    host=plaid.Environment.Production,
-    api_key={
-        'clientId': os.getenv('PLAID_CLIENT_ID'),
-        'secret': os.getenv('PLAID_SECRET'),
-    }
-)
-
-api_client = plaid.ApiClient(configuration)
-plaid_client = plaid_api.PlaidApi(api_client)
+def get_plaid_client():
+    """Get Plaid client with fresh configuration"""
+    configuration = plaid.Configuration(
+        host=plaid.Environment.Production,
+        api_key={
+            'clientId': os.getenv('PLAID_CLIENT_ID'),
+            'secret': os.getenv('PLAID_SECRET'),
+        }
+    )
+    api_client = plaid.ApiClient(configuration)
+    return plaid_api.PlaidApi(api_client)
 
 class PlaidService:
     @staticmethod
