@@ -230,12 +230,6 @@ const Dashboard = () => {
                   Create Budget
                 </Button>
               </Link>
-              <Link to="/bills">
-                <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
-                  <Calendar size={16} className="mr-2" />
-                  Add Bill
-                </Button>
-              </Link>
               <Link to="/insights">
                 <Button variant="outline" className="shadow-md hover:shadow-lg transition-shadow">
                   <Sparkles size={16} className="mr-2" />
