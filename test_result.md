@@ -190,9 +190,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Add Bill quick action button removal"
-  stuck_tasks:
-    - "Add Bill quick action button removal"
+    - "All tasks completed successfully"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
