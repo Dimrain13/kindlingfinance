@@ -246,6 +246,9 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Bill Calendar Widget */}
+        <BillCalendarWidget />
+
         {/* Charts and Recent Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Spending by Category Chart */}
