@@ -228,6 +228,13 @@ const Transactions = () => {
             )}
           </CardContent>
         </Card>
+
+        {/* Add Transaction Modal */}
+        <AddTransactionModal
+          isOpen={showAddModal}
+          onClose={() => setShowAddModal(false)}
+          onSuccess={loadTransactions}
+        />
       </div>
     </div>
   );
