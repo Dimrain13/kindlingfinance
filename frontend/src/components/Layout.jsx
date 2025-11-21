@@ -10,7 +10,8 @@ import {
   Calendar, 
   Lightbulb, 
   TrendingUp,
-  LogOut
+  LogOut,
+  DollarSign
 } from 'lucide-react';
 
 const Layout = ({ children }) => {
