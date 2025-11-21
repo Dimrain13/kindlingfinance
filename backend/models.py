@@ -147,10 +147,13 @@ class PlaidExchangeTokenRequest(BaseModel):
 class AIInsight(BaseModel):
     id: str
     user_id: str
-    insight_type: str  # savings, pattern, recommendation
+    insight_type: str  # subscription, price_increase, alternative_service, recommendation
     title: str
     description: str
     priority: int = 1  # 1-5
+    monthly_savings: float = 0.0
+    affiliate_link: Optional[str] = None
+    affiliate_text: Optional[str] = None
     created_at: datetime
 
 # Analytics Models
