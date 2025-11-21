@@ -535,9 +535,36 @@ async def seed_test_transactions(user_id: str = Depends(get_current_user)):
         {"description": "Starbucks", "amount": -8.00, "category": "Food & Dining", "days_ago": 8, "merchant": "Starbucks"},
         {"description": "Starbucks", "amount": -6.75, "category": "Food & Dining", "days_ago": 10, "merchant": "Starbucks"},
         
-        # Groceries
+        # Groceries - premium vs budget
         {"description": "Whole Foods", "amount": -127.43, "category": "Groceries", "days_ago": 4, "merchant": "Whole Foods"},
-        {"description": "Trader Joes", "amount": -68.21, "category": "Groceries", "days_ago": 11, "merchant": "Trader Joe's"},
+        {"description": "Whole Foods", "amount": -143.87, "category": "Groceries", "days_ago": 18, "merchant": "Whole Foods"},
+        {"description": "Whole Foods", "amount": -156.22, "category": "Groceries", "days_ago": 32, "merchant": "Whole Foods"},
+        
+        # Food delivery - overspending
+        {"description": "DoorDash", "amount": -45.67, "category": "Food & Dining", "days_ago": 2, "merchant": "DoorDash"},
+        {"description": "Uber Eats", "amount": -38.45, "category": "Food & Dining", "days_ago": 6, "merchant": "Uber Eats"},
+        {"description": "DoorDash", "amount": -52.33, "category": "Food & Dining", "days_ago": 9, "merchant": "DoorDash"},
+        
+        # Meal kit service
+        {"description": "HelloFresh", "amount": -89.99, "category": "Groceries", "days_ago": 7, "merchant": "HelloFresh"},
+        {"description": "HelloFresh", "amount": -89.99, "category": "Groceries", "days_ago": 21, "merchant": "HelloFresh"},
+        
+        # Credit card interest (avoidable)
+        {"description": "Interest Charge", "amount": -47.52, "category": "Financial", "days_ago": 13, "merchant": "Credit Card"},
+        
+        # Multiple cloud storage services (duplicate)
+        {"description": "Dropbox Plus", "amount": -11.99, "category": "Subscriptions", "days_ago": 9, "merchant": "Dropbox"},
+        {"description": "iCloud Storage", "amount": -2.99, "category": "Subscriptions", "days_ago": 11, "merchant": "Apple"},
+        {"description": "Google One Storage", "amount": -9.99, "category": "Subscriptions", "days_ago": 14, "merchant": "Google"},
+        
+        # Extended warranty (not recommended)
+        {"description": "Best Buy Extended Warranty", "amount": -149.99, "category": "Shopping", "days_ago": 25, "merchant": "Best Buy"},
+        
+        # Rideshare frequent use
+        {"description": "Uber Ride", "amount": -18.45, "category": "Transportation", "days_ago": 3, "merchant": "Uber"},
+        {"description": "Lyft Ride", "amount": -22.67, "category": "Transportation", "days_ago": 6, "merchant": "Lyft"},
+        {"description": "Uber Ride", "amount": -15.23, "category": "Transportation", "days_ago": 10, "merchant": "Uber"},
+        {"description": "Uber Ride", "amount": -19.88, "category": "Transportation", "days_ago": 13, "merchant": "Uber"},
         
         # Income
         {"description": "Payroll Deposit", "amount": 3250.00, "category": "Income", "days_ago": 15, "merchant": "Employer"},
