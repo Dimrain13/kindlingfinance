@@ -192,13 +192,18 @@ async def sync_plaid_transactions(plaid_item_db_id: str, user_id: str):
     # Get plaid item
     plaid_item = await plaid_items_collection.find_one({"id": plaid_item_db_id})
     if not plaid_item:
+        print(f"Plaid item not found: {plaid_item_db_id}")
         return
     
     access_token = plaid_item["access_token"]
     cursor = plaid_item.get("cursor")
     
+    print(f"Syncing transactions for user {user_id}, cursor: {cursor}")
+    
     # Sync transactions
     result = await PlaidService.sync_transactions(access_token, cursor)
+    
+    print(f"Sync result: {len(result['added'])} added, {len(result['modified'])} modified, {len(result['removed'])} removed")
     
     # Process added transactions
     for txn in result["added"]:
