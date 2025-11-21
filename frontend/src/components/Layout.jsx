@@ -28,12 +28,15 @@ const Layout = ({ children }) => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       {/* Sidebar */}
-      <div className="w-64 bg-white dark:bg-gray-800 border-r dark:border-gray-700 flex flex-col">
-        <div className="p-6 border-b dark:border-gray-700">
-          <h1 className="text-2xl font-bold text-blue-600">FinanceHub</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{user?.name}</p>
+      <div className="w-64 bg-gradient-to-b from-blue-600 to-indigo-700 text-white shadow-2xl flex flex-col">
+        <div className="p-6 border-b border-white border-opacity-20">
+          <div className="flex items-center space-x-2">
+            <DollarSign className="h-8 w-8" />
+            <h1 className="text-2xl font-bold">FinanceHub</h1>
+          </div>
+          <p className="text-sm text-blue-100 mt-2">{user?.name}</p>
         </div>
         
         <nav className="flex-1 p-4 space-y-1">
