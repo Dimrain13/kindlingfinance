@@ -35,11 +35,15 @@ const Dashboard = () => {
   const createLinkToken = async () => {
     try {
       setPlaidError(null);
+      console.log('Creating Plaid link token...');
       const response = await api.post('/plaid/create-link-token');
+      console.log('Link token created successfully');
       setLinkToken(response.data.link_token);
     } catch (error) {
       console.error('Failed to create link token:', error);
-      setPlaidError(error.response?.data?.detail || 'Failed to initialize Plaid');
+      const errorDetail = error.response?.data?.detail || error.message || 'Failed to initialize Plaid';
+      console.error('Error detail:', errorDetail);
+      setPlaidError(errorDetail);
     }
   };
 
