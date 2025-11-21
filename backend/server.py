@@ -571,6 +571,9 @@ async def generate_insights(user_id: str = Depends(get_current_user)):
             "title": insight.get("title", "Insight"),
             "description": insight.get("description", ""),
             "priority": insight.get("priority", 3),
+            "monthly_savings": insight.get("monthly_savings", 0.0),
+            "affiliate_link": insight.get("affiliate_link"),
+            "affiliate_text": insight.get("affiliate_text"),
             "created_at": datetime.utcnow()
         }
         await insights_collection.insert_one(insight_doc)
