@@ -53,10 +53,17 @@ class AIService:
             # Parse JSON response
             import json
             try:
+                # Try to extract JSON from markdown code blocks if present
+                if "```json" in response:
+                    response = response.split("```json")[1].split("```")[0].strip()
+                elif "```" in response:
+                    response = response.split("```")[1].split("```")[0].strip()
+                
                 categories = json.loads(response)
                 return categories
-            except:
-                print("Failed to parse batch categorization response")
+            except Exception as e:
+                print(f"Failed to parse batch categorization response: {e}")
+                print(f"Response was: {response[:200]}")
                 return {}
                 
         except Exception as e:
