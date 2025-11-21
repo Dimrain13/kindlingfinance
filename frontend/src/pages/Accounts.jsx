@@ -37,7 +37,14 @@ const Accounts = () => {
     return <div className="p-6">Loading...</div>;
   }
 
-  const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+  // Separate assets and liabilities
+  const liabilityTypes = ['credit_card', 'mortgage', 'loan'];
+  const assetAccounts = accounts.filter(acc => !liabilityTypes.includes(acc.account_type));
+  const liabilityAccounts = accounts.filter(acc => liabilityTypes.includes(acc.account_type));
+  
+  const totalAssets = assetAccounts.reduce((sum, acc) => sum + acc.balance, 0);
+  const totalLiabilities = liabilityAccounts.reduce((sum, acc) => sum + Math.abs(acc.balance), 0);
+  const netWorth = totalAssets - totalLiabilities;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
