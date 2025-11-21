@@ -113,14 +113,14 @@ const Insights = () => {
         </div>
 
         {/* Info Banner */}
-        <Card className="border-l-4 border-green-500 bg-green-50 dark:bg-green-900/20">
+        <Card className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20">
           <CardContent className="pt-6">
             <div className="flex items-start space-x-3">
-              <Zap className="h-6 w-6 text-green-600 mt-1" />
+              <Sparkles className="h-6 w-6 text-blue-600 mt-1" />
               <div>
-                <p className="font-semibold text-green-900 dark:text-green-100">🤖 Automatic AI Categorization Active</p>
-                <p className="text-sm text-green-800 dark:text-green-200 mt-1">
-                  All transactions are automatically categorized by AI as they arrive! Click "Generate Insights" to get personalized financial recommendations.
+                <p className="font-semibold text-blue-900 dark:text-blue-100">💡 AI-Powered Savings Finder</p>
+                <p className="text-sm text-blue-800 dark:text-blue-200 mt-1">
+                  Link your bank accounts to get personalized insights! AI analyzes your transactions to find subscriptions, price increases, and ways to save money each month.
                 </p>
               </div>
             </div>
