@@ -41,15 +41,25 @@ const Insights = () => {
   const generateInsights = async () => {
     console.log('Generate Insights button clicked');
     setLoading(true);
+    setStatusMessage('🤖 AI is analyzing your transactions...');
+    
     try {
       console.log('Making API call to /ai/generate-insights');
       const response = await api.post('/ai/generate-insights');
       console.log('API call successful:', response);
-      loadInsights();
-      alert('Insights generated successfully!');
+      
+      setStatusMessage(`✅ Generated ${response.data.count} insights! Finding ways to save you money...`);
+      
+      // Wait a moment before loading insights
+      await new Promise(resolve => setTimeout(resolve, 500));
+      await loadInsights();
+      
+      // Show success message for 3 seconds
+      setTimeout(() => setStatusMessage(''), 3000);
     } catch (error) {
       console.error('Error generating insights:', error);
-      alert('Failed to generate insights: ' + (error.response?.data?.detail || error.message));
+      setStatusMessage('❌ Failed to generate insights. Please try again.');
+      setTimeout(() => setStatusMessage(''), 5000);
     } finally {
       setLoading(false);
     }
