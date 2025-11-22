@@ -603,6 +603,7 @@ async def seed_test_transactions(user_id: str = Depends(get_current_user)):
             "transaction_type": "income" if txn_data["amount"] > 0 else "expense",
             "date": txn_date.date().isoformat(),
             "created_at": txn_date,
+            "updated_at": txn_date,
             "ai_categorized": True
         }
         await transactions_collection.insert_one(txn_doc)
