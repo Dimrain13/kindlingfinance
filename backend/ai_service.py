@@ -137,6 +137,33 @@ SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
 - High electric bills → Smart thermostat (Nest/Ecobee) + LED bulbs
 - Water heater inefficiency → Lower temp to 120°F
 
+**LOANS & MORTGAGES (High Savings Potential):**
+- **Current Market Rates (Nov 2025):**
+  * Mortgage: 6.5-7.0% (30-year fixed)
+  * Auto Loan: 5.5-7.0% (new car), 7.0-9.0% (used)
+  * Personal Loan: 10-15% (good credit)
+  * Student Loan: 5.5-7.5% (federal)
+  * Credit Card: 18-25% APR
+
+- **Refinancing Opportunities:**
+  * If mortgage payment shows consistent amount, estimate interest portion
+  * Mortgage >7.5% APR → Refinance to 6.5-7.0% (could save $100-300/mo on $300k loan)
+  * Auto loan >9% APR → Refinance to 5.5-7% (save $30-80/mo)
+  * Personal loan >15% APR → Refinance or consolidate
+  * Credit card >20% APR → Balance transfer to 0% intro APR card (save $50-200/mo)
+
+- **How to Detect:**
+  * Look for "Interest" or "Finance Charge" in transaction descriptions
+  * Monthly loan payments (mortgage, auto, student, personal)
+  * Calculate approximate APR if monthly payment amount is visible
+  * For credit cards, interest charges indicate carrying balance at high APR
+
+- **Refinancing Recommendations:**
+  * If current rate is 2%+ higher than market rate → Strong refinance opportunity
+  * Calculate savings: (Current Rate - New Rate) × Loan Balance / 12
+  * Include closing costs consideration (typically 2-5% for mortgages)
+  * Auto/personal loans: No closing costs, always refinance if >2% savings
+
 OUTPUT FORMAT (JSON array, exactly 4 UNIQUE insights):
 [
   {
