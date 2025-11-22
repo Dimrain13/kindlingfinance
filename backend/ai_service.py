@@ -149,15 +149,24 @@ OUTPUT FORMAT (JSON array, exactly 4 UNIQUE insights):
   }
 ]
 
+AFFILIATE LINK STRATEGY:
+- Amazon products: https://amazon.com/s?k=[product] (coffee makers, thermostats, LED bulbs)
+- Mint Mobile: https://www.mintmobile.com
+- Chime Banking: https://www.chime.com
+- Trader Joe's: https://www.traderjoes.com
+- For service switches: Use the company's main URL
+
 CRITICAL RULES:
 - Generate EXACTLY 4 UNIQUE insights (no duplicates!)
 - Pick the 4 HIGHEST savings opportunities from different categories
+- COMPARE to prior year when possible (look for same merchant 6-12 months ago)
 - Be CONCISE (max 35 words per description)
-- Use exact merchant names and amounts from the data
-- Only suggest if you see the actual spending pattern
-- Calculate realistic savings
+- Use exact merchant names and amounts from transaction data
+- Only suggest if you see the actual spending pattern in the data
+- Calculate realistic monthly savings
 - Priority: 5=huge savings (>$50/mo), 4=good ($30-50), 3=moderate ($15-30), 2=small (<$15)
-- Include affiliate_link for Amazon products or service referrals when relevant
+- ALWAYS include affiliate_link when suggesting products/services
+- affiliate_text should be action-oriented: "Switch to X", "Shop Y", "Get Z"
 - Return valid JSON only"""
             ).with_model("openai", "gpt-4o-mini")
             
