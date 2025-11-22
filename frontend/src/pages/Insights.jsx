@@ -6,13 +6,11 @@ import { Lightbulb, RefreshCw, Sparkles, TrendingUp, AlertCircle, CheckCircle, Z
 
 const Insights = () => {
   const [insights, setInsights] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [categorizing, setCategorizing] = useState(false);
 
   useEffect(() => {
     loadInsights();
-    loadSuggestions();
   }, []);
 
   const loadInsights = async () => {
@@ -21,15 +19,6 @@ const Insights = () => {
       setInsights(response.data);
     } catch (error) {
       console.error('Failed to load insights:', error);
-    }
-  };
-
-  const loadSuggestions = async () => {
-    try {
-      const response = await api.get('/ai/savings-suggestions');
-      setSuggestions(response.data.suggestions || []);
-    } catch (error) {
-      console.error('Failed to load suggestions:', error);
     }
   };
 
