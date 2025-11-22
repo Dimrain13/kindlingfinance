@@ -112,6 +112,17 @@ const Insights = () => {
           </div>
         </div>
 
+        {/* Status Message */}
+        {statusMessage && (
+          <Card className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 animate-pulse">
+            <CardContent className="py-4">
+              <p className="text-center font-semibold text-blue-900 dark:text-blue-100">
+                {statusMessage}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Info Banner */}
         <Card className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20">
           <CardContent className="pt-6">
