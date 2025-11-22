@@ -549,8 +549,20 @@ async def seed_test_transactions(user_id: str = Depends(get_current_user)):
         {"description": "HelloFresh", "amount": -89.99, "category": "Groceries", "days_ago": 7, "merchant": "HelloFresh"},
         {"description": "HelloFresh", "amount": -89.99, "category": "Groceries", "days_ago": 21, "merchant": "HelloFresh"},
         
-        # Credit card interest (avoidable)
-        {"description": "Interest Charge", "amount": -47.52, "category": "Financial", "days_ago": 13, "merchant": "Credit Card"},
+        # Credit card interest (high APR - 24%)
+        {"description": "Interest Charge", "amount": -127.43, "category": "Financial", "days_ago": 13, "merchant": "Credit Card"},
+        {"description": "Interest Charge", "amount": -134.56, "category": "Financial", "days_ago": 43, "merchant": "Credit Card"},
+        {"description": "Interest Charge", "amount": -141.28, "category": "Financial", "days_ago": 73, "merchant": "Credit Card"},
+        
+        # Mortgage payment (likely 7.5%+ APR based on old rate)
+        {"description": "Wells Fargo Mortgage Payment", "amount": -2147.00, "category": "Housing", "days_ago": 5, "merchant": "Wells Fargo"},
+        {"description": "Wells Fargo Mortgage Payment", "amount": -2147.00, "category": "Housing", "days_ago": 35, "merchant": "Wells Fargo"},
+        {"description": "Wells Fargo Mortgage Payment", "amount": -2147.00, "category": "Housing", "days_ago": 65, "merchant": "Wells Fargo"},
+        
+        # Auto loan (likely 10%+ APR - older loan)
+        {"description": "Auto Loan Payment", "amount": -487.00, "category": "Transportation", "days_ago": 8, "merchant": "Chase Auto Finance"},
+        {"description": "Auto Loan Payment", "amount": -487.00, "category": "Transportation", "days_ago": 38, "merchant": "Chase Auto Finance"},
+        {"description": "Auto Loan Payment", "amount": -487.00, "category": "Transportation", "days_ago": 68, "merchant": "Chase Auto Finance"},
         
         # Multiple cloud storage services (duplicate)
         {"description": "Dropbox Plus", "amount": -11.99, "category": "Subscriptions", "days_ago": 9, "merchant": "Dropbox"},
