@@ -181,12 +181,28 @@ const Insights = () => {
 
         {/* Financial Insights */}
         <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <Lightbulb className="h-6 w-6 text-yellow-500" />
-            <h2 className="text-2xl font-bold">Financial Insights</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Lightbulb className="h-6 w-6 text-yellow-500" />
+              <h2 className="text-2xl font-bold">Financial Insights</h2>
+            </div>
+            {loading && (
+              <div className="flex items-center space-x-2 text-blue-600">
+                <RefreshCw className="h-5 w-5 animate-spin" />
+                <span className="text-sm font-medium">Analyzing your spending...</span>
+              </div>
+            )}
           </div>
 
-          {insights.length > 0 ? (
+          {loading ? (
+            <Card className="shadow-lg">
+              <CardContent className="text-center py-16">
+                <RefreshCw className="h-16 w-16 text-blue-500 mx-auto mb-4 animate-spin" />
+                <p className="text-xl font-medium text-gray-600 mb-2">AI is analyzing your transactions</p>
+                <p className="text-gray-500">Looking for subscriptions, price increases, and savings opportunities...</p>
+              </CardContent>
+            </Card>
+          ) : insights.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {insights.map((insight) => (
                 <Card 
