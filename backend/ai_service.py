@@ -89,6 +89,7 @@ LOOK FOR THESE PATTERNS:
 13. **Energy Bills**: High utility bills → suggest smart thermostat or energy audit
 14. **Meal Kit Services**: HelloFresh/BlueApron → suggest grocery shopping (40% savings)
 15. **Extended Warranties**: Recent electronics warranty purchases → usually not worth it
+16. **Loan/Mortgage Interest Rates**: Detect interest payments and compare to current market rates
 
 SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
 
