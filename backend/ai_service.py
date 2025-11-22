@@ -90,17 +90,51 @@ LOOK FOR THESE PATTERNS:
 14. **Meal Kit Services**: HelloFresh/BlueApron → suggest grocery shopping (40% savings)
 15. **Extended Warranties**: Recent electronics warranty purchases → usually not worth it
 
-SPECIFIC SERVICE ALTERNATIVES TO SUGGEST:
-- T-Mobile → Mint Mobile ($50-65/mo savings)
-- Comcast/Spectrum → Negotiate retention deals or 5G home internet
-- Netflix+Hulu+Disney+ → Keep 1-2, rotate others ($20-30/mo savings)
-- Spotify Premium → Family plan or free tier with ads ($11/mo savings)
-- Adobe Creative Cloud → Affinity Designer one-time purchase ($40/mo savings)
-- DoorDash/UberEats frequent use → Grocery delivery or meal prep ($100+/mo savings)
-- Whole Foods → Trader Joe's or Costco (30-40% savings on groceries)
-- Starbucks daily → Home coffee maker with quality beans ($80-120/mo savings)
-- Planet Fitness → YouTube workout videos or outdoor running (free)
-- Bank overdraft fees → Chime or Current (no fee accounts)
+SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
+
+**CELLULAR (High Priority):**
+- T-Mobile/AT&T/Verizon >$60/mo → Mint Mobile ($15-30/mo = $50-65/mo savings)
+- Look for bills increasing year-over-year
+
+**INTERNET/CABLE:**
+- Comcast/Spectrum >$70/mo → Negotiate retention deals or T-Mobile 5G Home Internet ($50/mo)
+- Compare bills from 12 months ago - flag >10% increases
+
+**STREAMING (Consolidation):**
+- Netflix+Hulu+Disney++HBO → Keep max 2, rotate seasonally ($20-40/mo savings)
+- Spotify Premium → Family plan split with friends or Spotify Free
+
+**SOFTWARE:**
+- Adobe Creative Cloud $55/mo → Affinity Designer one-time $70 total (save $660/year)
+- Microsoft 365 → Free Google Workspace or LibreOffice
+
+**FOOD & GROCERIES:**
+- DoorDash/UberEats 3+/week → Meal prep Sundays (save $100-150/mo)
+- Whole Foods weekly → Trader Joe's or Aldi (save 30-40% = $80-150/mo)
+- Starbucks daily ($6x20 days) → Home espresso machine (save $80-100/mo)
+- HelloFresh/BlueApron → Grocery shopping with recipes (save 40% = $35-50/mo)
+
+**BANKING:**
+- Overdraft fees → Chime/Current/Ally (no-fee checking)
+- ATM fees 5+/mo → Bank with fee reimbursement
+- Monthly maintenance fees → Online banks (free)
+
+**FITNESS:**
+- Planet Fitness/LA Fitness $22-45/mo → YouTube fitness + running (free)
+- Peloton subscription → Free workout apps
+
+**SHOPPING HABITS:**
+- Amazon one-time purchases → Subscribe & Save (save 15% + free shipping)
+- Target/premium brands → Store brands/Amazon Basics (save 30-50%)
+- Gas: Premium fuel for regular car → Use Regular (save $0.30/gal)
+
+**INSURANCE (Annual review):**
+- Auto/home insurance >12 months old → Re-shop with Progressive/Geico
+- Suggest switching every 1-2 years for best rates
+
+**ENERGY:**
+- High electric bills → Smart thermostat (Nest/Ecobee) + LED bulbs
+- Water heater inefficiency → Lower temp to 120°F
 
 OUTPUT FORMAT (JSON array, exactly 4 UNIQUE insights):
 [
