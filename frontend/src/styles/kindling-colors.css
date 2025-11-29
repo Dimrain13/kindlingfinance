@@ -1,0 +1,134 @@
+/* Kindling Brand Colors - Warm, Trustworthy, Growth-Oriented */
+
+:root {
+  /* Primary Brand Colors - Fire/Spark Theme */
+  --kindling-flame: #F59E0B;      /* Amber-500 - Main brand color */
+  --kindling-ember: #FB923C;       /* Orange-400 - Warm accent */
+  --kindling-coal: #1E293B;        /* Slate-800 - Deep, warm dark */
+  
+  /* Trust & Security (Financial) */
+  --kindling-trust: #0D9488;       /* Teal-600 - Reliability */
+  --kindling-depth: #1E3A8A;       /* Navy-700 - Depth, stability */
+  
+  /* Growth & Success */
+  --kindling-growth: #059669;      /* Emerald-600 - Money, growth */
+  --kindling-sprout: #10B981;      /* Emerald-500 - Fresh growth */
+  
+  /* Warmth & Energy */
+  --kindling-warmth: #F97316;      /* Orange-500 - Energy */
+  --kindling-glow: #FDBA74;        /* Orange-300 - Soft warmth */
+  
+  /* Alerts & Warnings */
+  --kindling-alert: #F87171;       /* Coral-400 - Warm warning */
+  --kindling-caution: #FCD34D;     /* Yellow-300 - Gentle alert */
+  
+  /* Neutral Warm Grays */
+  --kindling-ash-50: #F8FAFC;      /* Very light */
+  --kindling-ash-100: #F1F5F9;
+  --kindling-ash-200: #E2E8F0;
+  --kindling-ash-300: #CBD5E1;
+  --kindling-ash-400: #94A3B8;
+  --kindling-ash-500: #64748B;
+  --kindling-ash-600: #475569;
+  --kindling-ash-700: #334155;
+  --kindling-ash-800: #1E293B;
+  --kindling-ash-900: #0F172A;
+}
+
+/* Gradient Backgrounds */
+.bg-kindling-flame-gradient {
+  background: linear-gradient(135deg, #F59E0B 0%, #FB923C 100%);
+}
+
+.bg-kindling-ember-gradient {
+  background: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
+}
+
+.bg-kindling-trust-gradient {
+  background: linear-gradient(135deg, #0D9488 0%, #1E3A8A 100%);
+}
+
+.bg-kindling-growth-gradient {
+  background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+}
+
+/* Text Gradients */
+.text-kindling-flame-gradient {
+  background: linear-gradient(135deg, #F59E0B 0%, #FB923C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-kindling-brand-gradient {
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card Styles with Kindling Theme */
+.kindling-card {
+  background: white;
+  border-left: 4px solid var(--kindling-flame);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.kindling-card:hover {
+  border-left-width: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.btn-kindling-primary {
+  background: var(--kindling-flame);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-kindling-primary:hover {
+  background: var(--kindling-warmth);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.btn-kindling-secondary {
+  background: white;
+  color: var(--kindling-flame);
+  border: 2px solid var(--kindling-flame);
+  transition: all 0.3s ease;
+}
+
+.btn-kindling-secondary:hover {
+  background: #FEF3C7; /* Amber-50 */
+  border-color: var(--kindling-warmth);
+}
+
+/* Stat Cards with Colored Borders */
+.stat-card-networth {
+  border-left: 4px solid var(--kindling-depth);
+}
+
+.stat-card-balance {
+  border-left: 4px solid var(--kindling-trust);
+}
+
+.stat-card-income {
+  border-left: 4px solid var(--kindling-growth);
+}
+
+.stat-card-expense {
+  border-left: 4px solid var(--kindling-alert);
+}
+
+/* Chart Colors for Kindling */
+.chart-color-1 { color: #1E3A8A; } /* Navy */
+.chart-color-2 { color: #059669; } /* Emerald */
+.chart-color-3 { color: #0284C7; } /* Sky */
+.chart-color-4 { color: #7C3AED; } /* Violet */
+.chart-color-5 { color: #F59E0B; } /* Amber */
+.chart-color-6 { color: #F87171; } /* Coral */
+.chart-color-7 { color: #14B8A6; } /* Teal */
+.chart-color-8 { color: #FB923C; } /* Orange */

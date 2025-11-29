@@ -2,9 +2,27 @@ from emergentintegrations.llm.chat import LlmChat, UserMessage
 import os
 from dotenv import load_dotenv
 import json
+import re
 from typing import List, Dict
 
 load_dotenv()
+
+def format_currency_in_text(text: str) -> str:
+    """Format currency values in text to include commas (e.g., $2147 -> $2,147)"""
+    # Match $XXXX or $XXX,XXX patterns
+    def replace_currency(match):
+        # Extract the number part (remove $ and any existing commas)
+        num_str = match.group(1).replace(',', '')
+        try:
+            num = float(num_str)
+            # Format with commas
+            return f"${num:,.2f}".rstrip('0').rstrip('.')
+        except ValueError:
+            return match.group(0)  # Return original if can't parse
+    
+    # Pattern matches $1234 or $1234.56 (with or without existing commas)
+    pattern = r'\$([0-9,]+(?:\.[0-9]{1,2})?)'
+    return re.sub(pattern, replace_currency, text)
 
 class AIService:
     def __init__(self):
@@ -64,9 +82,21 @@ Return JSON object with transaction index as key and category as value:
             print(f"AI categorization error: {e}")
             return {}
     
-    async def generate_insights(self, transactions: List[Dict], total_income: float, total_expenses: float) -> List[Dict]:
-        """Generate AI-powered financial insights by analyzing actual transaction patterns"""
+    async def generate_insights(self, transactions: List[Dict], total_income: float, total_expenses: float, user_settings: Dict = None) -> List[Dict]:
+        """Generate AI-powered financial insights by analyzing actual transaction patterns with user context"""
         try:
+            # Set defaults if no settings provided
+            if not user_settings:
+                user_settings = {
+                    "family_size": 1,
+                    "has_children": False,
+                    "primary_goals": [],
+                    "risk_tolerance": "moderate",
+                    "monthly_income": None
+                }
+            
+            family_size = user_settings.get("family_size", 1)
+            has_children = user_settings.get("has_children", False)
             chat = LlmChat(
                 api_key=self.api_key,
                 session_id="financial-insights",
@@ -101,19 +131,24 @@ SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
 - Comcast/Spectrum >$70/mo → Negotiate retention deals or T-Mobile 5G Home Internet ($50/mo)
 - Compare bills from 12 months ago - flag >10% increases
 
-**STREAMING (Consolidation):**
+**STREAMING (Consolidation - ONLY for actual streaming services):**
+- ONLY for: Netflix, Hulu, Disney+, HBO Max, Apple TV+, Amazon Prime Video, Spotify, Apple Music, YouTube Premium, Paramount+
 - Netflix+Hulu+Disney++HBO → Keep max 2, rotate seasonally ($20-40/mo savings)
 - Spotify Premium → Family plan split with friends or Spotify Free
+- NEVER categorize restaurants, food, or non-streaming merchants as streaming services
 
 **SOFTWARE:**
 - Adobe Creative Cloud $55/mo → Affinity Designer one-time $70 total (save $660/year)
 - Microsoft 365 → Free Google Workspace or LibreOffice
 
-**FOOD & GROCERIES:**
-- DoorDash/UberEats 3+/week → Meal prep Sundays (save $100-150/mo)
+**FOOD & DINING (Restaurants, delivery, groceries):**
+- INCLUDES: Chipotle, McDonald's, Starbucks, any restaurant, DoorDash, UberEats, GrubHub
+- Frequent restaurant visits (Chipotle, fast food) 10+ times/mo → Meal prep Sundays (save $100-150/mo)
+- DoorDash/UberEats 3+/week → Cook at home with meal kits or groceries (save $100-150/mo)
 - Whole Foods weekly → Trader Joe's or Aldi (save 30-40% = $80-150/mo)
 - Starbucks daily ($6x20 days) → Home espresso machine (save $80-100/mo)
 - HelloFresh/BlueApron → Grocery shopping with recipes (save 40% = $35-50/mo)
+- IMPORTANT: Title these insights accurately - "Reduce Restaurant Spending" NOT "streaming"
 
 **BANKING:**
 - Overdraft fees → Chime/Current/Ally (no-fee checking)
@@ -165,36 +200,78 @@ SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
   * Auto/personal loans: No closing costs, always refinance if >2% savings
 
 OUTPUT FORMAT (JSON array, exactly 4 UNIQUE insights):
+
+TITLE EXAMPLES - USE THESE AS REFERENCE:
+- For Chipotle/McDonald's/restaurants → "Reduce Fast Food Spending" or "Cut Restaurant Costs"
+- For Starbucks/coffee → "Cut Coffee Shop Spending"
+- For Netflix/Hulu/actual streaming → "Consolidate Streaming Services"
+- For Whole Foods/groceries → "Switch to Budget Grocery Stores"
+- For bank fees → "Switch to No-Fee Banking"
+- For high interest → "Refinance High-Interest Loans"
+
 [
   {
-    "title": "Cut Coffee Shop Spending",
-    "description": "Spending $127/mo at Starbucks. Buy a Keurig + good coffee pods for $40/mo, save $85/mo.",
-    "monthly_savings": 85.00,
+    "title": "Reduce Fast Food Spending",
+    "description": "Spending $181/mo at Chipotle (20+ visits). Meal prep on Sundays could save $100-150/mo.",
+    "monthly_savings": 100.00,
     "priority": 4,
     "type": "overspending",
-    "affiliate_link": "https://amazon.com/keurig",
-    "affiliate_text": "Shop Coffee Makers"
+    "affiliate_link": "https://amazon.com/s?k=meal+prep+containers",
+    "affiliate_text": "Shop Meal Prep Supplies"
   }
 ]
 
 AFFILIATE LINK STRATEGY:
-- Amazon products: https://amazon.com/s?k=[product] (coffee makers, thermostats, LED bulbs)
+- Amazon products: https://amazon.com/s?k=[product] (coffee makers, thermostats, LED bulbs, meal prep containers)
 - Mint Mobile: https://www.mintmobile.com
 - Chime Banking: https://www.chime.com
 - Trader Joe's: https://www.traderjoes.com
+- Refinancing: https://www.credible.com or https://www.lendingtree.com
+- Balance Transfer Cards: https://www.nerdwallet.com/best/credit-cards/balance-transfer
 - For service switches: Use the company's main URL
+
+**BEFORE YOU GENERATE - VERIFY CATEGORIES:**
+When you see Chipotle, McDonald's, Taco Bell, or any restaurant:
+→ Title MUST be "Reduce Fast Food Spending" or "Cut Restaurant Costs"
+→ Description MUST say "restaurant" or "fast food", NEVER "streaming"
+→ This is a FOOD expense, NOT streaming, NOT software, NOT anything else!
+
+USER CONTEXT (adjust recommendations based on this):
+- Family Size: {family_size} {"person" if family_size == 1 else "people"} in household
+- Has Children: {"Yes" if has_children else "No"}
+- Use family size to adjust recommendations:
+  * Family of 1: Individual plans, single-person portions
+  * Family of 2-3: Couples plans, moderate grocery savings
+  * Family of 4+: Family plans (streaming, cellular), bulk shopping, meal prep is critical
+  * With children: Educational subscriptions valuable, family entertainment bundles
 
 CRITICAL RULES:
 - Generate EXACTLY 4 UNIQUE insights (no duplicates!)
-- Pick the 4 HIGHEST savings opportunities from different categories
+- **ADJUST FOR FAMILY SIZE** - {family_size} {"person" if family_size == 1 else "people"} household
+- **ACCURATE TITLES**: Match title to actual expense category
+  * Restaurants (Chipotle, McDonald's, etc.) → "Reduce Restaurant Spending" or "Cut Fast Food Costs"
+  * Streaming (Netflix, Spotify) → "Consolidate Streaming Services"
+  * Groceries (Whole Foods) → "Switch to Budget Grocery Stores"
+  * Coffee (Starbucks) → "Cut Coffee Shop Spending"
+  * NEVER mix categories - Chipotle is NOT a streaming service!
+  * Mint Mobile: If family size ≥3, suggest family plan ($15/line for 3+ lines)
+  * Streaming: If family size ≥3, keep 1 family plan, rotate others
+  * Groceries: Larger families should focus on Costco/bulk buying (30-40% savings)
+  * Coffee/food delivery: Multiply per-person costs by family size for accurate savings
+- **PRIORITIZE LOAN REFINANCING** - Mortgages/Auto/Credit Card interest have highest savings potential
+- Look for these HIGH-VALUE patterns first:
+  1. Mortgage payments >$1500/mo → Likely 7-8% rate, refinance could save $100-300/mo (HIGHEST PRIORITY)
+  2. Auto loan payments >$400/mo → Likely 9-10% rate, refinance could save $30-80/mo
+  3. Credit card interest charges → Balance transfer to 0% APR could save $50-200/mo
+  4. Then look at subscriptions, food delivery, etc.
 - COMPARE to prior year when possible (look for same merchant 6-12 months ago)
 - Be CONCISE (max 35 words per description)
 - Use exact merchant names and amounts from transaction data
 - Only suggest if you see the actual spending pattern in the data
-- Calculate realistic monthly savings
-- Priority: 5=huge savings (>$50/mo), 4=good ($30-50), 3=moderate ($15-30), 2=small (<$15)
+- Calculate realistic monthly savings ADJUSTED for family size
+- Priority: 5=huge savings (>$100/mo), 4=good ($50-100), 3=moderate ($30-50), 2=small ($15-30), 1=minimal (<$15)
 - ALWAYS include affiliate_link when suggesting products/services
-- affiliate_text should be action-oriented: "Switch to X", "Shop Y", "Get Z"
+- affiliate_text should be action-oriented: "Refinance Now", "Compare Rates", "Switch to X"
 - Return valid JSON only"""
             ).with_model("openai", "gpt-4o-mini")
             
@@ -256,9 +333,13 @@ CRITICAL RULES:
                     validated_insights = []
                     for insight in insights:
                         if isinstance(insight, dict) and insight.get('title') and insight.get('description'):
+                            # Format currency values in title and description
+                            title = format_currency_in_text(str(insight.get('title', 'Financial Tip'))[:60])
+                            description = format_currency_in_text(str(insight.get('description', ''))[:250])
+                            
                             validated_insights.append({
-                                'title': str(insight.get('title', 'Financial Tip'))[:60],
-                                'description': str(insight.get('description', ''))[:250],
+                                'title': title,
+                                'description': description,
                                 'monthly_savings': float(insight.get('monthly_savings', 0)),
                                 'priority': max(1, min(5, int(insight.get('priority', 3)))),
                                 'type': insight.get('type', 'recommendation'),

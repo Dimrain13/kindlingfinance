@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { X } from 'lucide-react';
+import { formatCurrency } from '../utils/formatNumber';
 
 const AddTransactionModal = ({ isOpen, onClose, onSuccess }) => {
   const [accounts, setAccounts] = useState([]);
@@ -105,7 +106,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSuccess }) => {
                 >
                   {accounts.map(acc => (
                     <option key={acc.id} value={acc.id}>
-                      {acc.name} - ${acc.balance.toFixed(2)}
+                      {acc.name} - {formatCurrency(acc.balance)}
                     </option>
                   ))}
                 </select>
@@ -202,7 +203,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSuccess }) => {
               <Button 
                 type="submit" 
                 disabled={loading}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
+                className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700"
               >
                 {loading ? 'Adding...' : 'Add Transaction'}
               </Button>

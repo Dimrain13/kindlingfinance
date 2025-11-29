@@ -1,0 +1,214 @@
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Bitcoin, Plus, TrendingUp, TrendingDown, Trash2 } from 'lucide-react';
+import { formatCurrency } from '../utils/formatNumber';
+
+const CryptoHoldings = () => {
+  const [holdings, setHoldings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [currency, setCurrency] = useState('USD');
+  const [newHolding, setNewHolding] = useState({
+    symbol: '',
+    name: '',
+    amount: '',
+    purchase_price_usd: ''
+  });
+
+  useEffect(() => {
+    loadHoldings();
+  }, []);
+
+  const loadHoldings = async () => {
+    try {
+      const response = await api.get('/crypto/holdings');
+      setHoldings(response.data);
+    } catch (error) {
+      console.error('Failed to load crypto holdings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addHolding = async () => {
+    try {
+      await api.post('/crypto/holdings', {
+        ...newHolding,
+        amount: parseFloat(newHolding.amount),
+        purchase_price_usd: newHolding.purchase_price_usd ? parseFloat(newHolding.purchase_price_usd) : null
+      });
+      setShowAddModal(false);
+      setNewHolding({ symbol: '', name: '', amount: '', purchase_price_usd: '' });
+      loadHoldings();
+    } catch (error) {
+      console.error('Failed to add holding:', error);
+      alert('Failed to add crypto holding');
+    }
+  };
+
+  const deleteHolding = async (id) => {
+    if (!confirm('Delete this crypto holding?')) return;
+    try {
+      await api.delete(`/crypto/holdings/${id}`);
+      loadHoldings();
+    } catch (error) {
+      console.error('Failed to delete holding:', error);
+    }
+  };
+
+  const totalValue = holdings.reduce((sum, h) => sum + (h.current_value_usd || 0), 0);
+  const totalProfitLoss = holdings.reduce((sum, h) => sum + (h.profit_loss_usd || 0), 0);
+
+  const popularCryptos = [
+    { symbol: 'BTC', name: 'Bitcoin' },
+    { symbol: 'ETH', name: 'Ethereum' },
+    { symbol: 'BNB', name: 'Binance Coin' },
+    { symbol: 'SOL', name: 'Solana' },
+    { symbol: 'ADA', name: 'Cardano' },
+    { symbol: 'DOGE', name: 'Dogecoin' }
+  ];
+
+  return (
+    <Card className="bg-white border border-gray-200 shadow-sm">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+              <Bitcoin className="h-5 w-5 mr-2 text-orange-500" />
+              Crypto Holdings
+            </CardTitle>
+            <div className="flex items-center space-x-4 mt-2">
+              <div>
+                <p className="text-sm text-gray-500">Total Value</p>
+                <p className="text-xl font-bold text-gray-900">{formatCurrency(totalValue)}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500">Total P/L</p>
+                <p className={`text-xl font-bold ${totalProfitLoss >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {totalProfitLoss >= 0 ? '+' : ''}{formatCurrency(totalProfitLoss)}
+                </p>
+              </div>
+            </div>
+          </div>
+          <Dialog open={showAddModal} onOpenChange={setShowAddModal}>
+            <DialogTrigger asChild>
+              <Button size="sm">
+                <Plus className="h-4 w-4 mr-1" />
+                Add Crypto
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Crypto Holdings</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div>
+                  <Label>Select Crypto</Label>
+                  <select
+                    className="w-full mt-1 p-2 border rounded-md"
+                    value={newHolding.symbol}
+                    onChange={(e) => {
+                      const selected = popularCryptos.find(c => c.symbol === e.target.value);
+                      setNewHolding({ ...newHolding, symbol: e.target.value, name: selected?.name || '' });
+                    }}
+                  >
+                    <option value="">Select cryptocurrency</option>
+                    {popularCryptos.map(crypto => (
+                      <option key={crypto.symbol} value={crypto.symbol}>{crypto.name} ({crypto.symbol})</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label>Amount</Label>
+                  <Input
+                    type="number"
+                    step="0.00000001"
+                    placeholder="0.00"
+                    value={newHolding.amount}
+                    onChange={(e) => setNewHolding({ ...newHolding, amount: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label>Purchase Price (USD per coin) - Optional</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={newHolding.purchase_price_usd}
+                    onChange={(e) => setNewHolding({ ...newHolding, purchase_price_usd: e.target.value })}
+                  />
+                </div>
+                <Button onClick={addHolding} className="w-full">Add Holdings</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <div className="text-center py-8 text-gray-400">Loading...</div>
+        ) : holdings.length === 0 ? (
+          <div className="text-center py-8">
+            <Bitcoin className="h-12 w-12 text-gray-300 mx-auto mb-2" />
+            <p className="text-gray-500 text-sm">No crypto holdings yet</p>
+            <Button onClick={() => setShowAddModal(true)} size="sm" className="mt-4">
+              Add Your First Crypto
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {holdings.map(holding => (
+              <div key={holding.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-bold text-orange-600">{holding.symbol}</span>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">{holding.name}</p>
+                    <p className="text-sm text-gray-500">{holding.amount} {holding.symbol}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold text-gray-900">
+                    {holding.current_value_usd ? formatCurrency(holding.current_value_usd) : 'N/A'}
+                  </p>
+                  {holding.profit_loss_usd !== null && holding.profit_loss_usd !== undefined && (
+                    <div className="flex items-center justify-end space-x-1">
+                      {holding.profit_loss_usd >= 0 ? (
+                        <TrendingUp className="h-3 w-3 text-green-600" />
+                      ) : (
+                        <TrendingDown className="h-3 w-3 text-red-600" />
+                      )}
+                      <span className={`text-sm font-medium ${holding.profit_loss_usd >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {holding.profit_loss_usd >= 0 ? '+' : ''}{formatCurrency(holding.profit_loss_usd)}
+                        {holding.profit_loss_percentage ? ` (${holding.profit_loss_percentage.toFixed(1)}%)` : ''}
+                      </span>
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-400 mt-1">
+                    ${holding.current_price_usd?.toFixed(2) || 'N/A'} per coin
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => deleteHolding(holding.id)}
+                  className="ml-2"
+                >
+                  <Trash2 className="h-4 w-4 text-red-500" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default CryptoHoldings;

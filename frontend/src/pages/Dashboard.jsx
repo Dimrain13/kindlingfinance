@@ -1,30 +1,57 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
+import { formatCurrency } from '../utils/formatNumber';
+import { getCategoryDisplayName } from '../utils/categoryUtils';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { usePlaidLink } from 'react-plaid-link';
-import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon, Target, ArrowRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import ModernBillCalendar from '../components/ModernBillCalendar';
+import CashFlowChart from '../components/CashFlowChart';
+import PennyMascot from '../components/PennyMascot';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
+  const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [linkToken, setLinkToken] = useState(null);
   const [syncing, setSyncing] = useState(false);
   const [plaidError, setPlaidError] = useState(null);
+  const [timePeriod, setTimePeriod] = useState('monthly');
+
+  const getPeriodLabel = () => {
+    const labels = {
+      'monthly': 'This Month',
+      'quarterly': 'This Quarter',
+      '6months': 'Last 6 Months',
+      '12months': 'Last 12 Months',
+      'ytd': 'Year to Date'
+    };
+    return labels[timePeriod] || 'This Month';
+  };
 
   useEffect(() => {
     loadDashboard();
+    loadGoals();
     createLinkToken();
-  }, []);
+  }, [timePeriod]);
+  
+  const loadGoals = async () => {
+    try {
+      const response = await api.get('/goals');
+      setGoals(response.data);
+    } catch (error) {
+      console.error('Failed to load goals:', error);
+    }
+  };
 
   const loadDashboard = async () => {
     try {
-      const response = await api.get('/analytics/dashboard');
+      const response = await api.get(`/analytics/dashboard?period=${timePeriod}`);
       setStats(response.data);
     } catch (error) {
       console.error('Failed to load dashboard:', error);
@@ -88,9 +115,9 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+      <div className="flex items-center justify-center h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-amber-600 mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading your dashboard...</p>
         </div>
       </div>
@@ -98,7 +125,7 @@ const Dashboard = () => {
   }
 
   const chartData = stats?.spending_by_category?.slice(0, 6).map((item) => ({
-    name: item.category,
+    name: getCategoryDisplayName(item.category),
     value: item.amount,
   })) || [];
 
@@ -106,33 +133,59 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="p-6 space-y-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-          <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Dashboard
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
-              Welcome back! Here's your financial overview
-            </p>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+                Dashboard
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
+                Welcome back! Here's your financial overview
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button 
+                onClick={handleSync} 
+                disabled={syncing} 
+                variant="outline"
+                className="shadow-md hover:shadow-lg transition-all border-amber-500 text-amber-700 hover:bg-amber-50"
+              >
+                <RefreshCw size={18} className={`mr-2 ${syncing ? 'animate-spin' : ''}`} />
+                {syncing ? 'Syncing...' : 'Sync'}
+              </Button>
+              <Button 
+                onClick={() => ready && open()} 
+                disabled={!ready}
+                className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all text-white"
+              >
+                <Plus size={18} className="mr-2" />
+                Link Account
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <Button 
-              onClick={handleSync} 
-              disabled={syncing} 
-              variant="outline"
-              className="shadow-md hover:shadow-lg transition-all"
-            >
-              <RefreshCw size={18} className={`mr-2 ${syncing ? 'animate-spin' : ''}`} />
-              {syncing ? 'Syncing...' : 'Sync'}
-            </Button>
-            <Button 
-              onClick={() => ready && open()} 
-              disabled={!ready}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all"
-            >
-              <Plus size={18} className="mr-2" />
-              Link Account
-            </Button>
+          
+          {/* Time Period Selector */}
+          <div className="flex gap-2 flex-wrap">
+            {[
+              { value: 'monthly', label: 'This Month' },
+              { value: 'quarterly', label: 'Quarterly' },
+              { value: '6months', label: '6 Months' },
+              { value: '12months', label: '12 Months' },
+              { value: 'ytd', label: 'YTD' }
+            ].map(period => (
+              <Button
+                key={period.value}
+                onClick={() => setTimePeriod(period.value)}
+                variant={timePeriod === period.value ? 'default' : 'outline'}
+                size="sm"
+                className={timePeriod === period.value 
+                  ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-md hover:from-orange-700 hover:to-red-700' 
+                  : 'hover:bg-orange-50 dark:hover:bg-gray-700 border-gray-300'
+                }
+              >
+                {period.label}
+              </Button>
+            ))}
           </div>
         </div>
 
@@ -151,71 +204,75 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Kindling Design */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="shadow-lg hover:shadow-xl transition-all duration-200 border-0 bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+          {/* Net Worth - First Card */}
+          <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-indigo-600 bg-white dark:bg-gray-800 hover:-translate-y-1 group">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">
-                Total Balance
-              </CardTitle>
-              <div className="bg-white bg-opacity-20 p-2 rounded-lg">
-                <Wallet className="h-5 w-5" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">${stats?.total_balance?.toFixed(2) || '0.00'}</div>
-              <p className="text-xs opacity-80 mt-2">Across all accounts</p>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-lg hover:shadow-xl transition-all duration-200 border-0 bg-gradient-to-br from-green-500 to-green-600 text-white">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">
-                This Month Income
-              </CardTitle>
-              <div className="bg-white bg-opacity-20 p-2 rounded-lg">
-                <TrendingUp className="h-5 w-5" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">${stats?.total_income?.toFixed(2) || '0.00'}</div>
-              <p className="text-xs opacity-80 mt-2">Total earned</p>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-lg hover:shadow-xl transition-all duration-200 border-0 bg-gradient-to-br from-red-500 to-red-600 text-white">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">
-                This Month Expenses
-              </CardTitle>
-              <div className="bg-white bg-opacity-20 p-2 rounded-lg">
-                <TrendingDown className="h-5 w-5" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">${stats?.total_expenses?.toFixed(2) || '0.00'}</div>
-              <p className="text-xs opacity-80 mt-2">Total spent</p>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-lg hover:shadow-xl transition-all duration-200 border-0 bg-gradient-to-br from-purple-500 to-purple-600 text-white">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Net Worth
               </CardTitle>
-              <div className="bg-white bg-opacity-20 p-2 rounded-lg">
-                <DollarSign className="h-5 w-5" />
+              <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                <DollarSign className="h-5 w-5 text-orange-600 dark:text-indigo-400" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">${stats?.net_worth?.toFixed(2) || '0.00'}</div>
-              <p className="text-xs opacity-80 mt-2">Total assets</p>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(stats?.net_worth || 0)}</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Total assets - liabilities</p>
+            </CardContent>
+          </Card>
+
+          {/* Total Balance - Second Card */}
+          <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-teal-600 bg-white dark:bg-gray-800 hover:-translate-y-1 group">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Total Balance
+              </CardTitle>
+              <div className="bg-teal-100 dark:bg-teal-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                <Wallet className="h-5 w-5 text-teal-600 dark:text-teal-400" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(stats?.total_balance || 0)}</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Across all accounts</p>
+            </CardContent>
+          </Card>
+
+          {/* Income - Third Card */}
+          <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-emerald-600 bg-white dark:bg-gray-800 hover:-translate-y-1 group">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                {getPeriodLabel()} Income
+              </CardTitle>
+              <div className="bg-emerald-100 dark:bg-emerald-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(stats?.total_income || 0)}</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Total earned</p>
+            </CardContent>
+          </Card>
+
+          {/* Monthly Bills - Fourth Card */}
+          <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-amber-500 bg-white dark:bg-gray-800 hover:-translate-y-1 group">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Monthly Bills
+              </CardTitle>
+              <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                <Calendar className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(stats?.monthly_bills || 0)}</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Recurring expenses</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Quick Actions */}
-        <Card className="shadow-lg border-0 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+        <Card className="shadow-lg border-0 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-purple-900/20 dark:to-pink-900/20">
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-3">
               <Link to="/transactions">
@@ -243,11 +300,71 @@ const Dashboard = () => {
         {/* Modern Bill Calendar */}
         <ModernBillCalendar />
 
+        {/* Cash Flow Chart */}
+        <CashFlowChart compact={true} />
+
+        {/* Financial Goals Widget */}
+        {goals.length > 0 && (
+          <Card className="shadow-xl border-0 overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 flex flex-row items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="h-5 w-5 text-amber-600" />
+                <CardTitle className="text-xl">Financial Goals</CardTitle>
+              </div>
+              <Link to="/goals">
+                <Button variant="ghost" size="sm" className="hover:bg-white dark:hover:bg-gray-600">
+                  View All <ArrowRight className="ml-1 h-4 w-4" />
+                </Button>
+              </Link>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {goals.slice(0, 3).map((goal) => (
+                  <div
+                    key={goal.id}
+                    className="p-4 rounded-lg border-2 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    style={{ borderColor: goal.color + '40' }}
+                  >
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-2xl">{goal.icon}</span>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-gray-800 dark:text-white truncate">
+                          {goal.name}
+                        </h3>
+                        <p className="text-xs text-gray-500">{formatCurrency(goal.current_amount)} of {formatCurrency(goal.target_amount)}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.min(goal.progress_percentage, 100)}%`,
+                            backgroundColor: goal.color
+                          }}
+                        ></div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-bold" style={{ color: goal.color }}>
+                          {goal.progress_percentage.toFixed(0)}%
+                        </span>
+                        {goal.progress_percentage >= 100 && (
+                          <span className="text-xs font-semibold text-green-600">✓ Complete</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Charts and Recent Transactions */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Spending by Category Chart */}
           <Card className="shadow-lg border-0">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
+            <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-700">
               <CardTitle className="text-xl">Spending by Category</CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
@@ -268,7 +385,7 @@ const Dashboard = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value) => `$${value.toFixed(2)}`} />
+                    <Tooltip formatter={(value) => formatCurrency(value)} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
@@ -284,7 +401,7 @@ const Dashboard = () => {
 
           {/* Recent Transactions */}
           <Card className="shadow-lg border-0">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 flex flex-row items-center justify-between">
+            <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-gray-800 dark:to-gray-700 flex flex-row items-center justify-between">
               <CardTitle className="text-xl">Recent Transactions</CardTitle>
               <Link to="/transactions">
                 <Button variant="ghost" size="sm" className="hover:bg-white dark:hover:bg-gray-600">
@@ -303,7 +420,7 @@ const Dashboard = () => {
                       <div className="flex-1">
                         <p className="font-semibold text-gray-900 dark:text-white">{txn.description}</p>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                          <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded text-xs font-medium">
+                          <span className="bg-amber-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-0.5 rounded text-xs font-medium">
                             {txn.category}
                           </span>
                           {' • '}
@@ -315,7 +432,7 @@ const Dashboard = () => {
                           txn.transaction_type === 'income' ? 'text-green-600' : 'text-red-600'
                         }`}
                       >
-                        {txn.transaction_type === 'income' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
+                        {txn.transaction_type === 'income' ? '+' : ''}{formatCurrency(txn.amount)}
                       </span>
                     </div>
                   ))
@@ -331,6 +448,9 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
+
+      {/* Penny the Piggy Mascot */}
+      <PennyMascot />
     </div>
   );
 };

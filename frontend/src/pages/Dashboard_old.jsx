@@ -73,7 +73,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div>
       </div>
     );
   }
@@ -110,7 +110,7 @@ const Dashboard = () => {
             <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
               Total Balance
             </CardTitle>
-            <Wallet className="h-4 w-4 text-blue-600" />
+            <Wallet className="h-4 w-4 text-amber-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${stats?.total_balance?.toFixed(2) || '0.00'}</div>

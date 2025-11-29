@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API_URL = `${BACKEND_URL}/api`;
+// Always use relative URLs - let the proxy or ingress handle routing
+// This works for both localhost (via package.json proxy) and production (via ingress)
+const API_URL = '/api';
 
 // Create axios instance
 const api = axios.create({
@@ -9,6 +10,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Include cookies in requests
 });
 
 // Add auth token to requests
@@ -27,7 +29,11 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Only redirect to login if not already on login/register/landing/pricing/subscription pages
+      const publicPaths = /^\/(login|register|pricing|subscription-success|)$/;  // Includes root path
+      if (!window.location.pathname.match(publicPaths)) {
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

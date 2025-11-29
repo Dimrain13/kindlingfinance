@@ -16,13 +16,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-    
-    if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    const checkAuth = async () => {
+      // First check localStorage (traditional auth)
+      const token = localStorage.getItem('token');
+      const savedUser = localStorage.getItem('user');
+      
+      if (token && savedUser) {
+        setUser(JSON.parse(savedUser));
+        setLoading(false);
+        return;
+      }
+
+      // Check for session cookie (Google OAuth)
+      try {
+        const response = await api.get('/auth/me');
+        setUser(response.data);
+      } catch (error) {
+        // No valid session
+      }
+      
+      setLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (email, password) => {
@@ -39,6 +55,24 @@ export const AuthProvider = ({ children }) => {
       return { 
         success: false, 
         error: error.response?.data?.detail || 'Login failed' 
+      };
+    }
+  };
+
+  const googleLogin = async (sessionId) => {
+    try {
+      const response = await api.post('/auth/google/process-session', {
+        session_id: sessionId
+      });
+      
+      const { user: userData } = response.data;
+      setUser(userData);
+      
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        error: error.response?.data?.detail || 'Google login failed'
       };
     }
   };
@@ -61,7 +95,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      // Call backend to clear session
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+    
+    // Clear local storage
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
@@ -72,6 +114,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    googleLogin,
     register,
     logout,
   };

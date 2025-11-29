@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
+import { formatCurrency, formatNumber } from '../utils/formatNumber';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Lightbulb, RefreshCw, Sparkles, TrendingUp, AlertCircle, CheckCircle, Zap } from 'lucide-react';
@@ -16,10 +17,14 @@ const Insights = () => {
 
   const loadInsights = async () => {
     try {
+      console.log('Loading insights from API...');
       const response = await api.get('/ai/insights');
+      console.log('Insights API response:', response.data);
+      console.log('Number of insights:', response.data?.length || 0);
       setInsights(response.data);
     } catch (error) {
       console.error('Failed to load insights:', error);
+      console.error('Error details:', error.response?.data);
     }
   };
 
@@ -83,7 +88,7 @@ const Insights = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
               AI Insights
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2 flex items-center space-x-2">
@@ -104,7 +109,7 @@ const Insights = () => {
             <Button 
               onClick={generateInsights} 
               disabled={loading}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
             >
               <RefreshCw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
               {loading ? 'Generating...' : 'Generate Insights'}
@@ -114,7 +119,7 @@ const Insights = () => {
 
         {/* Status Message */}
         {statusMessage && (
-          <Card className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20 animate-pulse">
+          <Card className="border-l-4 border-amber-500 bg-blue-50 dark:bg-blue-900/20 animate-pulse">
             <CardContent className="py-4">
               <p className="text-center font-semibold text-blue-900 dark:text-blue-100">
                 {statusMessage}
@@ -124,10 +129,10 @@ const Insights = () => {
         )}
 
         {/* Info Banner */}
-        <Card className="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900/20">
+        <Card className="border-l-4 border-amber-500 bg-blue-50 dark:bg-blue-900/20">
           <CardContent className="pt-6">
             <div className="flex items-start space-x-3">
-              <Sparkles className="h-6 w-6 text-blue-600 mt-1" />
+              <Sparkles className="h-6 w-6 text-amber-600 mt-1" />
               <div>
                 <p className="font-semibold text-blue-900 dark:text-blue-100">💡 AI-Powered Savings Finder</p>
                 <p className="text-sm text-blue-800 dark:text-blue-200 mt-1">
@@ -166,10 +171,10 @@ const Insights = () => {
                   <div>
                     <p className="text-sm opacity-90">Potential Monthly Savings</p>
                     <p className="text-3xl font-bold mt-2">
-                      ${insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0).toFixed(0)}
+                      {formatCurrency(insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0), 0)}
                     </p>
                     <p className="text-sm opacity-90 mt-1">
-                      =${(insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0) * 12).toFixed(0)}/year
+                      ={formatCurrency(insights.reduce((sum, i) => sum + (i.monthly_savings || 0), 0) * 12, 0)}/year
                     </p>
                   </div>
                   <TrendingUp className="h-16 w-16 opacity-80" />
@@ -187,7 +192,7 @@ const Insights = () => {
               <h2 className="text-2xl font-bold">Financial Insights</h2>
             </div>
             {loading && (
-              <div className="flex items-center space-x-2 text-blue-600">
+              <div className="flex items-center space-x-2 text-amber-600">
                 <RefreshCw className="h-5 w-5 animate-spin" />
                 <span className="text-sm font-medium">Analyzing your spending...</span>
               </div>
@@ -197,7 +202,7 @@ const Insights = () => {
           {loading ? (
             <Card className="shadow-lg">
               <CardContent className="text-center py-16">
-                <RefreshCw className="h-16 w-16 text-blue-500 mx-auto mb-4 animate-spin" />
+                <RefreshCw className="h-16 w-16 text-amber-500 mx-auto mb-4 animate-spin" />
                 <p className="text-xl font-medium text-gray-600 mb-2">AI is analyzing your transactions</p>
                 <p className="text-gray-500">Looking for subscriptions, price increases, and savings opportunities...</p>
               </CardContent>
@@ -219,7 +224,7 @@ const Insights = () => {
                         {insight.monthly_savings > 0 && (
                           <div className="mt-2 inline-flex items-center bg-green-100 dark:bg-green-900/30 px-3 py-1 rounded-full">
                             <span className="text-green-700 dark:text-green-300 font-bold text-lg">
-                              ${insight.monthly_savings.toFixed(0)}/mo
+                              {formatCurrency(insight.monthly_savings, 0)}/mo
                             </span>
                             <span className="text-green-600 dark:text-green-400 text-xs ml-2">savings</span>
                           </div>
@@ -263,17 +268,27 @@ const Insights = () => {
               ))}
             </div>
           ) : (
-            <Card className="shadow-lg">
-              <CardContent className="text-center py-12">
-                <Lightbulb className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-xl font-medium text-gray-600 mb-2">No insights yet</p>
-                <p className="text-gray-500 mb-4">Generate insights to get personalized financial advice</p>
+            <Card className="shadow-lg border-2 border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+              <CardContent className="text-center py-16">
+                <div className="bg-green-100 dark:bg-green-900/30 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="h-12 w-12 text-green-600" />
+                </div>
+                <p className="text-2xl font-bold text-green-700 dark:text-green-300 mb-3">
+                  🎉 You're Min-Maxing Like a Pro!
+                </p>
+                <p className="text-lg text-gray-700 dark:text-gray-300 mb-2">
+                  Great job! We couldn't find any major savings opportunities.
+                </p>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                  Your spending looks optimized. Check back later as we analyze new transactions.
+                </p>
                 <Button 
                   onClick={generateInsights}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600"
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-50"
                 >
-                  <Sparkles size={16} className="mr-2" />
-                  Generate Your First Insight
+                  <RefreshCw size={16} className="mr-2" />
+                  Re-analyze Transactions
                 </Button>
               </CardContent>
             </Card>
@@ -289,7 +304,7 @@ const Insights = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="h-8 w-8 text-blue-600" />
+                  <Sparkles className="h-8 w-8 text-amber-600" />
                 </div>
                 <h3 className="font-semibold mb-2">1. Categorize</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">

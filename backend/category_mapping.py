@@ -25,12 +25,20 @@ INCOME_CATEGORIES = {
 }
 
 # Categories that are transfers (not income or expense)
+# These should NOT be counted as expenses since they're moving money between your own accounts
 TRANSFER_CATEGORIES = {
     'Transfer',
+    'TRANSFER',
+    'TRANSFER_IN',
+    'TRANSFER_OUT',
     'Credit Card Payment',
+    'CREDIT_CARD_PAYMENT',
     'Loan Payment',
+    'LOAN_PAYMENT',
+    'LOAN_PAYMENTS',
     'Savings',
     'Investment',
+    'BANK_FEES',  # Some transfers are categorized as bank fees by Plaid
 }
 
 # All other categories are expenses by default
