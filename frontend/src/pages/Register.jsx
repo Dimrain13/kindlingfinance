@@ -76,8 +76,8 @@ const Register = () => {
         <div className="relative z-10 flex flex-col justify-center max-w-md">
           <div className="mb-8">
             <CampfireLogo className="h-16 w-16 mb-4" />
-            <h1 className="text-5xl font-bold mb-4">Join the Circle</h1>
-            <p className="text-xl text-orange-100">Light your first spark toward financial warmth</p>
+            <h1 className="text-5xl font-bold mb-4">Join Ember</h1>
+            <p className="text-xl text-orange-100">Start your journey to financial warmth</p>
           </div>
           
           <div className="space-y-4 mt-12 text-orange-100">
