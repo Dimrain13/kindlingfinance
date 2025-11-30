@@ -36,7 +36,6 @@ const Dashboard = () => {
   useEffect(() => {
     loadDashboard();
     loadGoals();
-    createLinkToken();
   }, [timePeriod]);
   
   const loadGoals = async () => {
