@@ -1433,6 +1433,44 @@ Added a new "This Month" time filter button that appears BEFORE the "1M" option,
 
 ---
 
+## MX Platform Integration - End-to-End Testing - November 28, 2025
+
+### Test Objective
+Comprehensive end-to-end testing of the MX Platform bank aggregation integration to verify:
+1. MX Connect widget loads and initializes properly
+2. User can select and connect to financial institutions
+3. Accounts are successfully synced to the database
+4. Transactions are fetched and displayed correctly
+5. Dashboard and Accounts pages reflect the new data
+
+### Testing Scope
+- **Dashboard Page:** "Link Account" button triggers MX widget
+- **Accounts Page:** "Link Account" button triggers MX widget
+- **MX Widget:** Loads, allows institution selection, handles connection flow
+- **Account Sync:** New accounts appear after successful connection
+- **Transaction Sync:** Transactions are fetched and displayed
+- **Loading States:** Proper loading indicators during widget initialization
+
+### Test Environment
+- **Backend:** MX service configured with sandbox credentials
+- **API URL:** https://int-api.mx.com (MX Sandbox)
+- **Client ID:** smart-budget-299
+- **Test Account:** daniel.r.millner@gmail.com / password
+
+### Expected Flow
+1. User clicks "Link Account" on Dashboard or Accounts page
+2. MX Connect widget modal appears with loading indicator
+3. Widget iframe loads institution selection interface
+4. User selects test institution (e.g., "MX Bank")
+5. User enters test credentials provided by MX
+6. Connection completes, triggering onSuccess callback
+7. Accounts and transactions sync automatically
+8. Modal closes, new accounts appear on page
+
+### Status: TESTING IN PROGRESS
+
+---
+
 ## Interactive Expense Donut Chart Visualization - November 28, 2025
 
 ### Feature Request
