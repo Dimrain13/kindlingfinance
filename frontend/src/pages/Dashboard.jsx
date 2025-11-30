@@ -120,9 +120,8 @@ const Dashboard = () => {
                 {syncing ? 'Syncing...' : 'Sync'}
               </Button>
               <Button 
-                onClick={() => ready && open()} 
-                disabled={!ready}
-                className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all text-white"
+                onClick={() => setShowMXConnect(true)}
+                className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all text-white"
               >
                 <Plus size={18} className="mr-2" />
                 Link Account
