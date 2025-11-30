@@ -203,7 +203,7 @@ const Goals = () => {
             Financial Goals
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Track your progress and kindle your financial dreams
+            Track your progress and keep your financial dreams glowing
           </p>
         </div>
         <Button
