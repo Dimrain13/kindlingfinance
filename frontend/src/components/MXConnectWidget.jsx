@@ -106,17 +106,30 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
 
   const syncAccounts = async () => {
     try {
-      // Sync accounts from MX
-      await api.post('/mx/accounts/sync');
+      console.log('🔄 Starting account sync...');
       
-      // Sync transactions
-      await api.post('/mx/transactions/sync');
+      // Sync accounts from MX
+      const accountsResult = await api.post('/mx/accounts/sync');
+      console.log('Account sync result:', accountsResult.data);
+      
+      if (accountsResult.data.count === 0) {
+        console.warn('⚠️ No accounts synced. Member might still be aggregating.');
+        // Show a message to user
+        alert('Connection initiated! Your accounts are being synced. This may take up to 60 seconds. Please refresh the page in a moment.');
+      } else {
+        // Sync transactions
+        const txnResult = await api.post('/mx/transactions/sync');
+        console.log('Transaction sync result:', txnResult.data);
+        
+        alert(`✅ Successfully synced ${accountsResult.data.count} account(s)!`);
+      }
       
       if (onSuccess) {
         onSuccess();
       }
     } catch (err) {
-      console.error('Failed to sync accounts:', err);
+      console.error('❌ Failed to sync accounts:', err);
+      setError('Failed to sync accounts. Please try refreshing the page.');
     }
   };
 
