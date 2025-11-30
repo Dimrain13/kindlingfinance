@@ -154,21 +154,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Plaid Error Alert */}
-        {plaidError && (
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 p-4 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                Plaid Connection Issue
-              </p>
-              <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-1">
-                {plaidError}
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Stats Cards - Ember Design */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Net Worth - First Card */}
