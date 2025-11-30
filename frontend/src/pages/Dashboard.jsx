@@ -120,7 +120,10 @@ const Dashboard = () => {
                 {syncing ? 'Syncing...' : 'Sync'}
               </Button>
               <Button 
-                onClick={() => setShowMXConnect(true)}
+                onClick={() => {
+                  console.log('Link Account clicked, setting showMXConnect to true');
+                  setShowMXConnect(true);
+                }}
                 className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all text-white"
               >
                 <Plus size={18} className="mr-2" />
