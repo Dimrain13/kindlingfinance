@@ -2438,6 +2438,9 @@ app.include_router(budgets_router, prefix="/api")
 try:
     from routes.mx_routes import router as mx_router
     app.include_router(mx_router, prefix="/api")
+    
+    from routes.mx_debug_routes import router as mx_debug_router
+    app.include_router(mx_debug_router, prefix="/api")
 except ImportError as e:
     print(f"Warning: Could not import MX routes: {e}")
 
