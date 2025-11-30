@@ -1912,18 +1912,573 @@ class FinanceHubTester:
             print(f"❌ Goals investigation failed: {str(e)}")
             return {"success": False, "error": str(e)}
 
+    # ==================== MX INTEGRATION TESTING ====================
+    
+    def test_mx_account_sync(self) -> Dict[str, Any]:
+        """Phase 1: Account Linking & Sync - Test MX accounts sync with proper format"""
+        print("\n🧪 PHASE 1: MX Account Linking & Sync")
+        results = {"phase": "MX Account Linking & Sync", "tests": []}
+        
+        # Test 1: Trigger account sync
+        try:
+            print("Testing POST /api/mx/accounts/sync...")
+            response = self.session.post(f"{BACKEND_URL}/mx/accounts/sync")
+            if response.status_code == 200:
+                sync_result = response.json()
+                results["tests"].append({
+                    "test": "POST /api/mx/accounts/sync", 
+                    "status": "✅ PASS", 
+                    "data": sync_result
+                })
+                print(f"✅ Account sync successful: {sync_result.get('message', 'No message')}")
+            else:
+                results["tests"].append({
+                    "test": "POST /api/mx/accounts/sync", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"❌ Account sync failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({"test": "POST /api/mx/accounts/sync", "status": "❌ ERROR", "error": str(e)})
+            print(f"❌ Account sync error: {str(e)}")
+        
+        # Test 2: Check accounts endpoint for proper MX format
+        try:
+            print("Testing GET /api/accounts (MX format validation)...")
+            response = self.session.get(f"{BACKEND_URL}/accounts")
+            if response.status_code == 200:
+                accounts = response.json()
+                results["tests"].append({
+                    "test": "GET /api/accounts (format validation)", 
+                    "status": "✅ PASS", 
+                    "count": len(accounts)
+                })
+                
+                # Validate account data structure
+                format_issues = []
+                sample_accounts = []
+                
+                for i, account in enumerate(accounts[:3]):  # Check first 3 accounts
+                    sample_account = {
+                        "name": account.get("name"),
+                        "account_type": account.get("account_type"),
+                        "balance": account.get("balance"),
+                        "currency": account.get("currency"),
+                        "institution_name": account.get("institution_name"),
+                        "mask": account.get("mask")
+                    }
+                    sample_accounts.append(sample_account)
+                    
+                    # Check required fields
+                    required_fields = ["id", "user_id", "name", "account_type", "balance", "institution_name", "currency", "mask"]
+                    for field in required_fields:
+                        if field not in account:
+                            format_issues.append(f"Account {i+1}: Missing field '{field}'")
+                    
+                    # Check field types
+                    if not isinstance(account.get("balance"), (int, float)):
+                        format_issues.append(f"Account {i+1}: 'balance' should be number, got {type(account.get('balance'))}")
+                    
+                    # Check account_type field (not 'type')
+                    if "type" in account and "account_type" not in account:
+                        format_issues.append(f"Account {i+1}: Has 'type' field instead of 'account_type'")
+                    
+                    # Check currency field (not 'currency_code')
+                    if "currency_code" in account and "currency" not in account:
+                        format_issues.append(f"Account {i+1}: Has 'currency_code' field instead of 'currency'")
+                
+                if format_issues:
+                    results["tests"].append({
+                        "test": "Account data format validation", 
+                        "status": "❌ FAIL", 
+                        "issues": format_issues,
+                        "sample_accounts": sample_accounts
+                    })
+                    print(f"❌ Account format issues found:")
+                    for issue in format_issues:
+                        print(f"   - {issue}")
+                else:
+                    results["tests"].append({
+                        "test": "Account data format validation", 
+                        "status": "✅ PASS", 
+                        "sample_accounts": sample_accounts
+                    })
+                    print(f"✅ Account format validation passed")
+                    
+                # Print sample account structure
+                print(f"\n📋 Sample Account Structure:")
+                for i, acc in enumerate(sample_accounts):
+                    print(f"  Account {i+1}:")
+                    for key, value in acc.items():
+                        print(f"    {key}: {value}")
+                    print()
+                    
+            else:
+                results["tests"].append({
+                    "test": "GET /api/accounts", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+        except Exception as e:
+            results["tests"].append({"test": "GET /api/accounts", "status": "❌ ERROR", "error": str(e)})
+        
+        return results
+    
+    def test_mx_transaction_sync(self) -> Dict[str, Any]:
+        """Phase 2: Transaction Sync - Test MX transactions sync with proper format"""
+        print("\n🧪 PHASE 2: MX Transaction Sync")
+        results = {"phase": "MX Transaction Sync", "tests": []}
+        
+        # Test 1: Trigger transaction sync
+        try:
+            print("Testing POST /api/mx/transactions/sync...")
+            response = self.session.post(f"{BACKEND_URL}/mx/transactions/sync")
+            if response.status_code == 200:
+                sync_result = response.json()
+                results["tests"].append({
+                    "test": "POST /api/mx/transactions/sync", 
+                    "status": "✅ PASS", 
+                    "data": sync_result
+                })
+                print(f"✅ Transaction sync successful: {sync_result.get('message', 'No message')}")
+            else:
+                results["tests"].append({
+                    "test": "POST /api/mx/transactions/sync", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"❌ Transaction sync failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({"test": "POST /api/mx/transactions/sync", "status": "❌ ERROR", "error": str(e)})
+            print(f"❌ Transaction sync error: {str(e)}")
+        
+        # Test 2: Check transactions endpoint for proper MX format
+        try:
+            print("Testing GET /api/transactions (MX format validation)...")
+            response = self.session.get(f"{BACKEND_URL}/transactions?limit=10")
+            if response.status_code == 200:
+                transactions = response.json()
+                results["tests"].append({
+                    "test": "GET /api/transactions (format validation)", 
+                    "status": "✅ PASS", 
+                    "count": len(transactions)
+                })
+                
+                # Validate transaction data structure
+                format_issues = []
+                sample_transactions = []
+                
+                for i, txn in enumerate(transactions[:3]):  # Check first 3 transactions
+                    sample_txn = {
+                        "account_id": txn.get("account_id"),
+                        "description": txn.get("description"),
+                        "transaction_type": txn.get("transaction_type"),
+                        "amount": txn.get("amount"),
+                        "category": txn.get("category"),
+                        "date": txn.get("date"),
+                        "is_recurring": txn.get("is_recurring"),
+                        "ai_categorized": txn.get("ai_categorized")
+                    }
+                    sample_transactions.append(sample_txn)
+                    
+                    # Check required fields
+                    required_fields = ["id", "user_id", "account_id", "amount", "description", "transaction_type", "category", "date"]
+                    for field in required_fields:
+                        if field not in txn:
+                            format_issues.append(f"Transaction {i+1}: Missing field '{field}'")
+                    
+                    # Check field types and values
+                    if not isinstance(txn.get("amount"), (int, float)) or txn.get("amount") < 0:
+                        format_issues.append(f"Transaction {i+1}: 'amount' should be positive number, got {txn.get('amount')}")
+                    
+                    # Check description field (not 'name')
+                    if "name" in txn and "description" not in txn:
+                        format_issues.append(f"Transaction {i+1}: Has 'name' field instead of 'description'")
+                    
+                    # Check transaction_type values
+                    valid_types = ["expense", "income"]
+                    if txn.get("transaction_type") not in valid_types:
+                        format_issues.append(f"Transaction {i+1}: Invalid transaction_type '{txn.get('transaction_type')}', should be {valid_types}")
+                    
+                    # Check account_id field (mapped from mx_account_guid)
+                    if not txn.get("account_id"):
+                        format_issues.append(f"Transaction {i+1}: Missing or empty account_id")
+                
+                if format_issues:
+                    results["tests"].append({
+                        "test": "Transaction data format validation", 
+                        "status": "❌ FAIL", 
+                        "issues": format_issues,
+                        "sample_transactions": sample_transactions
+                    })
+                    print(f"❌ Transaction format issues found:")
+                    for issue in format_issues:
+                        print(f"   - {issue}")
+                else:
+                    results["tests"].append({
+                        "test": "Transaction data format validation", 
+                        "status": "✅ PASS", 
+                        "sample_transactions": sample_transactions
+                    })
+                    print(f"✅ Transaction format validation passed")
+                
+                # Print sample transaction structure
+                print(f"\n📋 Sample Transaction Structure:")
+                for i, txn in enumerate(sample_transactions):
+                    print(f"  Transaction {i+1}:")
+                    for key, value in txn.items():
+                        print(f"    {key}: {value}")
+                    print()
+                    
+            else:
+                results["tests"].append({
+                    "test": "GET /api/transactions", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+        except Exception as e:
+            results["tests"].append({"test": "GET /api/transactions", "status": "❌ ERROR", "error": str(e)})
+        
+        return results
+    
+    def test_mx_data_validation(self) -> Dict[str, Any]:
+        """Phase 3: Data Validation - Verify data structure matches expectations"""
+        print("\n🧪 PHASE 3: MX Data Validation")
+        results = {"phase": "MX Data Validation", "tests": []}
+        
+        # Test 1: Query accounts and validate structure
+        try:
+            print("Validating account data structure...")
+            response = self.session.get(f"{BACKEND_URL}/accounts")
+            if response.status_code == 200:
+                accounts = response.json()
+                
+                # Validate liability account balances
+                liability_types = ["credit_card", "loan", "mortgage"]
+                liability_accounts = [acc for acc in accounts if acc.get("account_type") in liability_types]
+                asset_accounts = [acc for acc in accounts if acc.get("account_type") not in liability_types]
+                
+                balance_issues = []
+                for acc in liability_accounts:
+                    balance = acc.get("balance", 0)
+                    if balance > 0:
+                        balance_issues.append(f"Liability account '{acc.get('name')}' has positive balance: ${balance}")
+                
+                if balance_issues:
+                    results["tests"].append({
+                        "test": "Liability account balance validation", 
+                        "status": "❌ FAIL", 
+                        "issues": balance_issues
+                    })
+                    print(f"❌ Liability balance issues:")
+                    for issue in balance_issues:
+                        print(f"   - {issue}")
+                else:
+                    results["tests"].append({
+                        "test": "Liability account balance validation", 
+                        "status": "✅ PASS"
+                    })
+                    print(f"✅ Liability account balances are correct (negative)")
+                
+                # Print account summary
+                print(f"\n📊 Account Summary:")
+                print(f"  Total accounts: {len(accounts)}")
+                print(f"  Asset accounts: {len(asset_accounts)}")
+                print(f"  Liability accounts: {len(liability_accounts)}")
+                
+                results["tests"].append({
+                    "test": "Account structure validation", 
+                    "status": "✅ PASS", 
+                    "data": {
+                        "total_accounts": len(accounts),
+                        "asset_accounts": len(asset_accounts),
+                        "liability_accounts": len(liability_accounts)
+                    }
+                })
+                
+            else:
+                results["tests"].append({
+                    "test": "Account structure validation", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}"
+                })
+        except Exception as e:
+            results["tests"].append({"test": "Account structure validation", "status": "❌ ERROR", "error": str(e)})
+        
+        # Test 2: Query transactions and validate structure
+        try:
+            print("Validating transaction data structure...")
+            response = self.session.get(f"{BACKEND_URL}/transactions?limit=20")
+            if response.status_code == 200:
+                transactions = response.json()
+                
+                # Validate transaction types and amounts
+                expense_txns = [t for t in transactions if t.get("transaction_type") == "expense"]
+                income_txns = [t for t in transactions if t.get("transaction_type") == "income"]
+                
+                amount_issues = []
+                for txn in transactions:
+                    amount = txn.get("amount", 0)
+                    if amount < 0:
+                        amount_issues.append(f"Transaction '{txn.get('description')}' has negative amount: ${amount}")
+                
+                if amount_issues:
+                    results["tests"].append({
+                        "test": "Transaction amount validation", 
+                        "status": "❌ FAIL", 
+                        "issues": amount_issues
+                    })
+                    print(f"❌ Transaction amount issues:")
+                    for issue in amount_issues:
+                        print(f"   - {issue}")
+                else:
+                    results["tests"].append({
+                        "test": "Transaction amount validation", 
+                        "status": "✅ PASS"
+                    })
+                    print(f"✅ Transaction amounts are correct (positive)")
+                
+                # Print transaction summary
+                print(f"\n📊 Transaction Summary:")
+                print(f"  Total transactions: {len(transactions)}")
+                print(f"  Expense transactions: {len(expense_txns)}")
+                print(f"  Income transactions: {len(income_txns)}")
+                
+                results["tests"].append({
+                    "test": "Transaction structure validation", 
+                    "status": "✅ PASS", 
+                    "data": {
+                        "total_transactions": len(transactions),
+                        "expense_transactions": len(expense_txns),
+                        "income_transactions": len(income_txns)
+                    }
+                })
+                
+            else:
+                results["tests"].append({
+                    "test": "Transaction structure validation", 
+                    "status": "❌ FAIL", 
+                    "error": f"Status: {response.status_code}"
+                })
+        except Exception as e:
+            results["tests"].append({"test": "Transaction structure validation", "status": "❌ ERROR", "error": str(e)})
+        
+        return results
+    
+    def test_mx_dashboard_analytics(self) -> Dict[str, Any]:
+        """Phase 4: Dashboard Analytics Testing - Test dashboard with MX data"""
+        print("\n🧪 PHASE 4: MX Dashboard Analytics Testing")
+        results = {"phase": "MX Dashboard Analytics", "tests": []}
+        
+        # Test 1: Dashboard endpoint with different periods
+        periods = ["monthly", "quarterly", "6months", "12months", "ytd"]
+        
+        for period in periods:
+            try:
+                print(f"Testing GET /api/analytics/dashboard?period={period}...")
+                response = self.session.get(f"{BACKEND_URL}/analytics/dashboard?period={period}")
+                if response.status_code == 200:
+                    dashboard_data = response.json()
+                    
+                    # Validate required fields
+                    required_fields = ["total_balance", "net_worth", "total_income", "total_expenses", "spending_by_category"]
+                    missing_fields = [field for field in required_fields if field not in dashboard_data]
+                    
+                    if missing_fields:
+                        results["tests"].append({
+                            "test": f"Dashboard analytics ({period})", 
+                            "status": "❌ FAIL", 
+                            "error": f"Missing fields: {missing_fields}"
+                        })
+                    else:
+                        results["tests"].append({
+                            "test": f"Dashboard analytics ({period})", 
+                            "status": "✅ PASS", 
+                            "data": {
+                                "total_balance": dashboard_data.get("total_balance"),
+                                "net_worth": dashboard_data.get("net_worth"),
+                                "total_income": dashboard_data.get("total_income"),
+                                "total_expenses": dashboard_data.get("total_expenses"),
+                                "spending_categories": len(dashboard_data.get("spending_by_category", []))
+                            }
+                        })
+                        
+                        print(f"✅ Dashboard analytics ({period}):")
+                        print(f"   Total Balance: ${dashboard_data.get('total_balance', 0):,.2f}")
+                        print(f"   Net Worth: ${dashboard_data.get('net_worth', 0):,.2f}")
+                        print(f"   Total Income: ${dashboard_data.get('total_income', 0):,.2f}")
+                        print(f"   Total Expenses: ${dashboard_data.get('total_expenses', 0):,.2f}")
+                        
+                        # Show top spending categories
+                        spending_categories = dashboard_data.get("spending_by_category", [])
+                        if spending_categories:
+                            print(f"   Top Spending Categories:")
+                            for cat in spending_categories[:3]:
+                                print(f"     - {cat.get('category')}: ${cat.get('amount', 0):,.2f}")
+                else:
+                    results["tests"].append({
+                        "test": f"Dashboard analytics ({period})", 
+                        "status": "❌ FAIL", 
+                        "error": f"Status: {response.status_code}, Response: {response.text}"
+                    })
+                    print(f"❌ Dashboard analytics ({period}) failed: {response.status_code}")
+                    
+            except Exception as e:
+                results["tests"].append({
+                    "test": f"Dashboard analytics ({period})", 
+                    "status": "❌ ERROR", 
+                    "error": str(e)
+                })
+                print(f"❌ Dashboard analytics ({period}) error: {str(e)}")
+        
+        return results
+    
+    def print_mx_test_summary(self, all_results: List[Dict[str, Any]]):
+        """Print comprehensive MX integration test summary"""
+        print("\n" + "=" * 80)
+        print("📊 COMPREHENSIVE MX INTEGRATION TEST SUMMARY")
+        print("=" * 80)
+        
+        total_tests = 0
+        passed_tests = 0
+        failed_tests = 0
+        
+        # Count all tests
+        for phase_result in all_results:
+            for test in phase_result.get("tests", []):
+                total_tests += 1
+                if "✅ PASS" in test.get("status", ""):
+                    passed_tests += 1
+                else:
+                    failed_tests += 1
+        
+        # Print overall summary
+        success_rate = (passed_tests / total_tests * 100) if total_tests > 0 else 0
+        print(f"Total Tests: {total_tests}")
+        print(f"✅ Passed: {passed_tests}")
+        print(f"❌ Failed: {failed_tests}")
+        print(f"Success Rate: {success_rate:.1f}%")
+        
+        # Print phase summaries
+        for phase_result in all_results:
+            phase_name = phase_result.get("phase", "Unknown Phase")
+            tests = phase_result.get("tests", [])
+            phase_passed = sum(1 for t in tests if "✅ PASS" in t.get("status", ""))
+            phase_total = len(tests)
+            
+            print(f"\n{phase_name}: {phase_passed}/{phase_total} tests passed")
+            
+            # Show failed tests with details
+            for test in tests:
+                status = test.get("status", "")
+                test_name = test.get("test", "Unknown Test")
+                
+                if "❌ FAIL" in status:
+                    print(f"  ❌ {test_name}")
+                    if test.get("error"):
+                        print(f"     Error: {test.get('error')}")
+                    if test.get("issues"):
+                        print(f"     Issues:")
+                        for issue in test.get("issues", []):
+                            print(f"       - {issue}")
+                elif "❌ ERROR" in status:
+                    print(f"  ❌ {test_name} (ERROR)")
+                    print(f"     Error: {test.get('error', 'Unknown error')}")
+                elif "✅ PASS" in status:
+                    print(f"  ✅ {test_name}")
+        
+        # Print expected outcomes validation
+        print(f"\n🎯 EXPECTED OUTCOMES VALIDATION:")
+        print("=" * 50)
+        
+        expected_outcomes = [
+            "Account sync returns proper formatted data",
+            "Transaction sync returns proper formatted data", 
+            "Accounts have correct field names and types",
+            "Transactions have correct field names and types",
+            "Dashboard analytics work with MX data",
+            "No field name mismatches (type vs account_type, name vs description, etc.)",
+            "Balance signs are correct for liabilities",
+            "Transaction types are properly determined"
+        ]
+        
+        # Determine which outcomes were met based on test results
+        outcomes_met = []
+        outcomes_failed = []
+        
+        for phase_result in all_results:
+            phase_name = phase_result.get("phase", "")
+            
+            if "Account Linking" in phase_name:
+                sync_passed = any("POST /api/mx/accounts/sync" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                format_passed = any("format validation" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                
+                if sync_passed:
+                    outcomes_met.append("✅ Account sync returns proper formatted data")
+                else:
+                    outcomes_failed.append("❌ Account sync returns proper formatted data")
+                    
+                if format_passed:
+                    outcomes_met.append("✅ Accounts have correct field names and types")
+                    outcomes_met.append("✅ No field name mismatches for accounts")
+                else:
+                    outcomes_failed.append("❌ Accounts have correct field names and types")
+                    outcomes_failed.append("❌ Field name mismatches found in accounts")
+            
+            elif "Transaction Sync" in phase_name:
+                sync_passed = any("POST /api/mx/transactions/sync" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                format_passed = any("format validation" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                
+                if sync_passed:
+                    outcomes_met.append("✅ Transaction sync returns proper formatted data")
+                else:
+                    outcomes_failed.append("❌ Transaction sync returns proper formatted data")
+                    
+                if format_passed:
+                    outcomes_met.append("✅ Transactions have correct field names and types")
+                    outcomes_met.append("✅ Transaction types are properly determined")
+                else:
+                    outcomes_failed.append("❌ Transactions have correct field names and types")
+                    outcomes_failed.append("❌ Transaction types not properly determined")
+            
+            elif "Data Validation" in phase_name:
+                balance_passed = any("balance validation" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                
+                if balance_passed:
+                    outcomes_met.append("✅ Balance signs are correct for liabilities")
+                else:
+                    outcomes_failed.append("❌ Balance signs are incorrect for liabilities")
+            
+            elif "Dashboard Analytics" in phase_name:
+                analytics_passed = any("Dashboard analytics" in t.get("test", "") and "✅ PASS" in t.get("status", "") for t in phase_result.get("tests", []))
+                
+                if analytics_passed:
+                    outcomes_met.append("✅ Dashboard analytics work with MX data")
+                else:
+                    outcomes_failed.append("❌ Dashboard analytics do not work with MX data")
+        
+        # Print outcomes
+        for outcome in outcomes_met:
+            print(outcome)
+        for outcome in outcomes_failed:
+            print(outcome)
+        
+        # Final recommendation
+        if failed_tests == 0:
+            print(f"\n🎉 ALL MX INTEGRATION TESTS PASSED!")
+            print("The MX Platform integration is working correctly with proper data formatting.")
+        else:
+            print(f"\n⚠️  MX INTEGRATION ISSUES FOUND")
+            print(f"Please review the {failed_tests} failed test(s) above and fix the data mapping issues.")
+
 def main():
     """Main test execution"""
     tester = FinanceHubTester()
     
-    # Run the Planning Tools access test as requested in the review
-    results = tester.run_planning_tools_test_only()
+    # Run the MX Integration tests as requested in the review
+    tester.run_mx_integration_tests()
     
-    if results.get("success", True):
-        print("\n🎉 Planning Tools access test completed!")
-    else:
-        print(f"\n💥 Test failed: {results.get('error')}")
-        sys.exit(1)
+    print("\n🎉 MX Integration testing completed!")
 
 if __name__ == "__main__":
     main()
