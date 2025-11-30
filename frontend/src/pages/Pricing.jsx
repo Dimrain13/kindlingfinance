@@ -420,7 +420,7 @@ const Pricing = () => {
 
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <p className="text-gray-700 mb-4 italic">
-                "The investment tracking and crypto features are unmatched. I've tried 5 other apps and Kindling is by far the most comprehensive."
+                "The investment tracking and crypto features are unmatched. I've tried 5 other apps and Ember is by far the most comprehensive."
               </p>
               <p className="text-sm font-semibold text-gray-900">- Jennifer L.</p>
             </div>
