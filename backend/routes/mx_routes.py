@@ -122,6 +122,29 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
     Sync accounts from MX to local database
     """
     try:
+        # First check if user has any members (connections)
+        members = await mx_service.list_members(user_id)
+        if not members:
+            return {
+                "message": "No connected institutions found. Please link an account first.",
+                "count": 0,
+                "warning": "NO_MEMBERS"
+            }
+        
+        # Check if any members are still aggregating
+        aggregating_members = []
+        for member in members:
+            if member.get('is_being_aggregated'):
+                aggregating_members.append(member.get('name', 'Unknown'))
+        
+        if aggregating_members:
+            return {
+                "message": f"Aggregation in progress for: {', '.join(aggregating_members)}. Please try again in a moment.",
+                "count": 0,
+                "warning": "STILL_AGGREGATING",
+                "aggregating_members": aggregating_members
+            }
+        
         # Get all accounts from MX
         mx_accounts = await mx_service.list_accounts(user_id)
         
