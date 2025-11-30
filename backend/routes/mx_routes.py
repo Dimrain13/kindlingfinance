@@ -124,27 +124,64 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
         # Get all accounts from MX
         mx_accounts = await mx_service.list_accounts(user_id)
         
+        # MX account type mapping
+        MX_ACCOUNT_TYPE_MAPPING = {
+            "CHECKING": "checking",
+            "SAVINGS": "savings",
+            "CREDIT_CARD": "credit_card",
+            "LOAN": "loan",
+            "MORTGAGE": "mortgage",
+            "INVESTMENT": "investment",
+            "BROKERAGE": "investment",
+            "RETIREMENT": "investment",
+            "LINE_OF_CREDIT": "credit_card",
+            "MONEY_MARKET": "savings",
+            "CERTIFICATE_OF_DEPOSIT": "savings",
+            "CASH_MANAGEMENT": "checking",
+            "PREPAID": "checking",
+        }
+        
+        LIABILITY_TYPES = ["credit_card", "loan", "mortgage"]
+        
         synced_count = 0
         for mx_account in mx_accounts:
-            account_data = {
-                "id": mx_account.get("guid"),
+            # Map MX account type to our format
+            mx_type = mx_account.get("type", "").upper()
+            account_type = MX_ACCOUNT_TYPE_MAPPING.get(mx_type, "manual")
+            
+            # Get balance and apply proper sign for liabilities
+            raw_balance = float(mx_account.get("balance", 0))
+            
+            # Liabilities should be negative
+            if account_type in LIABILITY_TYPES:
+                balance = -abs(raw_balance) if raw_balance != 0 else 0
+            else:
+                balance = abs(raw_balance) if raw_balance != 0 else 0
+            
+            # Check if account already exists
+            mx_guid = mx_account.get("guid")
+            existing_account = await db.accounts.find_one({
                 "user_id": user_id,
-                "mx_account_guid": mx_account.get("guid"),
+                "mx_account_guid": mx_guid
+            })
+            
+            account_data = {
+                "id": existing_account["id"] if existing_account else mx_guid,
+                "user_id": user_id,
+                "mx_account_guid": mx_guid,
                 "mx_member_guid": mx_account.get("member_guid"),
                 "name": mx_account.get("name"),
-                "official_name": mx_account.get("institution_name"),
-                "type": mx_account.get("type", "").lower(),
-                "subtype": mx_account.get("subtype", "").lower(),
+                "account_type": account_type,
+                "balance": balance,
+                "institution_name": mx_account.get("institution_name", "Unknown"),
+                "currency": mx_account.get("currency_code", "USD"),
                 "mask": mx_account.get("account_number", "")[-4:] if mx_account.get("account_number") else None,
-                "balance": {
-                    "current": mx_account.get("balance"),
-                    "available": mx_account.get("available_balance"),
-                    "limit": mx_account.get("credit_limit")
-                },
-                "currency_code": mx_account.get("currency_code", "USD"),
-                "institution_id": mx_account.get("institution_code"),
-                "last_synced": datetime.utcnow().isoformat()
+                "updated_at": datetime.utcnow()
             }
+            
+            # Add created_at only for new accounts
+            if not existing_account:
+                account_data["created_at"] = datetime.utcnow()
             
             # Upsert account
             await db.accounts.update_one(
