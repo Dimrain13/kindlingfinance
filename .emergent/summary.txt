@@ -1,212 +1,1039 @@
 <analysis>**original_problem_statement:**
-The user wants to build a comprehensive, modern financial management application initially called FinanceHub, now rebranded to Kindling.
+The user wants to build a comprehensive, modern financial management application, now named Ember. The vision is an app competitive with platforms like Monarch Money, featuring a warm, cozy fall campfire vibe in its design.
 
 PRODUCT REQUIREMENTS:
-- **Core Functionality:** A budget tracker that aggregates financial data via Plaid.
-- **AI-Powered Insights:** Use an LLM to review transactions and suggest savings.
-- **Modern Design & Features:** The application should be competitive with leading platforms like Monarch Money and Personal Capital, incorporating a modern UI, a Bill Calendar, a Portfolio section, and usable Reports.
-- **Specific Feature Requests:**
-    - Goals Tracking, Transaction Review System, Enhanced Budgeting, and Split Transactions.
-    - A dedicated Cash Flow page with a **daily** cash flow candlestick chart.
-    - Google Sign-In integration.
-    - **Crypto Asset Tracking**: Ability to add crypto holdings and view their value by connecting exchanges or monitoring wallet addresses.
-    - **Advanced Feature Parity with Monarch/Personal Capital**:
-        - Net Worth tracking, Investment tracking, Subscriptions/Recurring expense management, Bill Calendar, Enhanced transaction filtering, Auto-categorization rules, Financial Alerts, Budgeting templates, Spending forecasting, Debt Payoff Calculator.
-        - **HELOC Chunking Strategy.**
-- **Gamification:** A mascot and a points/achievements system.
+- **Core Functionality:** A budget tracker aggregating financial data, originally via Plaid, now migrating to MX.
+- **AI-Powered Insights:** Utilize an LLM to review transactions and suggest savings.
+- **Modern Design & Features:** Implement a modern UI, Bill Calendar, Portfolio section, and usable Reports.
+- **Specific Feature Requests:** Goals Tracking, Transaction Review System, Enhanced Budgeting, Split Transactions, a dedicated Cash Flow page, Google Sign-In, and Crypto Asset Tracking.
+- **Advanced Features:** Net Worth and Investment tracking, Subscriptions management, a Debt Payoff Calculator including a HELOC Chunking Strategy.
+- **Gamification:** Incorporate a mascot and a points/achievements system.
+- **Household Features:** Allow adding a spouse/partner and inviting collaborators.
+- **Branding:** Rebrand the site to Ember with the specified cozy theme.
 - **Critical:** Ensure all financial calculations are accurate site-wide.
-- **Household Features**: Allow adding a spouse/partner and children, and invite collaborators.
-- **UI/UX Parity**: Improve UI styling to be more modern, and add consistent time filters (1M, 3M, 6M, 1Y, YTD) to all relevant views.
-- **Branding:** Rebrand the site to Kindling with a warm, cozy fall campfire vibe.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The full-stack application (React, FastAPI, MongoDB) has been rebranded from FinanceHub to Kindling. A comprehensive cozy fall campfire theme has been partially implemented, including a new  component, a warm color palette, and updated styling on many pages.
+The application is a full-stack React and FastAPI project that has been successfully rebranded to Ember with a consistent cozy fall campfire theme applied sitewide. Key features like Google Auth and Stripe subscriptions are in place.
 
-Core features include Google Auth, a Stripe-based subscription system, and household management. Recently added features include consistent time filters across data-heavy pages and an interactive expense donut chart for visualizing spending on the  and  pages.
-
-Several critical bugs have been fixed, including inaccurate income/net calculations, flawed time filter logic, and incorrect expense totals caused by including transfers.
+Major feature enhancements were completed in this session:
+- **Budgets:** The budgeting system was completely overhauled. It now supports creating, editing, and deleting budgets with custom-themed modals. It features a sophisticated backend that accurately tracks monthly spending and correctly calculates rollover surplus or savings from the previous month.
+- **Goals:** The goals system was similarly enhanced with full CRUD functionality via custom modals. It now includes gamification elements, displaying milestone emojis (e.g., ✨, 🔥) as users progress toward their goals.
+- **HELOC Chunking Calculator:** This feature was located under the Planning Tools page and is confirmed to be working, with an added informational message explaining that it only appears when a mortgage account is linked.
+- **Git & Deployment:** A corrupted Git repository was successfully repaired. The agent has provided extensive guidance and created documentation () to help the user deploy the frontend to Netlify and the backend to a separate service like Railway.
+- **Plaid to MX Migration:** A critical migration from Plaid to the MX Platform for bank account aggregation is in progress. The backend has been updated with an MX service and API routes, and the frontend has been modified to use a new . The connection to the MX sandbox environment has been successfully established after debugging IP whitelisting and API endpoint issues.
 
 **Last working item**:
-- **Last item agent was working:** The agent was implementing the user's request to apply the new warm, cozy fall campfire vibe sitewide, ensuring the  and new color scheme were consistently used on the Landing, Pricing, and Login pages. The agent had fixed a major CSS visibility issue and was in the process of replacing remaining old UI elements (like blue/purple buttons) on these pages.
+- **Last item agent was working:** Finalizing the migration from Plaid to the MX Platform. The user provided credentials, and the agent successfully implemented the backend service and frontend widget. After resolving IP whitelisting and development URL issues, the agent established a successful connection to the MX sandbox API. The agent also added the Link Account functionality to the  page as requested by the user. The user has observed that the MX widget is slow to load.
 - **Status:** IN PROGRESS
-- **Agent Testing Done:** N
-- **Which testing method agent to use?** screenshot tool. A full visual audit of every page (Landing, Login, Register, Pricing, Dashboard, Transactions, Accounts, Cash Flow, etc.) is required to ensure brand consistency.
+- **Agent Testing Done:** Y (Backend connection to MX sandbox was verified via a script.)
+- **Which testing method agent to use?** Frontend testing agent to conduct a full end-to-end test of the account linking process via the MX widget on both the Dashboard and Accounts pages. The test should verify that accounts and transactions are correctly fetched and displayed after a successful connection.
 - **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
-- Issue 1: Complete the cozy fall campfire rebranding sitewide (P0)
-- Issue 2: Expense donut chart not rendering on Cash Flow page (P1)
-- Issue 3: Duplicate accounts from Plaid causing inflated data (P2)
-- Issue 4: Potential migration from Plaid to a more stable provider (P3)
+- **Issue 1:** Complete and Optimize MX Integration (P0)
+- **Issue 2:** Improve Slow Loading of MX Connect Widget (P1)
+- **Issue 3:** Expense Donut Chart Not Rendering on Cash Flow Page (P2)
+- **Issue 4:** Manage Duplicate Accounts from Old Plaid Integration (P3)
+- **Issue 5:** Guide User Through Production Deployment (P4)
 
 **Issues Detail:**
-- **Issue 1:**
-  - **Description:** The new Kindling brand identity and cozy fall campfire theme are not consistently applied across all pages. The user has repeatedly pointed out that old colors (blue/purple) and logos () still exist, particularly on public-facing pages like Landing and Pricing.
-  - **Attempted fixes:** The agent created a  file, a  component, and performed numerous search-and-replace operations. However, some elements were missed.
+- **Issue 1:** Complete and Optimize MX Integration
+  - **Description:** The migration from Plaid to MX is in progress but not fully tested end-to-end. The application must be able to link accounts via the MX widget and correctly ingest the resulting account and transaction data. Old Plaid code should be removed post-migration to prevent conflicts.
+  - **Attempted fixes:** Backend service, API routes, and frontend widget have been created. Connection to the MX sandbox API is successful.
   - **Next debug checklist:**
-    1. Continue the work from the last step: identify and replace the remaining blue/purple buttons on  and .
-    2. Perform a full visual review using the screenshot tool on every single page and component to find and replace any remaining instances of the old color scheme (blue, indigo, purple) and old logos.
-    3. Pay special attention to button styles, link colors, background gradients, and icons.
-  - **Why fix this issue and what will be achieved with the fix?** To create a cohesive, professional, and trustworthy brand experience that aligns with the user's vision.
+    1.  Use the frontend testing agent to perform a full user flow test: click Link Account, complete the MX widget flow, and verify new accounts and transactions appear correctly in the app.
+    2.  Investigate the  callback in  to ensure data is handled correctly.
+    3.  Once the MX flow is confirmed to be working, search for and remove all remaining Plaid-related code from the backend (e.g., , Plaid routes in ).
+  - **Why fix this issue and what will be achieved with the fix?** This is a critical migration to a more stable bank aggregation provider, directly addressing a user request and improving the app's core functionality.
   - **Status:** IN PROGRESS
+  - **Is recurring issue?** N
+  - **Should Test frontend/backend/both after fix?** both
+  - **Blocked on other issue:** None
+
+- **Issue 2:** Improve Slow Loading of MX Connect Widget
+  - **Description:** The user has noted that the MX Connect widget is slow to appear after clicking the Link Account button. This creates a poor user experience as there is no immediate feedback.
+  - **Attempted fixes:** The agent acknowledged the issue but has not yet implemented a fix.
+  - **Next debug checklist:**
+    1.  In  and , modify the logic that triggers the widget.
+    2.  Implement an immediate loading state (e.g., a spinner or skeleton screen) upon clicking Link Account to provide user feedback while the widget initializes.
+  - **Why fix this issue and what will be achieved with the fix?** To improve the application's user experience and perceived performance.
+  - **Status:** NOT STARTED
+  - **Is recurring issue?** N
+  - **Should Test frontend/backend/both after fix?** frontend
+  - **Blocked on other issue:** None
+
+- **Issue 3:** Expense Donut Chart Not Rendering on Cash Flow Page
+  - **Description:** An issue from a previous session, the Expense Breakdown donut chart is not visible on the  page.
+  - **Attempted fixes:** Previous agent attempted a fix that was unsuccessful. This agent investigated briefly but was sidetracked.
+  - **Next debug checklist:**
+    1.  Inspect .
+    2.  Add  statements to verify that the  prop being passed to  contains data.
+    3.  Check for any conditional rendering logic or CSS rules that might be unintentionally hiding the component.
+  - **Why fix this issue and what will be achieved with the fix?** To restore a key data visualization feature and fix a long-standing bug.
+  - **Status:** NOT STARTED
   - **Is recurring issue?** Y
   - **Should Test frontend/backend/both after fix?** frontend
   - **Blocked on other issue:** None
 
-- **Issue 2:**
-  - **Description:** On the  page, the Expense Breakdown donut chart is not visible. It's intended to appear below the main cash flow charts, but the section seems to be missing from the render.
-  - **Attempted fixes:** The agent initially implemented the chart in a separate view, then moved it to render on the same page. A fix was attempted to pass  to the component, but it was unsuccessful.
+- **Issue 4:** Manage Duplicate Accounts from Old Plaid Integration
+  - **Description:** The database may contain duplicate accounts from the previous Plaid integration, which inflates financial data.
+  - **Attempted fixes:** None in this session. The previous agent identified the issue.
   - **Next debug checklist:**
-    1. Inspect .
-    2. Add  statements inside the component to check if  has data and if the  component is being rendered.
-    3. Check the browser's developer console for any silent React rendering errors or CSS rules that might be hiding the component (e.g., , incorrect height).
-    4. Ensure the component gracefully handles cases where  is initially empty.
-  - **Why fix this issue and what will be achieved with the fix?** This will complete a key data visualization feature requested by the user.
+    1.  After the MX migration is complete, assess if the problem persists with legacy data.
+    2.  Design and implement a UI on the  page to allow users to identify, merge, or delete duplicate accounts.
+  - **Why fix this issue and what will be achieved with the fix?** To ensure data accuracy, which is critical for a financial application.
+  - **Status:** NOT STARTED
+  - **Is recurring issue?** Y
+  - **Should Test frontend/backend/both after fix?** both
+  - **Blocked on other issue:** Issue 1
+
+- **Issue 5:** Guide User Through Production Deployment
+  - **Description:** The user is trying to deploy the application but is confused about the process, particularly the need for separate frontend (Netlify) and backend (Railway, Render, etc.) hosting environments.
+  - **Attempted fixes:** The agent created detailed documentation () and fixed the git repository to enable pushing to GitHub.
+  - **Next debug checklist:**
+    1.  Clearly reiterate the two-part deployment strategy.
+    2.  Offer to guide the user step-by-step through deploying the backend to a service like Railway.
+    3.  Once the backend is live, guide them to update the  environment variable in their Netlify settings.
+  - **Why fix this issue and what will be achieved with the fix?** To help the user achieve their goal of making the application live.
   - **Status:** IN PROGRESS
-  - **Is recurring issue?** Y
-  - **Should Test frontend/backend/both after fix?** frontend
+  - **Is recurring issue?** N
+  - **Should Test frontend/backend/both after fix?** N/A
   - **Blocked on other issue:** None
-
-- **Issue 3:**
-  - **Description:** The user noticed that expenses seemed too high, which was traced back to duplicate accounts (e.g., two Used Vehicle Loan accounts) being synced from Plaid. This results in duplicate transactions and inflated financial summaries.
-  - **Attempted fixes:** The agent identified that the duplicate accounts have different Plaid IDs, which is why the deduplication logic doesn't catch them. The agent suggested a UI for the user to manage/delete accounts but has not implemented it.
-  - **Next debug checklist:**
-    1. Propose and build a UI feature on the  page that helps users identify and manage potentially duplicate accounts.
-    2. This could involve highlighting accounts with identical names from the same institution.
-    3. Ensure the delete functionality for accounts works correctly and removes all associated transactions to clean up the data.
-  - **Why fix this issue and what will be achieved with the fix?** This will ensure data accuracy, which is critical for a financial app, and resolve the user's core complaint about incorrect expense totals.
-  - **Status:** NOT STARTED
-  - **Is recurring issue?** Y
-  - **Should Test frontend/backend/both after fix?** both
-  - **Blocked on other issue:** None
-
-- **Issue 4:**
-  - **Description:** The user has previously reported issues with Plaid connection stability and inquired about alternatives like MX, which competitors use.
-  - **Attempted fixes:** The agent researched alternatives and recommended MX, but no implementation has occurred.
-  - **Next debug checklist:** Confirm with the user if they wish to prioritize this migration. If so, use  to plan the migration from Plaid to MX.
-  - **Why fix this issue and what will be achieved with the fix?** Improve the core reliability and bank coverage of the application.
-  - **Status:** NOT STARTED
-  - **Is recurring issue?** Y
-  - **Should Test frontend/backend/both after fix?** both
-  - **Blocked on other issue:** User decision required.
 
 **In progress Task List**:
-- **Task 1:** Complete Sitewide Rebranding to Kindling (P0)
-  - **Where to resume:** Continue updating UI elements on  and , then conduct a full sitewide visual audit.
-  - **What will be achieved with this?** A fully consistent and professional brand identity across the entire application.
+- **Task 1:** Complete Sitewide Migration from Plaid to MX (P0)
+  - **Where to resume:** Perform an end-to-end test of the MX account linking flow. If successful, proceed to remove all legacy Plaid code.
+  - **What will be achieved with this?** The application will use a more stable and reliable bank aggregation provider, fulfilling a key user request.
   - **Status:** IN PROGRESS
-  - **Should Test frontend/backend/both after fix?** frontend
+  - **Should Test frontend/backend/both after fix?** both
   - **Blocked on something:** None
 
 **Upcoming and Future Tasks**
 - **Upcoming Tasks:**
-  - **P1: Implement UI Redesign Strategy:** Blend Monarch, Personal Capital, and Mint aesthetics as per .
-  - **P2: Implement Smart AI Insights:** Follow the tiered, cost-effective approach documented in .
-  - **P3: Implement Special Promotions:** Add logic for the Cyber Monday deal on the Lifetime tier.
-  - **P4: Consolidate Transaction Pages:** Merge , , , and  into a single, tabbed interface.
+  - **P1:** Implement a loading indicator for the MX Connect widget to improve UX.
+  - **P2:** Fix the non-rendering Expense Donut Chart on the Cash Flow page.
+  - **P3:** Build a UI for users to manage and delete duplicate accounts.
+  - **P4:** Implement the UI Redesign Strategy outlined in .
+  - **P5:** Implement the tiered AI Insights feature from .
 - **Future Tasks:**
-  - **P5: Migrate Plaid to MX:** If the user approves, replace the Plaid integration.
-  - **P6: Investment Tracking - Advanced Analytics.**
-  - **P7: Financial Health Score.**
-  - **P8: Backend & Frontend Refactoring.**
+  - **P6:** Consolidate the , , , and  pages into a single tabbed interface.
+  - **P7:** Implement advanced analytics for Investment Tracking.
+  - **P8:** Develop a Financial Health Score feature.
 
 **Completed work in this session**
-- **Branding & Theming:**
-  - Rebranded the application from FinanceHub to **Kindling**.
-  - Created and implemented a reusable ** component** to replace the old dollar sign icon.
-  - Initiated a **cozy fall campfire theme** by creating  and updating colors across most of the application.
-- **Feature: Consistent Time Filters:**
-  - Implemented sitewide time filters, including a new **This Month** option, on , , and  pages.
-- **Feature: Interactive Expense Donut Chart:**
-  - Created an  component to visualize spending.
-  - Implemented it on the  and  pages with a view toggle and category-filtering functionality.
-- **Bug Fixes:**
-  - **Incorrect Calculations:** Fixed income displaying as negative and incorrect net value calculations on the  page by properly handling Plaid's negative income values.
-  - **Inaccurate Expenses:** Excluded  categories from expense totals, significantly improving accuracy.
-  - **Transaction Duplication:** Ran a one-time deduplication script and improved the backend logic to be more robust. Identified duplicate accounts as the root cause of recurring issues.
-  - **Time Filter Logic:** Corrected the 1M filter to mean last 30 days and added a separate This Month for the current calendar month.
-- **UI/UX:**
-  - Reordered the  cards to display Net Worth first as requested.
-- **Strategy & Documentation:**
-  - Brainstormed and researched new brand names, landing on Kindling.
-  - Created  to document a cost-effective AI approach.
-  - Created  to outline a hybrid design approach.
+- **Rebranding:** Renamed the application from Kindling to **Ember** across the entire codebase and UI.
+- **Theming Overhaul:** Refined the cozy campfire theme with a softer, earthier color palette and integrated thematic language into the UI copy.
+- **Budgets Feature Complete:** Implemented full CRUD functionality for budgets, including edit/delete with custom modals, and a robust backend system for accurate monthly tracking with rollover calculations.
+- **Goals Feature Complete:** Implemented full CRUD for goals with custom modals and added gamification elements (milestone emojis). Fixed a critical bug preventing the edit modal from opening.
+- **Feature Discovery & Clarification:** Located the existing HELOC Chunking Calculator and added an informational message explaining its conditional rendering.
+- **Git Repository Repair:** Successfully repaired a severely corrupted git repository, enabling the user to save their work to GitHub.
+- **Deployment Guidance:** Created detailed documentation () and environment files to guide the user through deploying the frontend and backend separately.
+- **MX Migration (In Progress):** Initiated and made significant progress on migrating the bank connection provider from Plaid to MX, including setting up the backend service and successfully connecting to the MX sandbox API.
 
 **Earlier issues found/mentioned but not fixed**
-- **Issue 1: Expense Donut Chart on CashFlow Page:** The chart does not render on the  page. The agent's fix was unsuccessful.
-- **Issue 2: Duplicate Account Management:** The root cause of duplicate transactions (multiple Plaid accounts for the same real-world asset) has been identified, but a UI for the user to manage/delete these accounts has not been created.
+- **Expense Donut Chart on CashFlow Page:** This issue was identified in a previous session and remains unresolved.
+- **Duplicate Account Management:** The need for a UI to manage duplicate accounts was identified previously and has not yet been implemented.
 
 **Known issue recurrence from previous fork**
-- None.
+- **Duplicate Account Management:** This data integrity issue persists and requires a user-facing solution.
+- **Expense Donut Chart on CashFlow Page:** This UI bug persists and needs to be fixed.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- **Component-Based UI:** Created reusable components (, , ) to ensure consistency and maintainability.
-- **Dynamic Theming with CSS & Tailwind:** Applied a sitewide cozy fall campfire theme using a combination of a new CSS file () for global styles and TailwindCSS utility classes for component-level styling.
-- **Frontend Data Transformation:** Correctly handled financial data quirks from the Plaid API (e.g., negative income values) directly in the frontend () to ensure accurate UI display without backend changes.
-- **Complex State Management:** Managed UI state for features like time filters and view toggles ( vs. ) across multiple pages using  and  hooks.
-- **Data-Driven UI:** The application's UI, especially the expense chart and summary cards, dynamically updates based on filtered transaction data.
+- **API Migration:** Executing a complex, full-stack migration from Plaid to MX, which involves new backend services, API routes, environment variable management, and frontend components.
+- **Complex Financial Logic:** Implemented sophisticated date-based logic on the backend () to handle month-over-month budget tracking, including rollover surplus and savings calculations.
+- **Stateful UI with Modals:** Heavily refactored the  and  pages to use custom, themed modals for all CRUD operations, managed through React state.
+- **Gamification:** Integrated simple but effective gamification into the  page by conditionally rendering emojis based on completion percentage.
+- **Git Repository Recovery:** Utilized advanced git commands (dangling blob ffbf0e4580e489bffcd54255759d625fef467ed9
+dangling blob 05c0b8758d25bb38f57ca8f363b5ef0e99fb391d
+dangling blob 0f60cf3e0a11051be9e7b686fa710a0a459362fa
+dangling blob 29a02b903ebb06b7f0da75ca414eb43b02730a58
+dangling blob 34c06c3fc1f34c5f6ba9b59c86f3674d97bb709c
+dangling blob 3ac0fe4c043b3ce08b6823f4661bda486502be38
+dangling blob 4be028be604cfd9dcd66acda7eab696dd901a1b3
+dangling blob 5ba0e24fe43286b9d90d145e982d4cd22f0e1501
+dangling blob 6560607b4ae3af2e2f75cdc13cc9f24bb40b4cdb
+dangling blob 6e600e764bdc0ca1191aa29c6dfa64d40e9c41f0
+dangling blob 7a6051816917a72c7ca7288d17fa8333c285fb29
+dangling blob 794024a5dea0f5a4d70b1a6cc82380945e527128
+dangling blob 85a033e4f1f27cb9ac7db9d3112146bb675b5a18
+dangling blob 8820a1456714ccde68b29ee37609d9818065635d
+dangling blob 8d60db815c7fe2559976ef97a3824d2541bff317
+dangling blob 95e0255b1aa2bacf6a4a61242db75fca6d74cef8
+dangling blob 98a087fcab5af774018fcfa2eacc3523969755de
+dangling blob 9ee0fe706fd40e1bff7f547768bfd0a0c3f4bf17
+dangling blob a480b726ec8e8eaa2dfec7509812b0d8be27a9c7
+dangling blob a6a05535d312e2d32f9124f04e29f01520c3260f
+dangling blob ad00f0118b8550c5e66f8cc9b4f3a7047a8403f2
+dangling blob c2a087e3f4ea44052aad74b6faf3c3e8bda01d3c
+dangling blob d060a5f5abe2542271b1b70727485b01d6c59403
+dangling blob d4e06e76078e04e5fc57e15573a2c2175f6dcf05
+dangling blob e00081d52f1b984b7ff1b487408238a30d24a0d7
+dangling blob e580d9a53ea3475240da0bac3b6763a27b34bb40
+dangling blob 1e81aa342481dd4c85b17aeed9a64cbec9a3e0e2
+dangling blob 2d61762686c67a09e99479bc06ea92956b6ea4a2
+dangling blob 46811db511efe247542ffe6bb1d13e775db8b024
+dangling blob 49a1b236c9ebf023b437a156cd5e3011a0bf53c6
+dangling blob 4d212820232c9c6884527d0aafa2685b17b853a5
+dangling blob 5241091cc1f2ecb4d6ed1f833f84172dab63e600
+dangling blob 5aa10df1e00fb0ebf52dc52d03d367a7e7e8bc93
+dangling blob 5c2128656a393620c39309976db69cd013cc7c02
+dangling blob 67817c7344ff755a42211325d92472a6444f0e87
+dangling blob 6d8141ea6d36da755d66c28c6dfb3a3cc03b33cb
+dangling blob 7c2161145827afeab2fe499e19c8aa12355b76e7
+dangling blob 89a1e2202d08eecf8c19a5b90b910bf45da193b0
+dangling blob 8d415c0fde8244ef41176eae3778020b93ff4f55
+dangling blob 8ea168fa06b11db05b7a3ac242c9eae556fb08ee
+dangling blob 9a815409b89f015912c9e902bdf0114a9c5f58d2
+dangling blob a5216fe563b4e67e95aea97c882c4b58c54705db
+dangling blob abe154f600a8984676d1b1a844368aa22235fb27
+dangling blob b7219f4b5b54f9b5d4e5a3d4d59cee9fb4e87b8f
+dangling blob cb0132582f4d7d83e796ad6ffbe8f38fdbb9e586
+dangling blob cd21ec3009cb789be8fccee378845a3bb8f261be
+dangling blob d9c1f07999c943039258a99a86c2543b9de29900
+dangling blob de21a8a2f7dd91264fd0db9db66149563892bf6c
+dangling tree de419f1ed7a2ed877bb6a3882af331b472f1662b
+dangling blob e12113a652800c34fea0bf86d4406c5c4aef9fc2
+dangling blob e4c19dd171432c22bf4e719a02ed5bcb0b9deae9
+dangling blob ee41df776f414f3952d2f78f3a892ab4f5273d10
+dangling blob f221eb6939f02918ac34217a6ac2864b47a4f752
+dangling blob 2182ccb3d2ab18988faca4563db1c696c1fcccec
+dangling blob 22220b1eeec17d3681206b9545430f89ee03a7f2
+dangling blob 2bc2de3fd1b8a8de8da3effc27d7922f649ac54f
+dangling blob 3902f5e7cf1ab62934acd1817cf8f825d4d30603
+dangling blob 3fc2e5445818b133c6896d126da6a778058fdc6b
+dangling blob 41c29c7214139829abcd4a17f953a669de433acc
+dangling blob 45c2fba5b067b0bc9896537974d01ef88c92033d
+dangling blob 4682af15c853429411de85a9d5cf2d560875d34f
+dangling blob 4b4209e30843dd68ff032353f88b55d94b6774b8
+dangling tree 5ea2e3c7b3e48ce02b0c3b133c28d49e4a59ee56
+dangling blob 5de292cf918cf261a37d3917d39c15ad794d9455
+dangling blob 694274490c2266f2ce43d61db8cde7083107e607
+dangling blob 85a2d896f3f4557f26b7d419421fbcfaeeeab74c
+dangling blob 942234347adbfd25301a253f4390839155f05f51
+dangling blob a6a2306a9a5ccb72b52a48f0a453ce852effd8d9
+dangling blob c802c268b56c7f7b066ced762819b0908ff30c88
+dangling blob cc02d0feb24cca7e04a95f9a65ec7aaeb290446c
+dangling blob e8e2b9dd1e1805718544ab3dc04c9ea8aa2da7fc
+dangling blob ee6213b746fe54d2ee473654efa557cbdd5389ea
+dangling blob fa0221af774853386281e537d3c8278fd81cda79
+dangling blob fe62e05fb1f54bd22ae6da2f92ffea078a244491
+dangling blob fea205dfe0af040609ac674159411c70405e86f9
+dangling blob 06c35d48c1038b7d88951b12f9236b6cb6bbf10e
+dangling blob 09a31cf9564dc35d918bdab5bbec892a28876bb1
+dangling blob 09037284da99ca88bb51d68aa0b5ac6c6e07fc90
+dangling blob 0c83eacc791c63bb94e8b3aee7afb85efb0cd65e
+dangling blob 15c33f334db5fa0322452e8f89521aac693816d8
+dangling blob 3c4358f677bd1e503bbe6a017f99ff1d17a386fb
+dangling blob 45a376acc0d1ad0d5585174b034c9a23c7f8e0aa
+dangling blob 5083e83e294c771990151e0300334c62921234f6
+dangling blob 5da39a174f539817809573a96797c3fdd0d505f1
+dangling blob 5e43d29848b94fee2f62148327ec4e72db0ade80
+dangling blob 85a36a20e044b0e1121107389889b458c4dbcbb1
+dangling blob 8f2334771ca294f05c63da2f18eb9d280bc2b04e
+dangling blob 9583ee8bcc594dc7c697c98acbfdb0e339bd9c81
+dangling blob 99c374e508b052d5fa5efc4c51dba6b53d2a05c2
+dangling blob a1838165570d73b015f02602f1913693207910dc
+dangling blob b343f07f454ffe172b6649cec43e03fd93a5ccee
+dangling blob b423688e478c60fb0297674a19aa9fdaa6ca7987
+dangling blob b463fa8126208ca9204c2fcbb7d698df5c559d2f
+dangling blob b5e38e0d7b26c2aa32f14ae1e94cc1c0adebd4a0
+dangling blob b663f24a29d562e8dd418b696777db9a688d4c55
+dangling blob ddc31c236a2656e2b93b00c7483da96f3e58b683
+dangling blob de036c58ebfe73ff758ad2bb69b77a339a7ee4e1
+dangling blob e9a3fc547ea418a3265ab7f6875a1a73e0dfe17a
+dangling blob f5e357d88f371a00d40b772022937746146ef5ca
+dangling blob fea35be59a0d86e02ba04262a75ba0f4176dcc06
+dangling blob 06c4d0a12d5bb7c59ad8994e66e53b10f98b2eaa
+dangling blob 0dc450890cb7a468a32108110f4d03f4080135b5
+dangling blob 1644b201a243faa34ffe46f4cc6e03b863708f3e
+dangling blob 19c49ac76a3f4c0adc6d59330fd9709f5e78fbc7
+dangling blob 24a467d09b6e223c6bc79af7f1f576908eaeb295
+dangling blob 2c04129c5180db27442324e9b8d68fc1fe593ada
+dangling blob 4a842f6091686a8855c6ac7d08ca4de91d571983
+dangling blob 4d846941fa9c26e06cea1c1fc7ce9005f3ac2586
+dangling blob 5d047d5eed73741fc67bda9512920a1b92d809dd
+dangling blob 6d440d24966ae161072d0736ee03726da3424099
+dangling blob 7264ce4c0552f3efbd70bb9b73a919f41ef9d285
+dangling blob 78444ac640a7bd8d813e57bd63b994c3e770ae5d
+dangling blob 95a49ab15f8a81d0e1920495913629badc6f0a6b
+dangling blob a1644acf61c0f9b1fe1c0f679951a6f35a6a915c
+dangling blob a8a437b07821cd612c1ced4e77fd08ac4db6fe1f
+dangling blob ad0479e3c8ffce5c084f39a87b7becc8f7c61c4e
+dangling blob b3042b44dbc57ed98c846634ed6859efed041b8e
+dangling blob c7448866d1eb95a37b499390d45d9b4fe3c16806
+dangling blob cee490ea27ef8f1fc7f27997974fa84cf485830c
+dangling blob d8a4d5af58588ccb953aeb38a7c72749b3d8b9e8
+dangling blob dc04add84f06ff77c0a8ab539a5bca441712bc52
+dangling blob dec48c3e3e5bdecbd16613509a8e6097e64415b6
+dangling blob e084c266332a1052a87f80719f4394a4421ffaa0
+dangling blob e6e4a1692fee1c0c0549a271012eadb8cbdcc38d
+dangling blob f3241ce1b3210d5aba025bac7f20c2572b79c182
+dangling blob 1885a9b6f768739e4e8b878cb559d38f1aabd694
+dangling blob 1fc57c37e078dd16cc8ae22e810ec5ee8bef616f
+dangling blob 2fe5ea8bb077aebf3b63e0d3315bcba93e076e54
+dangling blob 33a5f661caf3bab66522b74884442c12432d8643
+dangling blob 3905bb4e4c529a7cafab76622d2f9ae7ef9db822
+dangling blob 39e5cccd07d50a0f8b8b9913e05a5e0859be9f32
+dangling blob 424523ed66431364cc3c1f8cc3a748336614c148
+dangling blob 43653682696e7c2b9800f5faef53cde2c86ec76a
+dangling blob 60a54bc8a270cff14a6e965ab123d7b84fd7acf7
+dangling blob 7ea5db3a3a492d50c3c6ea710ef5958eefa600de
+dangling blob 81a5dd29ea19676dd7690d009f317082ca3da46e
+dangling blob 8ac5340b59eb6d3e03c163c8b5a37f151f3f49c7
+dangling blob 9b450a3a55d1b94bae5fb316c2bd22316860124b
+dangling blob 9f05330b4f9e0ea830efecba54ff26133b0516a6
+dangling blob a2a5e9094e099dae346c7fefc743877110d39705
+dangling blob a58563326e27a94dc918c98788003345488014db
+dangling blob a6057d60f554e0f974fc942d518f185988895ec5
+dangling blob adc5931d44640cc317da752d5a769f8ab27dac4b
+dangling blob c545d8385fe2f0feb977ca7cecb5d17d3ab630e2
+dangling blob cbe521a94104b69d32461a74033a5ea474bd6b99
+dangling blob d825f2b8d04686a1bdae04a20b93f38d9ef9c86f
+dangling blob 0da6902752b69cca5e7032628fe843ba6ad9c719
+dangling blob 220622b22d58a27951fe280144cbea2254acb7bd
+dangling blob 25666bb1f8edd9763aed4a61875e9b576a30650a
+dangling blob 3226d5c42600f15860158474aea86f809160f343
+dangling blob 4226558d47c0574503c7e6e431556ddc2efc22d7
+dangling blob 4b261d3bc588eea66122de049d9b142b8f779447
+dangling blob 4e46b3a3549359f10e64db6a2de9bc5e89d84f11
+dangling blob 52e6d98d8dfa66200c907340d8c4f4da58646b69
+dangling blob 6686111eb29905d59a01675f422744d36d2c96cf
+dangling blob 6866b415f2837d0b3d0b7463d05b185ad324b7c5
+dangling blob 78467d948c0cfdb5eb17b2aed15121ed50104825
+dangling blob 8206d2169b8a3f1146a70a21bb5faec17bdc535c
+dangling blob 86864eb7f5ee751e68f685bddcdbfb8520d187b1
+dangling blob 8b069f2659bed5ebc56369851d7f1be1e66c3e20
+dangling blob a28654333f22d03a4fceb848270f33a812b7ff5d
+dangling blob b1c648a0f7282335c9e8bb329160a86b8edeb615
+dangling blob bae6c0893a42eaf1b0fdb284459d2010413d2ea4
+dangling blob c48652a46489f842d86372915b2ea45781136f89
+dangling blob c6c67bcedb36c02b2938efc48aee8fcd4ff6f94e
+dangling blob c7862a5dac53cc5fb8b512f76bd2aaf27c2a7209
+dangling blob ca86924a578edde169391884e8e6db0bbc287eb9
+dangling blob e0464c7712b0ad1a3e56c717888a8532c10566eb
+dangling blob e34645fba75a1399cd4a4602e8e2d6b23aaacc9e
+dangling blob ee06b6963abbecd84da36bec6b1c4b5616dbae56
+dangling blob f42650331e5816a6c067cd68157f7f1f0b91a11f
+dangling blob f6a67fc5aac7b3bf20698a5843a8bd05789aa8f9
+dangling blob f8a6c49ecee9954e63a05a1dd8a1420af7a91d1d
+dangling blob 1047346e9dfb6cb212a0070666be92b798100f18
+dangling blob 18c7b0a5aba345361bc253424daddba2812e49b7
+dangling blob 196742c0ba5fe85e3780ec948c115be705724f20
+dangling blob 21c751642b0ac3ad3fb273e5dad9a3ee56b214cb
+dangling blob 2b477da07eac15acc4f7ecb6aa08f9df7654f716
+dangling blob 42a773d593554d8c2055cfaf4e7aec1d24ef037c
+dangling blob 45e791da729be9d7d919a57688a8585945c939f2
+dangling blob 52077313d6167f90d945393b810a0525d1eb2d23
+dangling blob 6467743c4cbc547ef207725d28be479b1eb1ba98
+dangling blob 66a7ce04ab06c1de50063e00d060e91c72ed7422
+dangling blob 67e71f61bf5290aacf8957f1ee43b966198b3445
+dangling blob 68674f90f923fa23f391dd66d05b0b208824242c
+dangling blob 69874245ec50bd98d4ad98cf8e388f1fbba5830a
+dangling blob 794770f00aba707e5bb89ca5b797e143244e9716
+dangling blob 7c071a434195df16da39b26ecb348817c0db1ae6
+dangling blob 85e742939810942629c1cf2a2b8b1e65a1526e5f
+dangling blob 8d279cc883ed30b8effc43d1c9791255f5d4cc18
+dangling blob b007f9ec3e0029ab6717f99c2c21602f0e8a4687
+dangling blob b4e79f347e6f5d02900615a25a6cf894623bbd91
+dangling blob b9e7fd5dc30bf28e0121b254be57bd5f784bb652
+dangling blob c4e7e803a1eda0c4783615ad3ac0d052cfdd1309
+dangling blob ca8748d519ded41a06e3ec4f0a1281dff002eef9
+dangling blob d267f3dcc2b841c35977f5193696e9d57e3ece97
+dangling blob d3679ee1e1db980162bb989618001ce9d5dafc97
+dangling blob dd67d2f1cfb067bdae616ec54448e84c179bf937
+dangling blob dfa7d740782035a35480cd2c26ac83d93bb663e8
+dangling blob 2288f727b0d6f620b945389837f184d5ca26eeab
+dangling blob 2c68445a15e62a840cbb4f968a2c44eb221ef9dd
+dangling blob 33080aa9fe9dfbc4711308fefd58c2e4ce7adb3a
+dangling blob 36e80b7b1b401731fd75dbcabfd5f89ad122f8b2
+dangling blob 4b68f04383e4576638a994aa9a37e79081d35b12
+dangling blob 572892ff90ae15e0eec0c5a7b050a5fa695e753f
+dangling blob 5f48b5ef1cb85c7664aa019cf7d3029a6a2193b7
+dangling blob 872896f2f7683de5a8da76ecde0faba76489a430
+dangling blob 9ee802ed3bbcca5da2f2a746a853072c466596d8
+dangling blob a248646f9f9ba5e0b87fa76580c05cfd6ecdc73b
+dangling blob a308f98fe6a26ab16cd2c69eea701f86ff977e0d
+dangling blob a84848a9e2b9f203c6469bd8834a0d8584a30022
+dangling blob ab68ab86dd1fa2fa9ab28fcf352e21efc2709ee7
+dangling blob b2e83b840ea810a343e52f240710a3dd88255e40
+dangling blob bc28f6049d9f38045e9a6df84390d789ec65c04e
+dangling blob c2a86d982b8c70e0b889e605b11098f7464de8ba
+dangling blob e9c872ffabca7c23fba654abc485f3e6388f4fe4
+dangling blob f2488d203ca2b996ae50898103df5c6f64ffdc30
+dangling blob fd28e054fd8149ea47b2f0304fffe6cad40ade7f
+dangling blob 08e9337f0a086862afea926bca9dc6061be8742b
+dangling blob 1ce9904e52727f6b982e783c46883fd336766f71
+dangling blob 31695864b25c76806bf5586c10cc91614a1894a3
+dangling blob 35c9152a9879513a255df90fa5ef7879d7584337
+dangling blob 4729be5163d5d2b1313e014e70ae5ed7ed52694d
+dangling blob 4c690602003603148b0cc73a71398bc669c74756
+dangling blob 52298fe45a4672ade284a740a795cf7a5f5d7d57
+dangling blob 530985128015b56a18e61766dee7fa49a3a00a5c
+dangling blob 5d0985143fda83ff19e6009b91379e83f2609b75
+dangling blob 68a9214f4209e6c68068b17b13dc70f7574c07db
+dangling blob 6a091d32d6a23866320d78ce3c1445f186ed35e8
+dangling blob 6d291fe09295e09d518cd10d48a8267bb6f92b58
+dangling blob 7e89bd76b3037f085909080509c461905ad3b732
+dangling blob 85c9e5aa5cad7950f11b6745ff15dda003d3a338
+dangling blob 87a963fc8e905f10481288ee856d6973c517052f
+dangling blob 92090d5fca17ce1e449b8fec0d107f8585f6366c
+dangling blob ae092f4c5c40458f55e5c7babd8b9ee627d27486
+dangling blob d5c9bd13b0c2c035d6f30f0679bc79816a19df07
+dangling blob dc292603c8b715865941c0567072ecc5328414fd
+dangling blob dfe95703f0ff1df6d98b8fb3fbbd8a6857d06cc7
+dangling blob e3093b057663482907356a30554adf836edd92d9
+dangling blob e8292455f910b2e59894ebe0fca7f4908c6193dc
+dangling blob 090a983132683fec7a87f21060fa6d7d9790eb54
+dangling blob 120ac07c1b0a27c27affe35122df5384a4d015ed
+dangling blob 256a481e3ac0b36db9dfe0ecd8b3899ad90b2606
+dangling blob 286a5617896cabcf139cc782ed1b0ca6f0fff690
+dangling blob 2feacfb97859ea8b774c536418d5f189192f4353
+dangling blob 3ceaaa47a8f55abe34ca0c0819dd28f0dd6b1720
+dangling blob 408ad3eb2c97568a3dfa13dac54165ff3a171da3
+dangling blob 478a709b4af5cbddb823c26de258c4daa168946a
+dangling blob 56ea0c1c09251a009b5e664d852ea8773e67be96
+dangling blob 804a627f9888ffcb5b74913fe15ea09a777918f2
+dangling blob 852af137cee3d6588800428f0764c3360e15fb59
+dangling blob 890a64314c4b7a0cd02888fea2574f8859dd86e2
+dangling blob a16a6ab24047c39f6496cff8075e429c36e84566
+dangling blob a44a083082d96a351f8943a25a40a9c9426d1ff7
+dangling blob a80a526b9043e2e12a14625e25a681e24b32e724
+dangling blob ad4a5329d32abcf47ef362667b6bc8a1a0fa4f39
+dangling blob adca8393eaaa5509123e1fef11c7743511974067
+dangling blob b0ca25b1c4125be848b48b6387844db43ad0b064
+dangling blob b28a553bd4d2001b615064fcf1e8da4adf0119ee
+dangling blob c5ca9b532a738d333fe53f674dee9cfe3dc6d83b
+dangling blob d88aa02c2dd3cada22e0cf974d2ebaac745461c9
+dangling blob db0aae7e8287a2095c788db5e4b9eb2c87ed6489
+dangling blob e74ac0c49f7dd2cdc87fb3aa8e3791ca41cd17e3
+dangling blob eacad626fb995132b7826c23cdf9e2727578faa7
+dangling blob f34a8f3ecdefc35928d687f36f97f2bd7aaa752d
+dangling blob f94ad3addb998ab9464b27c27d9c432603a58dae
+dangling blob 050b3c8038ff4aa823574f8c26b1b4294d94606e
+dangling blob 32ebd79497e4fd890e9cb463d41b110945bcac2e
+dangling blob 440bad56bb4364389bcda60edde93e926e470d17
+dangling blob 4b6b5c9e85b06e722bf620ed11198ddf1168c077
+dangling blob 564b589a80b5b8e662a8ebc0dfbccfcf487cd00b
+dangling blob 5e6bc61d801353b717ab593ff0fb5899dbaa0d32
+dangling blob 746bf57bee12913e10bfe72588e4d46f681a6857
+dangling blob 804b48b0087bf14799f0fd53978c99e222fd2bd1
+dangling blob 8deb1c00000c8cdcaba678bf06a9ffce6375839a
+dangling blob 96abb7bf0d094df89fbb91db0fce257ab44ece38
+dangling blob 9b2bd7e2ec8a9ac10d929057825a8c90ab320c24
+dangling blob 9fab84eade860407a975786536471e029fa563b4
+dangling blob a66b96967b0d4d877857b98bfad02f4e08e7ada7
+dangling blob b10b7660b1bc0f3604c6bf2af833075778d23f47
+dangling blob bfabee4b73c680d3c23c721eeb28c62422cb388e
+dangling blob c90b64ebd5bf48e8e4d2a8c68864635b67292f60
+dangling blob ca2b4668ffc2c1df7cd2810e9aa3785fca1726c5
+dangling blob cb6bf0a8ce2a1208be1cd29ac2b2c39b3af7be9d
+dangling blob d26b073d632b5f8e900bea3db37851ee8795e183
+dangling blob d92b28d629db84972425806f0d49820664407564
+dangling blob e5ab40124b8b77786072e48bcc0874882e2685eb
+dangling blob 03ec19279f994e21e78dc654eb14a82763a8049c
+dangling blob 06ac8e7a2fd5b29fda40dd5ef3954764e594032a
+dangling blob 0bacf4d60baa3cef68592deb30898986035d56be
+dangling blob 16acc836561882ed00b28fbc9825f031adf702fa
+dangling blob 1dacec3b99d5f3140ec2c651857583c6a3cc9b3e
+dangling blob 210cb098e20c550b9ab70622ea94d14d78e38e5d
+dangling blob 3b6c0265935607f8575451339582b47e4eb1b8b4
+dangling blob 3f2c47bba7627985ff581c3b6c378277da59cfb7
+dangling blob 574cc1fd9f5f13f174230cf5dcdbdc5fea1fe6ed
+dangling blob 584cca333abdd3ba4bf89c348df7c13c3e1ccac3
+dangling blob 59cc8d65e5fd1ba102289aac9d10018263182c80
+dangling blob 688c47aea804aa73539da4520408c96e512a7d5f
+dangling blob 7d8cd1c81ed6b3a3e7ef86e78efab66680322ae4
+dangling blob 844ca5f65c833687066e43a164973c3de41bf724
+dangling blob 852cf2e6f644750fa0486925cfb0a2b8cb6675ca
+dangling blob 8accfdcceddbf5b2d30c508b85c39e3ca2b5bd94
+dangling blob 8ccc36b0fb852b626f96b9e50aea3ca9c310b55d
+dangling blob 9a6c6124799b8c51d4f4e49bff35e1ca6fdbe945
+dangling blob a6ac81c9e804d7c4f134a3c58653cc8c8155681c
+dangling blob a80cac59c1e6d258059fc45b0343495e0d5b7d5f
+dangling blob bacc76a4068428e49d51b24214cff333b6bf0ad9
+dangling blob be2cc5712c3d1eb4ebf9ccb2101d7b00e0db7126
+dangling blob c04c9b8ac7ea800b7c51a0b0fb5590f1cd64a6b9
+dangling blob df0cfc28496eb26ee3691a28f588eb6980e7d3ef
+dangling blob e08c770fa6efd44cc8e69da594bbca8429ad4546
+dangling blob e7ccff99610f79a4848dca65570fe792800662ec
+dangling blob e88c71f348e08ac130f5a789e13c6aa15694bee1
+dangling blob f9ccb65003295f6bea1e2dfc52b5cda898acc825
+dangling blob ff0cad18379f29f3b375c24eee48af146807d7e9
+dangling blob 008d7dcf0ad95cb10ef79ea5ea94b819ef9d16bc
+dangling blob 08cd4f507804a8b680ddfe4a7d00854384b7a426
+dangling blob 16cd04a7e08803bd851798391cafcaacaaad6356
+dangling blob 2dad8411da6be3d40a2b92405fc6848bfbde2938
+dangling blob 470d5c2b303fd7bde0a223e5d21f691bbcde41f6
+dangling blob 54ed1a73c1ae949e37a2276bbd64033476e20816
+dangling blob 59cd389028a768548faa1e8b7aa128dce59535de
+dangling blob 642d280c295fce2e2ada35ee36dfae35da510594
+dangling blob 652d420f8337e58572392abd1ab8723d4a7192f6
+dangling blob 7a2d268cd715dcfa38d125fd3fd6ba12ad34f19b
+dangling blob 7d0db964c06adda21da1a43ca1f357699b684732
+dangling blob 8a0d08d086a0768f6e49012028c68143f3cb833c
+dangling blob 8f2d7a725d05083051376c4a945bafa9e62b27ec
+dangling blob 9ded268e900635113540e7f9ee324e797cc7fb1d
+dangling blob a3edb663e273315eeb837f028163b0d356c51019
+dangling blob a62dccc30918448d942ae2d3aaa9e40538948ddf
+dangling blob a98d83b8e8adbf339356f46c5daf3c9b8db6f0bf
+dangling blob c62de24916a712d4630e75782556e817fba40100
+dangling blob cb8de3619e6e4e1815a4eff4d90d1b5dde6dbc5e
+dangling blob cfad82b00dcc4ec00115eec24f471dc7ea6f5a69
+dangling blob db4db4abf94ba54d73410f330cd9c09910270c46
+dangling tree db6d9fe13a2bbf888b8dd4b6ca32727d5c243dfe
+dangling blob e06d36b31f7d6ccfdd89eb2ddea02dc16599a023
+dangling blob e30d7f82cdf7867a1b69dbc05511e336785f7481
+dangling blob eb6d4fb76ca909e0f08857f0740e66953518bbff
+dangling blob eb4dc2572f95df1beb54555b0df9a678c9117c5a
+dangling blob f2cd79db545b3644b1da286ace303376f83f872c
+dangling blob 038eb1e12a517291e9cb9950a0f7b6b4a1206236
+dangling blob 16ceb8b6cacaf4d21bfb0227378b6273728bcdb3
+dangling blob 27ee2ad332b2053f52448eccc351b3a6b09194c7
+dangling blob 332efe45094148ed2e8d080730b72a3727ee7d07
+dangling blob 3a6ef81c74ea09ba18aca5a2639d780d3523aec7
+dangling blob 4a0e39ed609a8a63176874ee059f7e4287e7d6f2
+dangling blob 51ae4243f19dbd99f3559dbee24aa3b058fcfed1
+dangling blob 644ead9986329a063a4789097ca365927c40a809
+dangling blob 6c2e2194ecc6b773627d884093060696ae5f3453
+dangling blob 7bae48dd9c1049e774753398636ba2eda4bc48a4
+dangling blob 7cce19e16fe8dae0bfc27b95a0bac1ea3c8a87de
+dangling blob 858e1b56677b4e066742d446616d2666033daaa1
+dangling blob a22efd4ec2729fab0be48cc0f80a5073561e9a55
+dangling blob b5ce8b3b3d385f0db5dae63c75055a5720f534b6
+dangling blob c52ea8d0bcfca56005f9e785b4e860f4eca55a42
+dangling blob ceaead46735d07692b480fbdb75a01658dc8e046
+dangling blob df2e3a32408e95505850b554151408916271344d
+dangling blob f36e4ea4b3420df6c189d50f79a910e1634b6ebf
+dangling blob f82eb68bcbde2050ec4ed7277974ebf2bf1f4583
+dangling blob 01cf48359d072493d6f7d0d0200cab36dd00b9c0
+dangling blob 17ef17c492b1ca989c449d259554b327faa7f5d1
+dangling blob 1b6fe141f651e7de3a395f8785beffc641b44402
+dangling blob 26efa08c58b133c868799b41950e2ed636539a54
+dangling blob 2b6fcef9ec116448ba3297467421a40e984df942
+dangling blob 37ef6ca50fc2dc3efa6922d453ca5bc24f2b106c
+dangling blob 3c4f93a3acc9f6d267e98cbe11deea83e720b63a
+dangling blob 3e4f345bd79e31f443b79318727299c1861d5812
+dangling blob 612f305189bb2e3ce236010bef5b664c202056a9
+dangling blob 63cf347b5485c1fd500b838df3c9bbeff2fceab6
+dangling blob 66efe81f36ce20b874c680d89821cbb25fcb6815
+dangling blob 6eaf0f67114ffaa104813e1c54bd006fee52b648
+dangling blob 702f0969d4c160df7af90e55245f380ff225338b
+dangling blob 92af2a98062041f00323c8171c2eeba6c4abef39
+dangling blob 968f33742cf955441cbac9333b2991a5e7e9b66a
+dangling blob a78f47bf89943ceabde5a14759c65a31dd07185e
+dangling blob a94f56b884d239aab329c3c38ba264e7c04142c6
+dangling blob aaafc1dd2d6e0435f59a3fcc3464a39d0cd38080
+dangling blob ac8fef287295a684778e03a7bc6faf6c836dbbcd
+dangling blob afef5ed1fd402bc3d88ca273d66068966ee0e830
+dangling blob c62fad7e6ae6e795d2b035a7ddb012cfdeb01bff
+dangling blob c7cf9c27f4c6395bbb25e8a6ca846b70f21e21ce
+dangling blob cc0ff276e213223624c8beb6a0c5fe40b64ee305
+dangling blob e0afa6609ff95ef3548a9b0cf0e22e86957ae17c
+dangling blob e62faaf308623860c5b36c5382b7246ffae7d243
+dangling blob e72f76c1cee9299728cca2a669306a3102d24487
+dangling blob e9cfbd7b31aa9a40dee0b7e7380b2ded2b1ed6e5
+dangling blob ec8f997196f85d1266f6005389c7728fc3db5af2
+dangling blob fd6fec3b6bd70ce8306f88603ce70e55f1cc91fc
+dangling blob 0930687419c4c719bd79fdf8289256715f93b5f7
+dangling blob 11909b5a3115081debef04f0dee45cb6c713cf37
+dangling blob 1bd0ad773d47a697d4a82c520423d1fdb3aeffb1
+dangling blob 1f50e26d76e0406fd01672cbc7935ae7a69b2147
+dangling blob 2a306d32fc116e27e926689d7bcce97b638d72f3
+dangling tree 38d00b7a39a6f96f3e071a3b084d0901dc7fec5e
+dangling blob 59f02888787ea969f5fd9b676ee7b0371013ec2b
+dangling blob 6a50bd77e14448268774485910d61552a4d9e333
+dangling blob 6bd01f2bdd8f36be09c4641a081d1fd3d1aef0a9
+dangling blob 7210e6c9ca8606e3f6ea0df4c6d2e0f2cf03e54f
+dangling blob 77b0df935e3cf27e92af04df38e82693b14383ca
+dangling blob 77f0b69ed857f1e0277e4e60087cc30c1632d867
+dangling blob 7830b3bf0ae3956678cf90acd0fafc3b4f52c802
+dangling blob 7d70b1a8794515f26ac1533d810e0cdb04295c0a
+dangling blob 7ed0e99e29542bebde87d0733c6660c6101f6ecb
+dangling blob 8c7038909ff273179e4ba5982c1376a190deb3fc
+dangling blob 9d10478596f5e1aa309eea93817dfdeaceaa5c85
+dangling blob a1107030d983c7d4553b1057a05f71a93d1cd4ec
+dangling blob a630a94730a8ae76d1beefc7d5af409bb267ddb0
+dangling blob a4b0a4876caf13d1cfcc25c74fd9d8bcfd051554
+dangling blob acb0e4c71d3fb598c95147a045b248d20b7ee27b
+dangling blob aed0dd2d78621bbb09dcb12864ffea7f130dae93
+dangling blob b2f0431e6cee84bc18a3774a642996c5d9b66ffb
+dangling blob c1f0efb60f4af36a362035343916623fb89c9b9d
+dangling blob c870be0a3dd523483ff2aba3b3403324885e5779
+dangling blob c9b0f15e874e8757490c956fb8fed1b84872d98a
+dangling blob cf3091fd7077f433708cdc3fa7b5f6e9fd36ef25
+dangling blob e570f94201a66bfad4a75c47cdda7d98a5bc75f7
+dangling blob eeb0ff9f4fe2abb9328b7640c4390c23e16c9a28
+dangling blob fa308f784dc7c8f123bf7f374e3642cb5ec558d0
+dangling blob 06b17ec355d146878c5dd6256508a310fe855cef
+dangling blob 0871fc9096fded6356925c11303c7d6cb1bc11b6
+dangling blob 1971e4ea8153d1fe31fc1184c59be4ce3a5eb82c
+dangling blob 1ef19575c3868a84c0ed1aece585947647ef5065
+dangling blob 33313a672bb475ae8fb8d47a1bb306c27667d49d
+dangling blob 357146861244e2b660305f267abcfabc5901ddf8
+dangling blob 3531546eab4266502e3f249b52594df5dd88ee7a
+dangling blob 38516e78087c983111e2d4f077e7d2d68051a50b
+dangling blob 3c1135f1ee400e4cf80b6c48f24c186e51f01433
+dangling blob 57114164d4f5546fa27e96a632810c28431cdd61
+dangling blob 60513ee671c92115765dcc434639db9b27d69d9f
+dangling blob 6231b288795561f2e19009b4fe555fa3c0b9ce7e
+dangling blob 6931424e74c80457d41d775009c3152523d3e558
+dangling blob 70f1f0afa2add42a24e4001888f92bfc51776d41
+dangling blob 7b317fc6f5700e62fa806800a3b8c28fb0116a7a
+dangling blob 7f71fc38b9160d5543a76398f2663c53af5cdfe3
+dangling blob a9d1f95c0f9c617251da1eeb27098ec2df9cc0b8
+dangling blob ad71526176caaf7fe2a452f5e9f911911601047f
+dangling blob baf19e3b2e0ca870c83f74d109cd2e076f263237
+dangling blob bd71148f2a9e5dfebf93fa5f7a5f15aeec0ab6a7
+dangling blob ced155ce0070b7c3e566316af40569adb4b9539a
+dangling blob d2115e7bb859836d9acae68eb2cfa33335260447
+dangling blob d39144ecb569e6a6a59434f6f83b5989d4ecab36
+dangling blob d7d1cf420916423d8c2fc86a44b729349a3589bb
+dangling blob d831d7298a58cd964a359a994851ab9fb35a7404
+dangling blob de51bf599ccc86b60f5728c8c90fa050ce96ac85
+dangling blob e5d199cf0413c70bd65c22fe8ced684da1799cdd
+dangling blob ed319972f9974b6452af22c1f66ef916f5806ce5
+dangling blob f9d18dc36042ba6a9e3dba1e93dddd4e9791d14b
+dangling blob fc717767ae07fda02c9d99afdaadf41354cc1dfa
+dangling blob fcd19d84fb8a0c3e938708006ff5fde6dc66bef7
+dangling blob 0e92861287e89741ca0e44e2ea892d5f92bcee98
+dangling blob 1192cc32a8e3a52101fbbdbc7d67491fde0685b3
+dangling blob 15b27da2a7537083baf705325378479c2dbdfc47
+dangling blob 24d2f041ce4076ceb2d1908427b61a51e6e539c5
+dangling blob 32120b75c4a896848bd655c2b545d40c01d2b317
+dangling blob 3a520b08e46ac40fc5eb9b6787a0d8f7e530cba3
+dangling blob 40520dc568a91f00bef21399c8e83e5c91ef0b7e
+dangling blob 4392345a4adbcaf13a2326f3fc6c16f9bf9e18a6
+dangling blob 48528204734d1099c8bd3d2ff83baf493a835042
+dangling blob 53322e2b396d14a608465f3d4b446447f33e4673
+dangling blob 5752555b52b868a54ca2b0caf5f40f12570ec276
+dangling blob 595207005f631a748cf3558ce28d900a94a44146
+dangling blob 6d324ef49bc84f7b7fea81f4d7ece25b51a192c6
+dangling blob 6eb270807fa7e4ba63a4a516c83a2e52e6aea0ea
+dangling blob 6f12ed746cd797487e08e557130af6242acae952
+dangling blob 86d22ad56e0527668052c24e0f698a3efd31b7cc
+dangling blob 8ff2f33f4b41abf6196ad7c5dcd916353665507c
+dangling tree 9d12fdceb8c0c3b053c031ed6a0be7de6ae581d5
+dangling blob a2f2f4808fbe69f2c381db4869fef865b9ec2c6d
+dangling blob a7f2e7031d29d75e31b3874de79ccfb3d3646399
+dangling blob b092a88565cf7f07b56eb6ea7e2a82d947989d81
+dangling blob c692772c02cad8cc33a231a78002d5a19c983844
+dangling blob ceb2241f3e875c0071663e49ebaaa7caa803f0a8
+dangling blob ddb253ef079c4ce82b8583c9c05578fe4874414f
+dangling blob e1923392e6c82a2096f70f5d068bd50e11c8ad53
+dangling blob e3d27270f08e3b95a65a0a1aa3b127dd0a48c8c3
+dangling blob f6b2451a53f56c805d1159eb998d17e8476d9102
+dangling blob fb123050d3826c234f2875532da243799dfedfec
+dangling blob 0bb368f0992875936c02ffc4e9f1f13d5c09820e
+dangling blob 0b93b467ef0d45de5817ed5dac55bc1345a66aaf
+dangling blob 1093de2024ab1c2a6f7e848052da7e42f4a9658f
+dangling blob 2073f9a3fec5bd5d7587974cc9ad97f2fe1cf209
+dangling blob 27b3e30dd70bf837c1b712d605ca17fc74cdec6f
+dangling blob 29f39d414ae5b73bf9ea78df6bb498492135cbc0
+dangling blob 3a5390802493df22f0c5e8730cb4d2954c236a90
+dangling blob 3bd3bb96a8bae038a9be4651d19c1fe66ac8ac05
+dangling blob 47532d3d7772dd4824116520d1a32966e6a7ab07
+dangling blob 5313f026993ded0294f4116e63dd86987eca6418
+dangling blob 6b5325fabc06564c687d3ec8076c928788e53bce
+dangling blob 83d394b5a0388c267ffd5d283575451dee2bfb85
+dangling blob 8ab3cc2bc34b043951a2d435185b2931712ccfb9
+dangling blob 9e9328e29aec5ecdd231cfcd89b68498259faab6
+dangling blob a933618ed823a96dfb9c821837ea1fb5ab741b0e
+dangling blob abf325201b4b79f2677b9ec119778c63f2fdcdda
+dangling blob cbd3ca26055b469eed450d057ec27265b0abaf26
+dangling blob ce33f146c75b844dc9ad7fd57eac9ae986138cf3
+dangling blob d7b3afe648e40c3810f1ba521f3186459cdcc584
+dangling blob e87381a2de973e15c1cab40bfc870a99d10e5db1
+dangling blob f7b30f28d5223d4597a5c6a384a6695197206ac3
+dangling blob ffb37c10bc1ad3f25e10222b5897756e3fa30681
+dangling blob 0ad4fff1d8c6e7182a40cca937c14c1f3f0eaa16
+dangling blob 15d48965d9216a39fe88d9465c727351d30e05d7
+dangling blob 2154ddcb4b52ee3cb9334f815b8b59e2dc9ae817
+dangling blob 239455ebe71cecfe28e2b7097506c524e6e53226
+dangling blob 3994612816bdc18efd49da68ac85eb3216796ebb
+dangling blob 41142d8e48402fc113de69d1b5232587920bec74
+dangling blob 549411b796d7b699fbcfd8f268ecfda634a7ed0f
+dangling blob 5554a55ed0256584853c13514d2e9af21d060c0c
+dangling blob 5dd4e09f7e112071bdff089099b3f15db22feee1
+dangling blob 6af4d6274aab6e5458a734aaf5ad04be1c8fe0eb
+dangling commit 71345287ab024e46b770069771550b6a0d400020
+dangling blob 75d40c895cb7864313e2e4b970cce8cdb86b5eb2
+dangling blob 76d46767095f54d2b6b64794b729ba9087a9a6a3
+dangling blob 7f14d9733b05405a79650481ef07192105574842
+dangling blob 7ff49a2e6edb9036b2323ee49b9a0f51fdeb1756
+dangling blob 815412991c4f50269e64c556eb7b8c1bf73b8967
+dangling blob 83f45df99dc714a4d7362d653a86b8e081dff2a9
+dangling blob 8414eb6073e911d9008fefb9094a7d8b9fc2e6ea
+dangling blob 9554a71d770f8db3cafd581c4b9b9d99921c038f
+dangling blob b8147f1a6ff5a4fd63b6ea0456d85edd3b611831
+dangling blob e3b4a5964a8c19df0736d8837e2314dbea2ff668
+dangling blob fbd447de8e6027f75d5bdbb9982686a3236bb0d5
+dangling blob 1515b049d36e6807bf8f3ae9424eb8755a0936c8
+dangling blob 16f58558ee0c9b467faa1edaff88b535e47cc5b4
+dangling blob 28f5f140eccd0e03ad9fb1a005e7b968378f1cd5
+dangling blob 2b9505a6a306f50e66c269f076ca5c26b14a1284
+dangling blob 38b5760658a3063846565c7944ccaf76c5e59bc8
+dangling blob 39756ba025f3255b5dbe1f6d78dc8c2881b86c15
+dangling blob 3c7507a9bfd776ef96c873ac67806762ae96d5af
+dangling blob 49d5a90a1e0046bd894ecba93b3d13f536bfe84b
+dangling blob 4e3571da527c7869c423bb827b30fd375c1a9869
+dangling blob 4f15e85c52f699a857819119b237ff2fb00782d1
+dangling blob 5395f18a7201ffdb42f90ee07d7126e062810189
+dangling blob 57150a90ba79173e6c732c48f8450a29da56521d
+dangling blob 5c15fd9c8aa7f6087690695111291fbd6026a1d8
+dangling blob 63f568a0398ab284a447016b2adaa9bfe9bacc89
+dangling blob 73f5941eb53a95d275dc82bedb7fe892708907a3
+dangling blob 81b5d4fa1dc25bf10786f30a9fd47f163c8da43f
+dangling blob 8175adf2dcc2b9c91ee685c475761e06f583d8af
+dangling blob 82f519773a915df15106c70135a2b39c73cac3a7
+dangling blob 8495a84ce8ff4aff73964f458c9e2f91c9f9b482
+dangling blob 8e9588db570d3d9eed3218dd0072c15a0b566c0e
+dangling blob 9d95a371bf9b05ffdb2915a4539654aa8dc69e0a
+dangling blob a115bab49e7d514d8959da7bcbb208262394ff23
+dangling blob a735afc3afd1ec9de629aafb9d2f5e1edfd5b1a3
+dangling blob b5b5b1305ac47e1b42f1443adc8260f3ec8ad272
+dangling blob b7b5b975bc78c6c95d0f69ec64ec9a395a1f999b
+dangling blob bbf59686863eb198a16805710ee32bfd4f59f446
+dangling blob c8758ecc9d9c7617c876c7cd8979e414ba65709c
+dangling blob d7d5c0f944317a3cefe3ab70e495f67b83d836a5
+dangling blob dbd57a29cefd970e07f95cb652745bdd5aab1871
+dangling blob ef3501b49151fd2c7f3350ebd41473410c6f19ae
+dangling blob fbf5ad45dde4149fd103c85d57646c720bfe8356
+dangling blob 02f6bae9ed6744f110c7b156615c3c32d6b6975e
+dangling blob 0f16ead0e26a35619ccac52ab3ab7c73045cb6b1
+dangling blob 17b6c83927ff6f4ac8878ca0cba3765d5a479fc6
+dangling blob 27f6f3f93d229cd51ba4072957bd19d32d0baa79
+dangling blob 2eb6c4dfd60bcdf08ccddb1f1813ffb46a21dcee
+dangling blob 4056933554075f974e4a921c4ee6faaf2a7446a2
+dangling blob 42169874cd24034711dce4c9edfb88ba121de050
+dangling blob 4b16206da3a4db597003717b5b4955fd37108f49
+dangling blob 5ef6734e687f96508ecac94ddfdf2af655dd360e
+dangling blob 60b685ae041dd1beb1796a3dd400f9ba1e54a958
+dangling blob 6b5662fdf2b348122be7de3dbc05361fab9e215a
+dangling blob 72f6c1be320c79614955b108d596887a1c84d8c0
+dangling blob 8c56f9a123153efb2e0ccd70f026e6a21919c737
+dangling blob ad76c79993ceb6e63355abe53b98afda231fcbdc
+dangling blob b216451f456087fdd5b5358f5311cd1ed251f20d
+dangling blob b6b67d8d1fbd2da0c80c60a19a1a12c93dc3d650
+dangling blob c916322737bdc81d00491474329ffc1f09716b3e
+dangling blob e876bb4d9959e0067e87dbe9097f5aa00c2875d1
+dangling tree f2d6f8b6327f48a2992845682fb6ef63aa779289
+dangling blob 07d733facb4870ab497c2f478a836af7aa982474
+dangling blob 35d7c43f6728d82332e89bb32076631162b038f9
+dangling blob 3917a745b9c5272bc456e861b83b6892e5f96c37
+dangling blob 3d77f3fda02310863845248a161582ef10ebd939
+dangling blob 4b1724db6ff1124c001281596c46b1c585c350b4
+dangling blob 5237c21cbfca295cb3546ccf2d81e8d64b52bf9c
+dangling blob 52f7f233197c10b2e1e22b0cd91c58013c0cf961
+dangling blob 5e7707fc2d0c47e24d44e0d54ceb44fb87f06a5a
+dangling blob 79372498b787a98c45bd6f8528d329988e0402c5
+dangling blob 96f7a4fd38f5792d61ccceafea3856c840516ab7
+dangling blob 98f7cfe0efe3274e8affb3e7235cc38e371ff4f8
+dangling blob afb786c71ab45408dd03f3cbe6fcd6d53d55b84d
+dangling blob bbf78451873e80721df2b07c287642bcca5774af
+dangling blob ce7728fcfe2c9f6ab34bee77135f1047f74aeddf
+dangling blob d09767352afec629705b3ad7bea04d174980a8d9
+dangling blob d4779b8b52eee35ce18ebd76ed50f9cca62cc88c
+dangling blob d737859d1d7aab14b63925a8e7c325ed85f289d8
+dangling blob da3756951c4c976fd9aa199d6003bbbf9f5c1c38
+dangling blob df3790265b58f90ddb82b5f0576d7b6575604597
+dangling blob eef755f672e9b1f697e459c2eebd078bbda2c2f4
+dangling blob 0058d1f63b30542adca93b682e54094292a7939b
+dangling blob 1258faa4d5d9848a6496a8c5ebd75c0cf47e48a2
+dangling blob 1318275bec2cfcb7e2edcbcf726d9ea679f2333d
+dangling blob 16189ee7fc1e471f0665fe4961120817723cd1df
+dangling blob 1df8c4132726483963e1b9fa7c5d3b47b6ef5779
+dangling blob 37b8ef2d79983830a5d24a159b120179f258134b
+dangling blob 3b98b1c9bccc95725cf883a41b9c14ac546f98ed
+dangling blob 4638397d5a1dc6f26b57835bc1199b2209615ac0
+dangling blob 4978c054edcad1bd537603ccc9faf0421717128c
+dangling blob 50d859bfaad85b92f7f5df00bdd569b49c19cf88
+dangling blob 6098bdd8886a79afb4381a57fd18afc62f36b888
+dangling blob 6438e5abfb8ac7b94125bf9ae8cc5360f9c2f0f1
+dangling blob 6ef83b1f9f9a7c4b799c3fa828f29eb80a22b8d2
+dangling blob 7a1812d958d4a1c137415ea14bd59f2c38cf302c
+dangling blob 82382d481aa5ca38b4e2d327d03fe5c6735706fd
+dangling blob 84f88eb546163b8c12cf92cbdf0833e215d7d62f
+dangling blob 92d86af0ce67e2ae8ddd8f29f5084c1897cedbf6
+dangling tree 96f816a8c753dce082c9d3869338466e8133070a
+dangling blob 9a98af5d6953444e66d98b4672e3cfa8650337d1
+dangling blob 9f58ad0153a7183c0a1568b3f55289132b63eb8c
+dangling blob a1b8b1a1b12349088f3ae1d9cb8c09c7f3288d2a
+dangling blob a2d849a31ae63230fb94dcdcc686c4dd12aa0a57
+dangling blob a7d8cfff94c9f9609c7dc9686c649dbce3170abf
+dangling blob c5b87b41c96dc584b5ad40f58d2b824435d7f4a8
+dangling blob ddb8740ed4a23632acc01fd874606e6455736059
+dangling blob f0d83915cfb7ff8633630e74f6348465c1806e96
+dangling blob f218a5d8a26804094023366e387e0f10378437c3
+dangling blob fe38d8a81a90edc5b837474db524b635b8073a0a
+dangling blob 01199ba07ff07f18ddf53b16599ca2fadb173317
+dangling blob 07b93359876d8a6dfd4bd4725d9d53a3ce418f1d
+dangling blob 1a5903d63eaccf2153b44f827793d012daf01224
+dangling blob 1cf9ae620373a970687e2604982a23006c1c617f
+dangling blob 2019f30546dbd3d15ff4817e8b2de73f6e3a391f
+dangling blob 20d9c11ce473b9519efcc59bda873794c170e6b8
+dangling tree 47195f4be322c6e8bdd69a1a6f32149f6eee09d4
+dangling blob 4759af7af1f6c3ee622933477b29ecf32d006375
+dangling blob 609972457568505cd234e8e2c651d44bdc5142b5
+dangling blob 76191b6e3e29c3791faac51dd637df0f7d627a9f
+dangling blob 809925b6e76946cddf24daf51757bc55d2063102
+dangling blob 88d944cc3617ffb4340611ccea9307d211225c0a
+dangling blob a8597d1b61c77c8d9c1cfb41783e9a1af423dc7f
+dangling tree ae7932b2f5a6ad7646c1f95cd9f963de81cd2fce
+dangling blob b25964237f1ffcc85f1970d66958fa4e49ef943f
+dangling blob b6b9ac8751f7b363650265d9abf80dfdef9dee4c
+dangling blob b6791cdfeaa85184beed524d936403d3e545dd25
+dangling blob c1996d1b009befbf9ba71f002ce6485a8eb71de3
+dangling blob cdf99ecc689dbe3f7ff24fd489bfbe3d277027a0
+dangling blob d099ff67a07d21ccaf9d734c825f2e64a42fcd6d
+dangling blob d9791fc273c12d1372f3b318174112062bc1715c
+dangling blob ecd997023441361f59f108352873ceb6f294ac81
+dangling blob 043a74878260a508f3ca116c6e3eb0c93d8f4e32
+dangling blob 0b7a3ee2b92dda3982a4de2431e6a5a2719ab5e9
+dangling blob 24da48c0bcbe34dcb1e1a122b45e3ac1703d46f2
+dangling blob 255a82330cd13807f20c24819e0b9d44a465824e
+dangling blob 42bae2cef35cb87620b29b747ab10ee77875ed83
+dangling blob 4cfaaf3fb17edf6961368013d0689783e7bdc4b9
+dangling tree 5cbaa510d7007f6ec7019915d783992af3f1e3e4
+dangling blob 719a7f6e96b9705fe94ebabb482cd5f4527134e3
+dangling blob 7d5a25ff0c054a5862482fdf179a8d215cb22f3f
+dangling blob 897a634fbe661f02040a864982cd801c479779da
+dangling blob 931ab48374b0448e88fd73d5089886a24167c1b2
+dangling blob 9d1ab30195d0a8a27ba89d7bdbe026be07239b7f
+dangling blob 9ffad2ad34c10244b8b5d3771b5bf36a650f58ef
+dangling blob ae5a99da5a12b4b881cbce90103f316df5e167d2
+dangling blob b65a22b5b10317f210041eb161d63f2d7dd93648
+dangling tree c1fa2546d8000c29b5cfe854d0c7c759ebc05aa6
+dangling blob cddae5883631e11d73d89938f7ae9b7cd0cdd62f
+dangling blob d3fabcd7c11b03bad6564ad1a71d51ff8d495456
+dangling blob e65a35eea7289d5de7759e4d3c1db249ff8082a6
+dangling blob f67a1056560827a3d22c8922569892a937899edf
+dangling blob f85a75737de6913e50c4b33885deb506240885d0
+dangling blob ffda89a586404839c23a76705ce9fc6c0c6c6047
+dangling blob 0f1bf206d88531813f1fea85d37a80fe2ff36761
+dangling blob 109ba9ff68bf7449a9fa9b44254ae91ff8942a37
+dangling blob 149b40d10e5093c5e241024b45ed64f799f6ef21
+dangling blob 1d1bb8534a9c7dc7c115751f3f015d1a7b4a9789
+dangling blob 21bba883572597428e20f7233b08e20a6d66e1e8
+dangling blob 3bdb7125095e10814f80c8de65e087a1863a7556
+dangling blob 4f3bdbc5b470ec0e730c8c46f847fc715347c091
+dangling blob 58db418ac5b1f3104b4d7169fedc9d9b2c545382
+dangling blob 613b0febe78193750f1dd8f2f2510f749dfca85e
+dangling blob 6dfb656f720f0a29b32339eee95da54edf891f26
+dangling blob 705b64ae465cd12a89f764c4ed11307fddcede31
+dangling blob 71bbb9d4548f417216e52143f2d28ce36b74fd47
+dangling blob 757bee7dc6604b59d5f22f85fd203009920aeae5
+dangling blob 7d3bc7ffdd87b1fe3bcdfbeab058bf90738a816b
+dangling blob 857b52b71425c2d9afa557c6469cfdc7f3c3d687
+dangling blob 909b6e2a3d411eca5c9ae4a321daf07841d19d25
+dangling blob 947bd8846406fb8ccee1ded626e59e0d7b7f5416
+dangling blob 997bb81de40da443dd882376c0f5a3f1f4dbf89e
+dangling blob a07bab29a921305a37d2a17253109083fd65ab53
+dangling tree ae7b0dad3d129e8b7864c8de5bd3f7b0e185d3c2
+dangling blob bbdb2ce9748a5c67dd37917e295daa45ff8b585b
+dangling blob bc9bea7eb7e20c070c16facb3697a36432c0eaf4
+dangling blob c35bf56810af4bad65fcab1bba60f870a37f41c4
+dangling blob c43ba291a54a7b14efbcdeafd430f0e0e8c1cfe1
+dangling blob c49bf3599527d90222267db1e9c667786974a7c7
+dangling blob e0fbb8e8b6e4e58cbb4e2544435518125246d6b3
+dangling blob f53b4f433e50ee2cc747608b1b4629955c8bee7a
+dangling blob 0bdc49d3e1b05c19fb142257c3a4aa19de1cdbad
+dangling blob 12bcf0a5cdd1ef77c5bdf00d56ac6475e60c54c1
+dangling blob 1a3ca5eb85ff13577630acb6883d2bd6247a0da0
+dangling blob 1f7c90faca38d834e38bed29ae3500a010989982
+dangling blob 2c5c8e05c29c30d23185e7b86440f9bdbedb595e
+dangling blob 6afcf744607f7533d43a0eb9a66885f5e8be80e8
+dangling blob 727cf021f9820357df3aba4332ddb47675114c5e
+dangling blob 74bc9aedb756297c6b4b2d15812aa08327a30c51
+dangling blob 769c57850552dd92297199e371c5eeff5e0ad162
+dangling blob 76dc351205791754b80545a88ed8df4de3509575
+dangling blob 947c3a1aa09cbab305d87be809ef311a94270410
+dangling blob a35ca806e2fc38e326ee1337e54061d1ac0437f1
+dangling blob a8fc72192d65ab126d7981453d60d3546b4a9e51
+dangling blob ad5cff27c45da7f8d610848e815914f0e823298c
+dangling blob b6dc166663d70680b458a49626bde96ae30dbe44
+dangling blob b9dce49c7a772e09f292c38a835888fa6026e658
+dangling blob bfdcd0bd410c1a84e59f5235c0dae93f301b2277
+dangling blob c17c2811ea1532d214da10f07b512dce92984a7f
+dangling blob c35cb15b5f4cbeaa0192586c906f4ea9272d0bc1
+dangling blob c91c07f26b42ec0bb543f5b9f7f0126a32b27d39
+dangling blob db3cd9ff8ea32af2ae1f38f39e0f61c008f7fa02
+dangling blob ecfc238042ad7d45631b728bb56ed53f8cdf0ed9
+dangling blob f0bce76513f64e673950f89ef7b0c4dec4fe27f6
+dangling blob f21cb123758932fb3c0a4c3be0a14197253f4402
+dangling blob 023dc3885450286ac4ad619f38aec71c1a02208d
+dangling blob 049d6d4b095bb8b2d0dbf74f62ee631cd4e883ff
+dangling blob 09bd64f82313bdd8d6e409d55a89c81a68bc3c77
+dangling blob 181d2fceeaa1e6407ecb63ec68068250757a2451
+dangling blob 233d43c234d7dba010fd60a08967aa1702fd0de2
+dangling blob 2c7d7877591300d55f1b055f68d58ccf12d40700
+dangling blob 3a1d183bc1590be6bc75198777abfb14855ce5ec
+dangling blob 479d500d24ac0327a9ae08b99fdefcc0121f5f5b
+dangling blob 6ebd657aa206d8f97ec0437d0fd2761290c8c538
+dangling blob 6e5d5743b9399b48632b7c288c59cdc460257497
+dangling blob 721d83effef4aec551ba6c5764e228104a241892
+dangling blob 731dd46e14938b562acc6a294385091ed2dc576d
+dangling blob 753dd0b6b4935c1f759d28364aabf2246c2c7ce8
+dangling blob 7bdd8fc2fd0de53cb7ebdde34f61e6c7032dd161
+dangling blob 835deb65484f35fef42d664045faf71e34a8ba68
+dangling blob 83fd3078cc77956a51446762f376d48b1e275278
+dangling blob 851d4158ac13bed2bf7f112973a3574b0470a87a
+dangling blob 891d6ccc335344b838bd0c9cec936a946054e508
+dangling blob 8cfda667c025d2544327792f6d8459d7df812598
+dangling blob 97dd3be7c7ffecd75d26cfe57a61dbe38f8d494c
+dangling blob 9afdbd26078cfc61f8922da4ca2e4584f8d7430f
+dangling blob a43d153f8adf3b8602d11374c6a5749c1b8337e2
+dangling blob b49d0a69b19da7e9255cd489325714394a7da24d
+dangling blob b63d16b8d38b90fd6ec8767f7a1b22e111f5e0a5
+dangling blob b7fd1437253998177a74364b0faa7be440fd01e0
+dangling blob bcbd21857a19dea766dd6a0f2ec079ded22f5e10
+dangling blob bd9dae032ed867c6aa0feab114ee8f99a229f691
+dangling blob bddd129256ce6a42cd89545dec5f6603b6db7a15
+dangling blob cbfdaa3a79b25fc092fba82de845897d71eb6fd9
+dangling blob ccdd28efe2d32201f481fbe7b1c2d59c701655b5
+dangling blob d37d0d88e7518690e4d44692cecd77c2efadf024
+dangling blob e69d4526221acc86688f66a5b9ca9b32fa8dcb72
+dangling blob e9bd28df2ea40a80e4948b409a1c491cf4f6e937
+dangling blob f69d2076e477d92956dbbee1a1c238ae461cbd1e
+dangling blob 035e27b8e9cdee6bda6b36ef933f05110b44ceac
+dangling blob 097e798a4bac4bb9af6a703260ba98146c075ce3
+dangling blob 09bea67ca455c44baa54f3098326f6a458aa1fe9
+dangling blob 125e563941f316a035b4239d3178211bde0e7417
+dangling blob 17be593b448adeda09afd8cd588c8ae722f3327e
+dangling blob 223ed51502a090d6b6a555c2125b34a357ebf676
+dangling blob 245e17795e65ba566464ee3f1b7bead2bf604d48
+dangling blob 31de16d6ed9a913607e1f0a293874eb784e7be84
+dangling blob 359e10d0b8b6ddf5c353960229cd8c68755d2bab
+dangling blob 367ec6f7f62d2ed4ae2add42e710edd658d126ac
+dangling blob 365e8dfb130860523c82384d12f77f82dfa536db
+dangling blob 3e7e27b4e65994f4f70da75c8b8486b9836928b2
+dangling blob 415e4d8e201582f72626b4878224aa6e3188f257
+dangling blob 467ef4e74aeebc538ff8b8381860d1f15d8142cc
+dangling blob 4b5ea7ddb1462653f31f6c1a2876089be5297bea
+dangling blob 4bbe2739d51af3307c0b270eaf50cdeaed71f362
+dangling tree 5cde5d826b2e17233ded7ff3ea4b7af344bcc681
+dangling blob 683e6cbbe6df67897a2d3623d98c6e4003a7229c
+dangling blob 799ecd9211c1ebb7d245f8b05923fa50ba99a91a
+dangling blob 7f7e8bd9e43dc19752239a5ef0c9c3082f776d3e
+dangling blob 897e9c6b8febdafb7b87ee69ed08d850fbf326d6
+dangling blob 895e9e3db2b2400aeafebe1ef88e5ef5462e4d88
+dangling blob 907efcad1f39ad5c1ea60651417a5bc1a9321dbf
+dangling blob 917ef52b20b2935daeb18c3e55602e7a34c64dfb
+dangling blob 92fea077cb06e0acbadc916986a4d420a30d518c
+dangling blob 965ee7a5218f362fa5ecc0b0431d05fed914037d
+dangling blob a2de163654c43740527e11d7f4145eee73fc04c7
+dangling blob a39e388e718a4ec2ae43779fd71ab09311ed047a
+dangling blob a73eb3b737ad26c7d4d970969569129da9130006
+dangling blob ac5ed8653577f0a34b29bb188ce91c26a7d5077f
+dangling blob b25ea68726b92cc4a9ecee645acad28c1d8905aa
+dangling blob b4be552abb20d5da7e23d151108610f1a726da82
+dangling blob b7de0391d7cde0bdba3afc95ae3a53badd35350e
+dangling blob bd1eccf5a610a0a854de8787127d80503397f878
+dangling blob c1defacdb93a397ac3144155820dababcdd50e51
+dangling blob ea3e6dcdb29bcfb06b023b6aa81b7c6b4bb251c0
+dangling blob ea5e8c619145f8c6f2502cc6003f50ac3eb11a83
+dangling blob ef3e5cc25a532a2bdc8dd04fe7cc4acf7847af18
+dangling blob fe9ef1ee6ccdca41ba104e8b6ab6e4d62a406ff9
+dangling blob 0a5f66505a21bd5976f2ce00ccaeb82b958dad69
+dangling blob 0b7f23face064d7d216e237c80af1eb9f40d55f9
+dangling blob 0cdfd7361c7e49a20f9536621e8078fa989d8584
+dangling blob 1b7fb11fd060195808d3f760d1b48318a3dda110
+dangling blob 1fdf6d22f8d3304845ca05588575d8025c3f8e59
+dangling blob 307f1d706f6af2c3e371ff16b52be243ee2d93f6
+dangling blob 39ffa125dcb6c3f0d77d54ade897731b123a57c7
+dangling blob 489fe8b35d6fe8889b1de23ea175c3c704728a09
+dangling blob 493f7b547c5f292ccb0cc64cdc487671a2c58e0f
+dangling blob 507ff6fff85c7304d20f0460cf83f36ee35de5bd
+dangling blob 517f3171064364177b92e6028d434023ee2ba368
+dangling blob 56bfb76d3926425cdcb1b7bb343cb5e48a6659b5
+dangling blob 5a9f5ac05edeeba88dcd1db698295db4b2055186
+dangling blob 67ff6d870a8f51b462dcc795d785862567f2dda5
+dangling blob 71ff557c0aece19ac1470cf2a78480ff87406086
+dangling blob 9c1f53e260d708a2fa543ad5ac21e27bfcd973ba
+dangling blob a1ffc581a8f128ebfc43cb3a079995f5a4047c1d
+dangling blob b99f76c6f884e139085037b88c25ecbe75f769c7
+dangling blob d4df7ef4a737419894b969687077a4f229b7a688
+dangling blob d5dfd455299128158d353d31a91b00f04aa279af
+dangling blob dc5f8d560c4e7b57cf96808c04828dbcafa7a478
+dangling blob e29f0f79cf3e340adc933b9da454c049c6323bd1
+dangling blob e8dffb52c1ca5e736b7517e98a9a9481d4407430
+dangling blob ef9f8b27c23735a81b1dbe894f8aeeaa1e3664d5, ) to repair a corrupted local repository and restore functionality.
 
 **key DB schema**
-- No changes to the database schema were made in this session.
+- No database schema changes were made. However, the application logic for interpreting the  and  collections was significantly enhanced.
 
 **changes in tech stack**
-- No new libraries or dependencies were installed.
+- **Added:**  (Python library for the MX integration).
+- **Removed:**  (NPM package).
+- **Pending Removal:** The  library on the backend.
 
 **All files**
 - **New Files:**
-  - : Reusable time filter buttons.
-  - : Interactive donut chart for expense visualization.
-  - : Reusable SVG logo for the Kindling brand.
-  - : Global styles for the new cozy theme.
+  - : Service for all MX Platform API interactions.
+  - : API endpoints for the frontend to use the MX service.
+  - : React component to render the MX Connect widget.
+  - : Production-ready environment variable file for Netlify.
+  - : A markdown guide explaining the deployment process.
 - **Heavily Modified Files:**
-  - All pages under  were modified for the rebranding, theming, and new features/bug fixes.
-  - : Deduplication logic was improved.
-  - : Transfer categories were updated to improve expense accuracy.
+  - : Overhauled to add full CRUD with modals and new UI logic for rollover budgets.
+  - : Overhauled to add full CRUD with modals and gamification.
+  - : Replaced Plaid link functionality with the new MX Connect widget.
+  - : Added Link Account and Sync buttons for the MX integration.
+  - : Added , , and a new  endpoint with complex financial logic.
+  - : Updated with a new, softer color palette for the Ember theme.
 
 **Areas that need refactoring**:
-- The CSS for the new theme () was initially too aggressive, causing visibility issues. It has been toned down but should be reviewed for robustness and to ensure it doesn't cause future conflicts.
-- The  component has a rendering bug related to the . The data flow logic within the component needs to be debugged and potentially refactored.
+- Once the MX migration is complete and validated, the legacy Plaid code (backend service, routes) should be entirely removed to clean up the codebase and prevent future confusion.
 
 **key api endpoints**
-- : This existing endpoint was modified to accept  and  query parameters to support the new time filters.
-- : This existing endpoint was used and its underlying logic in  was enhanced.
+- **New:**
+  - : Generates the URL for the MX Connect widget.
+  - : Fetches detailed status for all budgets, including spending, rollovers, and savings.
+- **Modified/Enabled:**
+  - : To edit a budget.
+  - : To delete a budget.
+  - : To edit a goal.
+  - : To delete a goal.
 
 **Critical Info for New Agent**
-- The user has a very strong and specific vision for the app's brand identity: **Kindling** with a **warm, cozy fall campfire vibe**. Finalizing this visual overhaul is the absolute top priority. The user is detail-oriented and will notice inconsistencies.
-- The app's financial accuracy is paramount. The user frequently scrutinizes the numbers. Be mindful of how transactions are categorized and calculated (e.g., transfers vs. expenses, principal vs. interest).
-- There is a known rendering bug on the  page where the donut chart doesn't appear. This needs to be fixed.
-- The issue of duplicate accounts from Plaid is the likely root cause of the user's remaining data accuracy concerns and should be addressed soon.
+- **The MX migration is the top priority.** The user is blocked on this. The connection to the MX **sandbox** environment is working, but the end-to-end flow needs to be tested and finalized. The credentials are in the history and  file.
+- **The user is actively trying to deploy the application.** Be prepared to provide clear, simple guidance on the two-part deployment process (backend on Railway/Render, frontend on Netlify).
+- **The Ember brand and cozy theme are extremely important to the user.** All new UI development must adhere to the established aesthetic and use the theme colors from .
+- The  and  pages have recently undergone major refactoring. Be aware of the new backend endpoints and frontend logic when working on them.
 
 **documents created in this job**
 - 
 - 
 
 **Last 5 User Messages and any pending user messages**
-- **User:** Alright I see the name was updated, but the logo was not updated everywhere. Also the page needs to feel like a warm campfire vibe in the fall and cozy. Update the site for this direction as well. - **Status: IN PROGRESS.** The user wants a complete visual overhaul.
-- **User:** This should include the landing page, pricing, and login as well - **Status: IN PROGRESS.** User confirming the scope of the theme update.
-- **User:** Something needs to tie that together with the rest of the site. Just a splash of orange doesnt seem to make sense. It also has not been updated site wide - **Status: IN PROGRESS.** User pointing out the initial theme update was incomplete.
-- **User:** I feel like the dollar sign should be a small campfire. - **Status: RESOLVED.** Agent created and implemented the .
-- **User:** This is still not properly update site wide. - **Status: IN PROGRESS.** User reiterating that the theme application is incomplete.
+1. **User:** Alright we need to implement something that has more accounts as plaid isnt that good. - **Status: In Progress**. Agent has started the MX migration.
+2. **User:** How can we implement MX or Yodlee? - **Status: Resolved**. Agent provided playbooks for both.
+3. **User:** (Git corruption issue) - **Status: Resolved**. Agent repaired the repository.
+4. **User:** (Deployment questions) - **Status: In Progress**. Agent has provided extensive documentation but user may need more guidance.
+5. **User:** Alright try again now that that IP is whitelisted. This is the development environment currently on the MX side - **Status: In Progress**. Agent successfully connected to MX sandbox after this.
+6. **User:** Looks to load, but it does take a while to actually show the select your institution - **Status: Pending**. The slow loading of the MX widget is a pending issue.
 
 **Project Health Check:**
-- **Broken:** The  component is not rendering on the  page.
+- **Broken:**
+  - The Expense Donut Chart is not rendering on the Cash Flow page.
+  - The end-to-end MX account linking flow is not yet verified.
 - **Mocked:** None.
 
 **Testing status**
-- **Testing agent used after significant changes:** NO
+- **Testing agent used after significant changes:** YES (Used to debug Budgets and Goals features successfully).
 - **Troubleshoot agent used after agent stuck in loop:** NO
 - **Test files created:** None
-- **Known regressions:** The expense donut chart was working on the Cash Flow page in a separate view but stopped rendering after being moved to appear below the main charts.
+- **Known regressions:** None.
 
 **Credentials to test flow:**
 - **Email:** 
 - **Password:** 
 
 **What agent forgot to execute**
-- The agent repeatedly failed to complete the sitewide theme update, requiring multiple reminders from the user. A final, thorough pass is needed to catch all remaining old UI elements.
-- The agent identified a rendering bug with the  on the  page but moved on to other tasks without fully resolving it. This remains a broken feature.</analysis>
+- The agent has not yet implemented a loading indicator for the slow-to-load MX widget, which the user explicitly mentioned.
+- The agent has not fixed the long-standing bug with the  on the  page.
+- The agent has not yet scheduled the removal of old Plaid code, leaving potentially confusing legacy code in the backend.</analysis>

@@ -10,7 +10,7 @@ import sys
 from typing import Dict, Any
 
 # Get backend URL from environment
-BACKEND_URL = "https://cozy-budget.preview.emergentagent.com/api"
+BACKEND_URL = "https://smart-budget-299.preview.emergentagent.com/api"
 
 # Test credentials
 TEST_EMAIL = "daniel.r.millner@gmail.com"

@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 from collections import Counter
 
 # Get backend URL from environment
-BACKEND_URL = "https://cozy-budget.preview.emergentagent.com/api"
+BACKEND_URL = "https://smart-budget-299.preview.emergentagent.com/api"
 
 # Test credentials from review request
 TEST_EMAIL = "daniel.r.millner@gmail.com"

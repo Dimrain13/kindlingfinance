@@ -12,7 +12,7 @@ from typing import Dict, Any, List
 from datetime import datetime, timedelta
 
 # Get backend URL from environment
-BACKEND_URL = "https://cozy-budget.preview.emergentagent.com/api"
+BACKEND_URL = "https://smart-budget-299.preview.emergentagent.com/api"
 
 # Test credentials from review request - UPDATED FOR SPECIFIC USER
 TEST_EMAIL = "daniel.r.millner@gmail.com"
