@@ -756,14 +756,12 @@ backend:
 
 test_plan:
   current_focus:
-    - "MX Integration - Account Sync & Data Format"
-    - "MX Integration - Transaction Sync & Validation"
-  stuck_tasks:
-    - "MX Integration - Account Sync & Data Format"
-    - "MX Integration - Transaction Sync & Validation"
+    - "MX Integration - Complete End-to-End Testing"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
   mx_integration_testing_completed: true
+  comprehensive_mx_test_completed: true
 
 agent_communication:
     -agent: "testing"
