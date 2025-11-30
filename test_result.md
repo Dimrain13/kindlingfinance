@@ -658,8 +658,60 @@ backend:
         -agent: "testing"
         -comment: "✅ GOALS EDIT FUNCTIONALITY NOW WORKING PERFECTLY! Comprehensive testing completed with credentials daniel.r.millner@gmail.com/password. AUTHENTICATION: ✅ Login successful, redirected to dashboard. NAVIGATION: ✅ Successfully accessed Goals page. EDIT BUTTONS: ✅ Found 3 edit buttons with orange pencil icons, all visible and clickable. MODAL FUNCTIONALITY: ✅ Edit modal opens successfully when clicking edit button. MODAL CONTENT: ✅ Modal displays correct 'Edit Goal' title. FORM PRE-FILLING: ✅ All form fields are perfectly pre-filled with existing goal data - Goal Name: 'Emergency Fund', Target Amount: '10000', Current Amount: '3500', Target Date: '12/31/2025', Description: 'Save 6 months of expenses for emergencies', Goal Type: Emergency (🛡️) selected, Color: Blue selected. CONCLUSION: The Modal component fix (changing from conditional rendering to isOpen prop) has successfully resolved the issue. Goals edit functionality is now fully operational and production-ready. Screenshot captured showing successful edit modal with pre-filled data."
 
+  - task: "MX Connect Widget - Dashboard Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Dashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test MX Connect Widget integration on Dashboard: 1) Verify 'Link Account' button is visible in header, 2) Click 'Link Account' button, 3) Verify loading indicator appears immediately, 4) Wait for MX Connect widget iframe to load (10-15 seconds), 5) Verify institution selection interface appears, 6) Test with MX Sandbox test institution (MX Bank), 7) Monitor console for errors, 8) Check widget initialization"
+
+  - task: "MX Connect Widget - Accounts Page Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Accounts.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test MX Connect Widget integration on Accounts page: 1) Navigate to /accounts page, 2) Verify 'Link Account' button is visible, 3) Click 'Link Account' button, 4) Verify same loading behavior as Dashboard, 5) Confirm widget loads properly from Accounts page"
+
+  - task: "MX Connect Widget - Loading States & UX"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/MXConnectWidget.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test MX Connect Widget loading states and UX: 1) Verify loading overlay shows while widget initializes, 2) Check progress indicators are visible, 3) Ensure modal can be closed with X button, 4) Verify proper error handling if widget fails to load, 5) Test postMessage events from MX iframe"
+
+  - task: "MX Backend API Integration"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/mx_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test MX backend API endpoints: 1) Monitor network requests to /api/mx/connect-widget, 2) Check for successful API responses, 3) Verify MX service integration, 4) Test account sync functionality, 5) Test transaction sync functionality"
+
 test_plan:
-  current_focus: []
+  current_focus:
+    - "MX Connect Widget - Dashboard Integration"
+    - "MX Connect Widget - Accounts Page Integration"
+    - "MX Connect Widget - Loading States & UX"
+    - "MX Backend API Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
