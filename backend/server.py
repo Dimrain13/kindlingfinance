@@ -2434,6 +2434,13 @@ app.include_router(subscriptions_router, prefix="/api/subscriptions")
 app.include_router(household_router, prefix="/api")
 app.include_router(budgets_router, prefix="/api")
 
+# Import and include MX routes
+try:
+    from routes.mx_routes import router as mx_router
+    app.include_router(mx_router, prefix="/api")
+except ImportError as e:
+    print(f"Warning: Could not import MX routes: {e}")
+
 # Health check
 @app.get("/health")
 async def health_check():
