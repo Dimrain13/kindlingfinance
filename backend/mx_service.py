@@ -22,9 +22,15 @@ class MXService:
         # Production: https://api.mx.com
         self.base_url = os.getenv('MX_API_URL', 'https://int-api.mx.com')
         
-        # Create Basic Auth header
-        auth_string = f"{self.client_id}:{self.api_key}"
-        self.auth_header = base64.b64encode(auth_string.encode()).decode()
+        # Use pre-encoded Basic Auth if available, otherwise create it
+        # MX_BASIC_AUTH should be base64(client_id:api_key)
+        pre_encoded_auth = os.getenv('MX_BASIC_AUTH')
+        if pre_encoded_auth:
+            self.auth_header = pre_encoded_auth
+        else:
+            # Create Basic Auth header from client_id and api_key
+            auth_string = f"{self.client_id}:{self.api_key}"
+            self.auth_header = base64.b64encode(auth_string.encode()).decode()
         
         self.headers = {
             "Authorization": f"Basic {self.auth_header}",
