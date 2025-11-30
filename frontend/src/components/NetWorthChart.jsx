@@ -10,25 +10,54 @@ const NetWorthChart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState(30); // Default to 1 month
+  const [currentNetWorth, setCurrentNetWorth] = useState(0);
+  const [currentAssets, setCurrentAssets] = useState(0);
+  const [currentLiabilities, setCurrentLiabilities] = useState(0);
 
   useEffect(() => {
-    loadNetWorthHistory();
+    loadData();
   }, [timeRange]);
 
-  const loadNetWorthHistory = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/networth/history?days=${timeRange}`);
-      const formattedData = response.data.map(snapshot => ({
+      
+      // Fetch current accounts for real-time net worth calculation
+      const accountsResponse = await api.get('/accounts');
+      const accounts = accountsResponse.data;
+      
+      // Calculate real-time net worth from current accounts
+      const { calculateNetWorth } = await import('../utils/financialCalculations');
+      const { netWorth, totalAssets, totalLiabilities } = calculateNetWorth(accounts);
+      
+      setCurrentNetWorth(netWorth);
+      setCurrentAssets(totalAssets);
+      setCurrentLiabilities(totalLiabilities);
+      
+      // Fetch historical snapshots for trend line
+      const historyResponse = await api.get(`/networth/history?days=${timeRange}`);
+      const formattedData = historyResponse.data.map(snapshot => ({
         date: new Date(snapshot.snapshot_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         fullDate: snapshot.snapshot_date,
         netWorth: snapshot.net_worth,
         assets: snapshot.total_assets,
         liabilities: snapshot.total_liabilities
       }));
+      
+      // Add current real-time value to the end of the chart
+      if (formattedData.length > 0) {
+        formattedData.push({
+          date: 'Today',
+          fullDate: new Date().toISOString(),
+          netWorth: netWorth,
+          assets: totalAssets,
+          liabilities: totalLiabilities
+        });
+      }
+      
       setData(formattedData);
     } catch (error) {
-      console.error('Failed to load net worth history:', error);
+      console.error('Failed to load net worth data:', error);
     } finally {
       setLoading(false);
     }
@@ -37,13 +66,12 @@ const NetWorthChart = () => {
   const createSnapshot = async () => {
     try {
       await api.post('/networth/snapshot');
-      loadNetWorthHistory();
+      loadData();
     } catch (error) {
       console.error('Failed to create snapshot:', error);
     }
   };
 
-  const currentNetWorth = data.length > 0 ? data[data.length - 1].netWorth : 0;
   const previousNetWorth = data.length > 1 ? data[0].netWorth : currentNetWorth;
   const change = currentNetWorth - previousNetWorth;
   const changePercent = previousNetWorth !== 0 ? ((change / Math.abs(previousNetWorth)) * 100).toFixed(2) : 0;
