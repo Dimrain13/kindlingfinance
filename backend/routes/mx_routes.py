@@ -287,8 +287,36 @@ async def sync_transactions(
                 transaction_type = "expense"
                 amount = abs(raw_amount)
             
-            # Get category (MX provides top-level category)
-            category = mx_txn.get("top_level_category") or mx_txn.get("category") or "Other"
+            # Map MX category to our standard categories
+            mx_category = category_raw.upper() if category_raw else "OTHER"
+            
+            # MX to Ember category mapping
+            MX_CATEGORY_MAPPING = {
+                "FOOD_AND_DINING": "FOOD_AND_DRINK",
+                "FOOD & DINING": "FOOD_AND_DRINK", 
+                "RESTAURANTS": "FOOD_AND_DRINK",
+                "GROCERIES": "FOOD_AND_DRINK",
+                "ENTERTAINMENT": "ENTERTAINMENT",
+                "GAS_STATIONS": "TRANSPORTATION",
+                "AUTOMOTIVE": "TRANSPORTATION",
+                "TRANSPORTATION": "TRANSPORTATION",
+                "SHOPPING": "SHOPPING",
+                "RETAIL": "SHOPPING",
+                "HEALTH_CARE": "HEALTHCARE",
+                "HEALTHCARE": "HEALTHCARE",
+                "MEDICAL": "HEALTHCARE",
+                "BILLS_UTILITIES": "BILLS_AND_UTILITIES",
+                "UTILITIES": "BILLS_AND_UTILITIES",
+                "PHONE": "BILLS_AND_UTILITIES",
+                "INTERNET": "BILLS_AND_UTILITIES",
+                "FINANCIAL": "FINANCIAL",
+                "TRANSFER": "TRANSFER",
+                "INCOME": "INCOME",
+                "PAYROLL": "INCOME",
+                "DEPOSIT": "INCOME"
+            }
+            
+            category = MX_CATEGORY_MAPPING.get(mx_category, "OTHER")
             
             # Check if transaction already exists
             mx_guid = mx_txn.get("guid")
