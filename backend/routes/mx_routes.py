@@ -287,7 +287,6 @@ async def sync_transactions(
             })
             
             # Generate proper UUID for new transactions
-            import uuid
             transaction_id = existing_txn["id"] if existing_txn else str(uuid.uuid4())
             
             # Parse and format date properly
