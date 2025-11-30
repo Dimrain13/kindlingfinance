@@ -76,7 +76,7 @@ const Register = () => {
         <div className="relative z-10 flex flex-col justify-center max-w-md">
           <div className="mb-8">
             <CampfireLogo className="h-16 w-16 mb-4" />
-            <h1 className="text-5xl font-bold mb-4">Join Ember</h1>
+            <h1 className="text-5xl font-bold mb-4">Join Kindling Financial</h1>
             <p className="text-xl text-orange-100">Start your journey to financial warmth</p>
           </div>
           
@@ -109,7 +109,7 @@ const Register = () => {
               <CampfireLogo size="lg" className="text-orange-600" />
             </div>
             <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text text-transparent">
-              Join the Embers
+              Join the Kindling Financials
             </CardTitle>
             <CardDescription className="text-center text-base">
               Start managing your finances smarter

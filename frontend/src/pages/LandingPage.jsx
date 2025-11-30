@@ -80,7 +80,7 @@ const LandingPage = () => {
                 <CampfireLogo size="sm" className="text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text text-transparent">
-                Ember
+                Kindling Financial
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -130,7 +130,7 @@ const LandingPage = () => {
               </h1>
               
               <p className="text-xl text-gray-600 leading-relaxed">
-                Like glowing embers keep a fire alive, Ember keeps your finances warm and growing. 
+                Like glowing embers keep a fire alive, Kindling Financial keeps your finances warm and growing. 
                 Gather all your accounts, nurture your goals, and watch your wealth glow brighter.
               </p>
 
@@ -298,10 +298,10 @@ const LandingPage = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
                 <CampfireLogo size="sm" className="text-white" />
               </div>
-              <span className="text-xl font-bold text-white">Ember</span>
+              <span className="text-xl font-bold text-white">Kindling Financial</span>
             </div>
             <div className="text-sm">
-              © 2025 Ember. Built with ❤️ for better financial futures.
+              © 2025 Kindling Financial. Built with ❤️ for better financial futures.
             </div>
           </div>
         </div>
