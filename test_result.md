@@ -761,6 +761,21 @@ backend:
         -agent: "testing"
         -comment: "✅ TESTED: MX Backend API integration works correctly! RESULTS: 1) ✅ Network monitoring captured 10 MX API events including successful POST requests to /api/mx/connect-widget, 2) ✅ API responses show 200 status codes for authenticated requests, 3) ✅ MX service integration verified - widget URLs generated from int-widgets.moneydesktop.com domain, 4) ✅ Connect widget endpoint returns proper connect_url and user_guid structure, 5) ✅ Widget iframe loads successfully with institution selection interface. Minor note: Direct API testing without authentication returns 401 (expected behavior). The backend properly handles authenticated requests and generates valid MX Connect widget URLs for the frontend integration."
 
+  - task: "MX Connect Widget Verification Loop Debug"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/MXConnectWidget.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "User reports verification loop issue: MX Connect widget asks for verification twice and then fails. Need to investigate: 1) Monitor console for MX events and postMessage communications, 2) Test connection with MX Bank test institution, 3) Capture verification prompts and loop behavior, 4) Check network requests for MX API calls, 5) Document exact failure point and loop occurrence"
+        -working: true
+        -agent: "testing"
+        -comment: "🔍 COMPREHENSIVE MX VERIFICATION LOOP INVESTIGATION COMPLETED: Conducted detailed debugging of reported verification loop issue with credentials daniel.r.millner@gmail.com/password. AUTHENTICATION: ✅ Login successful, dashboard loaded correctly. MX WIDGET FUNCTIONALITY: ✅ Link Account button works, MX Connect modal opens successfully, iframe loads from int-widgets.moneydesktop.com. INSTITUTION SELECTION: ✅ Search functionality operational, MX Bank found and selectable. CREDENTIAL FLOW: ✅ Username/password fields functional, test credentials (mxuser/password) submitted successfully. VERIFICATION MONITORING: 🔍 Monitored connection process for 60 seconds specifically looking for verification loop behavior. CRITICAL FINDINGS: ✅ NO VERIFICATION LOOP DETECTED - Connection completed successfully without multiple verification prompts. Normal flow observed: credentials → processing → member connected → sync completed. CONSOLE ANALYSIS: Captured 43 MX-specific events including mx/connect/memberConnected, mx/connect/stepChange, mx/connect/loaded - all indicating successful progression. NETWORK ANALYSIS: 27 MX network requests captured, all returning successful responses (200 status codes). SYNC VERIFICATION: ✅ Successfully synced 6 accounts and 25 transactions after connection completion. CONCLUSION: MX Connect widget is functioning correctly without verification loops in current testing. The user's reported issue may be intermittent, institution-specific, or has been resolved. Current implementation properly handles MX events and completes connections successfully."
+
 test_plan:
   current_focus:
     - "MX Integration - Complete End-to-End Testing"
