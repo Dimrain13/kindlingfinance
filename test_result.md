@@ -719,14 +719,11 @@ backend:
         -comment: "✅ TESTED: MX Backend API integration works correctly! RESULTS: 1) ✅ Network monitoring captured 10 MX API events including successful POST requests to /api/mx/connect-widget, 2) ✅ API responses show 200 status codes for authenticated requests, 3) ✅ MX service integration verified - widget URLs generated from int-widgets.moneydesktop.com domain, 4) ✅ Connect widget endpoint returns proper connect_url and user_guid structure, 5) ✅ Widget iframe loads successfully with institution selection interface. Minor note: Direct API testing without authentication returns 401 (expected behavior). The backend properly handles authenticated requests and generates valid MX Connect widget URLs for the frontend integration."
 
 test_plan:
-  current_focus:
-    - "MX Connect Widget - Dashboard Integration"
-    - "MX Connect Widget - Accounts Page Integration"
-    - "MX Connect Widget - Loading States & UX"
-    - "MX Backend API Integration"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  mx_integration_testing_completed: true
 
 agent_communication:
     -agent: "testing"
