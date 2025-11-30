@@ -1914,6 +1914,36 @@ class FinanceHubTester:
 
     # ==================== MX INTEGRATION TESTING ====================
     
+    def run_mx_integration_tests(self):
+        """Run comprehensive MX integration tests as requested in review"""
+        print("🚀 Starting COMPREHENSIVE MX INTEGRATION DATA SYNC TESTING")
+        print(f"Backend URL: {BACKEND_URL}")
+        print(f"Test User: {TEST_EMAIL}")
+        print("=" * 80)
+        
+        # Login first
+        if not self.login():
+            print("❌ Login failed - cannot proceed with tests")
+            return
+        
+        # Run MX integration test phases
+        all_results = []
+        
+        # Phase 1: Account Linking & Sync
+        all_results.append(self.test_mx_account_sync())
+        
+        # Phase 2: Transaction Sync
+        all_results.append(self.test_mx_transaction_sync())
+        
+        # Phase 3: Data Validation
+        all_results.append(self.test_mx_data_validation())
+        
+        # Phase 4: Dashboard Analytics Testing
+        all_results.append(self.test_mx_dashboard_analytics())
+        
+        # Print summary
+        self.print_mx_test_summary(all_results)
+    
     def test_mx_account_sync(self) -> Dict[str, Any]:
         """Phase 1: Account Linking & Sync - Test MX accounts sync with proper format"""
         print("\n🧪 PHASE 1: MX Account Linking & Sync")
