@@ -4,7 +4,8 @@ import { formatCurrency } from '../utils/formatNumber';
 import { calculateNetWorth, calculateTotalBalance, LIABILITY_TYPES } from '../utils/financialCalculations';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Wallet, Plus, Trash2 } from 'lucide-react';
+import { Wallet, Plus, Trash2, RefreshCw } from 'lucide-react';
+import MXConnectWidget from '../components/MXConnectWidget';
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState([]);
@@ -12,6 +13,8 @@ const Accounts = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [accountToDelete, setAccountToDelete] = useState(null);
   const [deleteOption, setDeleteOption] = useState('single'); // 'single' or 'all'
+  const [showMXConnect, setShowMXConnect] = useState(false);
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     loadAccounts();
