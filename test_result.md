@@ -795,7 +795,7 @@ backend:
     implemented: true
     working: false
     file: "/app/frontend/src/utils/financialCalculations.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -805,6 +805,9 @@ backend:
         -working: false
         -agent: "testing"
         -comment: "❌ NET WORTH INCONSISTENCY CONFIRMED: Conducted comprehensive testing across all pages showing net worth values. FINDINGS: ✅ Dashboard shows Net Worth: $964,202.13, ✅ Analytics shows Net Worth: $964,202.13 (CONSISTENT), ❌ Portfolio page shows conflicting values: 'Total Portfolio: $510,460.09' and 'Net Worth Over Time: -$15,797.87' (MAJOR DISCREPANCY), ❌ Accounts page Net Worth display not captured by selectors but visible in UI. CRITICAL ISSUE: Portfolio page 'Net Worth Over Time' chart shows -$15,797.87 while Dashboard/Analytics show $964,202.13 - a difference of nearly $980,000. This suggests different calculation methods or data sources between pages. ROOT CAUSE: Portfolio page appears to use different financial calculation logic than Dashboard/Analytics pages. IMPACT: Users see conflicting net worth values which undermines trust in the application's accuracy. RECOMMENDATION: Investigate and standardize net worth calculation across all pages to ensure consistency."
+        -working: false
+        -agent: "testing"
+        -comment: "❌ CRITICAL NET WORTH INCONSISTENCY VERIFIED: Conducted comprehensive verification with daniel.r.millner@gmail.com/password as requested. DETAILED FINDINGS: ✅ Dashboard: $964,202.13 (Net Worth card), ✅ Accounts: $964,202.13 (header display), ✅ Analytics: $964,202.13 (Net Worth card), ✅ Portfolio Header: $964,202.13 (Net Worth Over Time section), ❌ Portfolio Chart Tooltip: -$15,797.87 (Nov 26 data point). CRITICAL ISSUE: 4 out of 5 locations show $964,202.13 consistently, but Portfolio chart tooltip shows -$15,797.87 - a difference of $979,999.00 (nearly $1 million discrepancy!). ROOT CAUSE IDENTIFIED: The NetWorthChart component was supposedly fixed to use real-time calculation, but it's showing different data than other components. The chart tooltip shows real-time calculated net worth (-$15,797.87) while other displays show cached/different calculation ($964,202.13). IMPACT: This creates severe user confusion and undermines application credibility. RECOMMENDATION: The NetWorthChart component fix was incomplete - it needs to use the same calculation method as other components to ensure consistency across all pages."
 
 test_plan:
   current_focus:
