@@ -97,8 +97,8 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-5xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+      <Card className="w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl">
         <CardHeader className="bg-gradient-to-r from-orange-600 to-red-600 text-white">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
@@ -112,7 +112,18 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
             )}
           </div>
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className="p-0 relative">
+          {/* Loading overlay while iframe initializes */}
+          <div className="absolute inset-0 bg-white flex flex-col items-center justify-center z-10 transition-opacity duration-300">
+            <RefreshCw className="h-12 w-12 animate-spin text-orange-600 mb-4" />
+            <p className="text-gray-700 font-medium text-lg">Loading bank connections...</p>
+            <p className="text-gray-500 text-sm mt-2">This may take a few moments</p>
+            {/* Fake progress bar for better UX */}
+            <div className="w-64 h-2 bg-gray-200 rounded-full mt-4 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 animate-pulse" style={{width: '70%'}}></div>
+            </div>
+          </div>
+          
           {connectUrl && (
             <iframe
               src={connectUrl}
@@ -121,6 +132,14 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
               frameBorder="0"
               title="MX Connect Widget"
               style={{ minHeight: '600px' }}
+              onLoad={() => {
+                // Hide loading overlay when iframe loads
+                const overlay = document.querySelector('.absolute.inset-0.bg-white');
+                if (overlay) {
+                  overlay.style.opacity = '0';
+                  setTimeout(() => overlay.style.display = 'none', 300);
+                }
+              }}
             />
           )}
         </CardContent>
