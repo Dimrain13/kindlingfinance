@@ -80,7 +80,7 @@ const LandingPage = () => {
                 <CampfireLogo size="sm" className="text-white" />
               </div>
               <span className="text-2xl font-bold bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text text-transparent">
-                Kindling
+                Ember
               </span>
             </div>
             <div className="flex items-center gap-4">
