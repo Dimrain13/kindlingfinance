@@ -366,6 +366,42 @@ test_plan:
         -comment: "✅ COMPREHENSIVE CANDLESTICK CHART TESTING COMPLETED: Conducted detailed visual review and testing of the Candlestick Chart as requested. LOGIN & NAVIGATION: Successfully logged in with daniel.r.millner@gmail.com/password and navigated to /cashflow page. CHART VERIFICATION: Found 'Daily Cash Flow Pattern (Candlestick)' section with proper BarChart3 icon. CANDLESTICK RENDERING: Chart displays individual candlestick bars with proper wicks and shadows - found 21 green candlesticks and 10 red candlesticks representing balance changes. TIME RANGE FUNCTIONALITY: All 3 buttons (30D, 60D, 90D) present and functional - tested switching between views, chart updates correctly. TOOLTIP TESTING: Excellent tooltip functionality - hovering shows detailed information including Date (Nov 2, Nov 5), Spending amount ($0.00, $9.49), Average spending ($285.20), Difference (-$285.20, -$275.71), Status (Under Average), and Transaction count (0, 1). CHART SCALE: Y-axis shows dollar amounts in thousands ($0k, $1k, $2k, $3k), X-axis shows dates (Oct 25, Nov 25). REFERENCE LINE: Blue dashed 'Avg Daily Spending' reference line visible at ~$285 level. LEGEND: Complete legend showing Green Candle (balance increased), Red Candle (balance decreased), and Wicks/Shadows explanations. DESCRIPTION: Chart description correctly states 'Tracking checking/cash accounts only | Green = balance increased | Red = balance decreased | Avg daily income: $375.95'. All requirements from review request fully verified and working perfectly. Screenshots captured showing comprehensive chart functionality."
 
 backend:
+  - task: "MX Integration - Account Sync & Data Format"
+    implemented: true
+    working: false
+    file: "/app/backend/routes/mx_routes.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: false
+        -agent: "testing"
+        -comment: "❌ CRITICAL MX INTEGRATION ISSUES FOUND: Comprehensive testing revealed multiple data mapping problems. 1) MX API Authentication: 401 Unauthorized errors when calling POST /api/mx/accounts/sync and POST /api/mx/transactions/sync - MX credentials may be invalid or service not properly configured. 2) Data Format Issues: Liability accounts (credit cards, loans) have POSITIVE balances when they should be NEGATIVE ($5,743.37 for Visa Platinum, $12,220.38 for Used Vehicle Loan). 3) Transaction Amount Issues: Income transactions have NEGATIVE amounts (-$3,025.23, -$3,259.41) when they should be POSITIVE. 4) Transaction Type Issues: All transactions showing as 'expense' type, no 'income' transactions found despite having income data. IMPACT: Data mapping from MX to Ember format is incorrect, causing wrong balance calculations and transaction categorization. Dashboard shows Total Income: $0.00 when there should be income transactions."
+
+  - task: "MX Integration - Transaction Sync & Validation"
+    implemented: true
+    working: false
+    file: "/app/backend/routes/mx_routes.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: false
+        -agent: "testing"
+        -comment: "❌ TRANSACTION SYNC VALIDATION FAILED: Testing revealed critical transaction data mapping issues. PROBLEMS FOUND: 1) Transaction amounts: Income transactions stored with negative amounts (-$3,025.23 for 'Deposit Michigan Milk Pr Payroll', -$3,259.41 for 'DEPOSIT ACH LODGIFY') should be positive. 2) Transaction types: All 20 transactions categorized as 'expense', zero as 'income' despite having clear income transactions (payroll deposits). 3) Amount signs: MX uses negative for debits/expenses and positive for credits/income, but mapping logic is incorrect. EXPECTED FORMAT: Ember app expects positive amounts for all transactions with transaction_type field determining expense vs income. CURRENT ISSUE: Income transactions have negative amounts AND wrong transaction_type, causing dashboard to show $0.00 total income."
+
+  - task: "MX Integration - Dashboard Analytics with MX Data"
+    implemented: true
+    working: true
+    file: "/app/backend/routes/analytics_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: true
+        -agent: "testing"
+        -comment: "✅ DASHBOARD ANALYTICS WORKING: All dashboard analytics endpoints (monthly, quarterly, 6months, 12months, ytd) return proper data structure with required fields (total_balance, net_worth, total_income, total_expenses, spending_by_category). However, the underlying data issues affect accuracy: Total Income shows $0.00 due to transaction mapping issues, Net Worth shows -$15,797.87 due to liability balance sign issues. The analytics engine itself works correctly but needs proper MX data mapping to show accurate results."
+
   - task: "Planning Tools Access & HELOC Chunking Calculator Visibility"
     implemented: true
     working: true
