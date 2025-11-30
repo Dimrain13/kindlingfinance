@@ -1,4 +1,4 @@
-# 🚀 Netlify Deployment Guide for Ember
+# 🚀 Netlify Deployment Guide for Kindling Financial
 
 ## 📋 Frontend Environment Variables (for Netlify)
 
@@ -135,4 +135,4 @@ CORS_ORIGINS=https://your-app.netlify.app
 
 ---
 
-Generated for Ember Finance App 🔥
+Generated for Kindling Financial Finance App 🔥

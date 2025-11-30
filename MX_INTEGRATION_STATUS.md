@@ -22,7 +22,7 @@
 ### 2. Data Format Mapping Fixed
 **Status:** ✅ **CORRECTED**
 
-Fixed critical data mapping issues between MX API format and Ember app format:
+Fixed critical data mapping issues between MX API format and Kindling Financial app format:
 
 **Account Data Mapping:**
 - ✅ Fixed: `type` → `account_type` (correct field name)
