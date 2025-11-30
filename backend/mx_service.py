@@ -50,10 +50,11 @@ class MXService:
             Dict with user_guid and other user info
         """
         async with httpx.AsyncClient() as client:
-            # MX requires minimal user object - just metadata
+            # MX requires user object with identifier for tracking across sessions
             payload = {
                 "user": {
-                    "metadata": f"user:{user_id}"
+                    "id": user_id,  # Custom identifier to track this user
+                    "metadata": f"user:{user_id}"  # Additional metadata
                 }
             }
             
