@@ -130,8 +130,8 @@ const LandingPage = () => {
               </h1>
               
               <p className="text-xl text-gray-600 leading-relaxed">
-                Like kindling sparks a fire, Kindling ignites your financial journey. 
-                Gather all your accounts, nurture your goals, and watch your wealth grow warm and bright.
+                Like glowing embers keep a fire alive, Ember keeps your finances warm and growing. 
+                Gather all your accounts, nurture your goals, and watch your wealth glow brighter.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
