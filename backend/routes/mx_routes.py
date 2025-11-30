@@ -325,7 +325,7 @@ async def sync_transactions(
             # Map MX category to our standard categories
             mx_category = category_raw.upper() if category_raw else "OTHER"
             
-            # MX to Ember category mapping
+            # MX to Kindling Financial category mapping
             MX_CATEGORY_MAPPING = {
                 "FOOD_AND_DINING": "FOOD_AND_DRINK",
                 "FOOD & DINING": "FOOD_AND_DRINK", 
