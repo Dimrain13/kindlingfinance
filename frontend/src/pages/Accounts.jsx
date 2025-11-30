@@ -316,6 +316,14 @@ const Accounts = () => {
           </Card>
         </div>
       )}
+
+      {/* MX Connect Widget Modal */}
+      {showMXConnect && (
+        <MXConnectWidget 
+          onSuccess={handleMXSuccess}
+          onClose={() => setShowMXConnect(false)}
+        />
+      )}
     </div>
   );
 };
