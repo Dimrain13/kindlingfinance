@@ -126,12 +126,21 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
     """
     try:
         # First check if user has any members (connections)
+        print(f"🔍 Syncing accounts for user_id: {user_id}")
+        
+        # Get the MX user GUID
+        user_guid = await mx_service.get_or_create_user(user_id)
+        print(f"📋 Using MX user_guid: {user_guid}")
+        
         members = await mx_service.list_members(user_id)
+        print(f"👥 Found {len(members)} members")
+        
         if not members:
             return {
                 "message": "No connected institutions found. Please link an account first.",
                 "count": 0,
-                "warning": "NO_MEMBERS"
+                "warning": "NO_MEMBERS",
+                "user_guid": user_guid
             }
         
         # Check if any members are still aggregating
