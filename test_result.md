@@ -675,15 +675,18 @@ backend:
 
   - task: "MX Connect Widget - Accounts Page Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/frontend/src/pages/Accounts.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         -working: "NA"
         -agent: "testing"
         -comment: "Need to test MX Connect Widget integration on Accounts page: 1) Navigate to /accounts page, 2) Verify 'Link Account' button is visible, 3) Click 'Link Account' button, 4) Verify same loading behavior as Dashboard, 5) Confirm widget loads properly from Accounts page"
+        -working: true
+        -agent: "testing"
+        -comment: "✅ TESTED: Accounts page MX Widget integration works perfectly! RESULTS: 1) ✅ Successfully navigated to /accounts page, 2) ✅ Found 1 'Link Account' button visible on Accounts page, 3) ✅ Clicking 'Link Account' button opens MX Connect modal successfully, 4) ✅ Same loading behavior as Dashboard - modal appears with proper styling and functionality, 5) ✅ Widget loads properly from Accounts page with identical functionality to Dashboard. Screenshot captured showing successful modal opening from Accounts page. Integration is consistent across both Dashboard and Accounts pages."
 
   - task: "MX Connect Widget - Loading States & UX"
     implemented: true
