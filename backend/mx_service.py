@@ -44,10 +44,10 @@ class MXService:
             Dict with user_guid and other user info
         """
         async with httpx.AsyncClient() as client:
+            # MX requires minimal user object - just metadata
             payload = {
                 "user": {
-                    "id": user_id,
-                    "metadata": metadata or {}
+                    "metadata": f"user:{user_id}"
                 }
             }
             
@@ -57,6 +57,12 @@ class MXService:
                 json=payload,
                 timeout=30.0
             )
+            
+            # Log error details if request fails
+            if response.status_code >= 400:
+                print(f"MX API Error: {response.status_code}")
+                print(f"Response: {response.text}")
+            
             response.raise_for_status()
             data = response.json()
             return data.get("user", {})
