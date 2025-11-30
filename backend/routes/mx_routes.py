@@ -286,8 +286,21 @@ async def sync_transactions(
                 "mx_transaction_guid": mx_guid
             })
             
+            # Generate proper UUID for new transactions
+            import uuid
+            transaction_id = existing_txn["id"] if existing_txn else str(uuid.uuid4())
+            
+            # Parse and format date properly
+            transaction_date = mx_txn.get("transacted_at") or mx_txn.get("posted_at")
+            if transaction_date:
+                # Ensure date is in YYYY-MM-DD format
+                if 'T' in transaction_date:
+                    transaction_date = transaction_date.split('T')[0]
+            else:
+                transaction_date = datetime.utcnow().strftime("%Y-%m-%d")
+            
             transaction_data = {
-                "id": existing_txn["id"] if existing_txn else mx_guid,
+                "id": transaction_id,
                 "user_id": user_id,
                 "account_id": local_account["id"],
                 "mx_transaction_guid": mx_guid,
@@ -295,11 +308,12 @@ async def sync_transactions(
                 "description": mx_txn.get("description", "Unknown"),
                 "transaction_type": transaction_type,
                 "category": category,
-                "date": mx_txn.get("transacted_at", mx_txn.get("posted_at")),
+                "date": transaction_date,
                 "merchant_name": mx_txn.get("merchant_name") or mx_txn.get("description"),
                 "is_recurring": False,
                 "pending": mx_txn.get("is_pending", False),
                 "ai_categorized": False,
+                "reviewed": False,  # New MX transactions need review
                 "updated_at": datetime.utcnow()
             }
             
@@ -309,7 +323,7 @@ async def sync_transactions(
             
             # Upsert transaction
             await db.transactions.update_one(
-                {"id": transaction_data["id"], "user_id": user_id},
+                {"user_id": user_id, "mx_transaction_guid": mx_guid},
                 {"$set": transaction_data},
                 upsert=True
             )
