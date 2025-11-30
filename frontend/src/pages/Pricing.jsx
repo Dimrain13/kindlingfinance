@@ -406,7 +406,7 @@ const Pricing = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-lg">
               <p className="text-gray-700 mb-4 italic">
-                "Kindling has completely transformed how I manage my money. The AI insights are spot-on and have helped me save over $500 in the first month!"
+                "Ember has completely transformed how I manage my money. The AI insights are spot-on and have helped me save over $500 in the first month!"
               </p>
               <p className="text-sm font-semibold text-gray-900">- Sarah K.</p>
             </div>
