@@ -7,6 +7,7 @@ from typing import Optional
 from datetime import datetime, timedelta
 import sys
 import os
+import uuid
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
