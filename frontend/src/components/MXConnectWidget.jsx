@@ -49,14 +49,18 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
           
         case 'mx/connect/memberConnected':
           console.log('✅ Member connected successfully:', event.data);
-          // Sync accounts after successful connection
-          syncAccounts();
+          // Wait a bit for aggregation to start, then sync
+          setTimeout(() => {
+            syncAccounts();
+          }, 2000);
           break;
           
         case 'mx/connect/connectedPrimaryAction':
           // User completed primary action (connection flow)
           console.log('✅ Primary action completed');
-          syncAccounts();
+          setTimeout(() => {
+            syncAccounts();
+          }, 2000);
           break;
           
         case 'mx/connect/memberDeleted':
