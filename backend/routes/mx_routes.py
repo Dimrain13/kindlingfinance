@@ -27,12 +27,15 @@ async def create_connect_widget(
     Create MX Connect Widget URL for user to link accounts
     """
     try:
+        print(f"🔗 Creating widget for user_id: {user_id}")
         result = await mx_service.create_connect_widget_url(user_id, institution_code)
+        print(f"✅ Widget created for MX user_guid: {result['user_guid']}")
         return {
             "connect_url": result["connect_url"],
             "user_guid": result["user_guid"]
         }
     except Exception as e:
+        print(f"❌ Failed to create widget: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to create connect widget: {str(e)}")
 
 
