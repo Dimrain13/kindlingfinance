@@ -87,7 +87,7 @@ async def delete_member(
     Delete a member connection (disconnect institution)
     """
     try:
-        success = await mx_service.delete_member(user_id, member_guid)
+        await mx_service.delete_member(user_id, member_guid)
         
         # Also remove accounts from our database
         await db.accounts.delete_many({
