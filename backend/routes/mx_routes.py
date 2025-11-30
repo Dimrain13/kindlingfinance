@@ -216,7 +216,7 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
                 "account_type": account_type,
                 "balance": balance,
                 "institution_name": mx_account.get("institution_name", "Unknown"),
-                "currency": mx_account.get("currency_code", "USD"),
+                "currency": mx_account.get("currency_code") or "USD",  # Default to USD if None
                 "mask": mx_account.get("account_number", "")[-4:] if mx_account.get("account_number") else None,
                 "updated_at": datetime.utcnow(),
                 "reviewed": True  # MX accounts are considered reviewed by default
