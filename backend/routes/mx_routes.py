@@ -170,7 +170,6 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
             })
             
             # Generate proper UUID for new accounts
-            import uuid
             account_id = existing_account["id"] if existing_account else str(uuid.uuid4())
             
             account_data = {
