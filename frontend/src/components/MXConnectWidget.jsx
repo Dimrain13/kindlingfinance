@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { LinkIcon, RefreshCw } from 'lucide-react';
-import api from '../api';
+import api from '../utils/api';
 
 const MXConnectWidget = ({ onSuccess, onClose }) => {
   const [connectUrl, setConnectUrl] = useState(null);
