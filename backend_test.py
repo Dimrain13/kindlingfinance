@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Comprehensive Backend API Testing for FinanceHub Application
-Tests all 10 phases as specified in the review request
-FOCUSED TEST: Budgets and Bills functionality for daniel.r.millner@gmail.com
+COMPREHENSIVE MX INTEGRATION DATA SYNC TESTING
+Tests MX Platform integration with proper data format validation
+As requested in the review request for daniel.r.millner@gmail.com
 """
 
 import requests
@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 # Get backend URL from environment
 BACKEND_URL = "https://smart-budget-299.preview.emergentagent.com/api"
 
-# Test credentials from review request - UPDATED FOR SPECIFIC USER
+# Test credentials from review request
 TEST_EMAIL = "daniel.r.millner@gmail.com"
 TEST_PASSWORD = "password"
 
