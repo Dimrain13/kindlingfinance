@@ -6,7 +6,7 @@ import { getCategoryDisplayName } from '../utils/categoryUtils';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import MXConnectWidget from '../components/MXConnectWidget';
-import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon, Target, ArrowRight } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, Calendar, Sparkles, PieChart as PieChartIcon, Target, ArrowRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import ModernBillCalendar from '../components/ModernBillCalendar';
 import CashFlowChart from '../components/CashFlowChart';
