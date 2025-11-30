@@ -33,12 +33,63 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
 
     // Listen for messages from MX Connect Widget
     const handleMessage = (event) => {
-      // Verify the message is from MX
-      if (event.data && event.data.type === 'mx/connect/memberConnected') {
-        console.log('Member connected:', event.data);
-        
-        // Sync accounts after connection
-        syncAccounts();
+      // Check if message is from MX widget
+      if (!event.data) return;
+      
+      const messageType = event.data.type || event.data.event;
+      if (!messageType) return;
+      
+      console.log('MX Widget Event:', messageType, event.data);
+      
+      // Handle different MX Connect events
+      switch (messageType) {
+        case 'mx/connect/loaded':
+          console.log('✅ MX Widget loaded successfully');
+          break;
+          
+        case 'mx/connect/memberConnected':
+          console.log('✅ Member connected successfully:', event.data);
+          // Sync accounts after successful connection
+          syncAccounts();
+          break;
+          
+        case 'mx/connect/connectedPrimaryAction':
+          // User completed primary action (connection flow)
+          console.log('✅ Primary action completed');
+          syncAccounts();
+          break;
+          
+        case 'mx/connect/memberDeleted':
+          console.log('🗑️ Member deleted:', event.data);
+          if (onSuccess) {
+            onSuccess();
+          }
+          break;
+          
+        case 'mx/connect/connectedMemberStatusChanged':
+          console.log('🔄 Member status changed:', event.data);
+          // Status might change during MFA/verification
+          break;
+          
+        case 'mx/connect/connectedMemberMFARequired':
+          console.log('🔐 MFA Required - waiting for user input');
+          // Widget will handle MFA UI, we just need to wait
+          break;
+          
+        case 'mx/connect/connectedMemberMFASuccess':
+          console.log('✅ MFA completed successfully');
+          // Connection should complete after successful MFA
+          break;
+          
+        case 'mx/connect/error':
+        case 'mx/connect/connectedMemberError':
+          console.error('❌ MX Widget error:', event.data);
+          setError('Connection failed. Please try again.');
+          break;
+          
+        default:
+          // Log other events for debugging
+          console.log('MX Event:', messageType);
       }
     };
 
