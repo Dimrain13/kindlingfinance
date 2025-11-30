@@ -5,7 +5,7 @@ import { formatCurrency } from '../utils/formatNumber';
 import { getCategoryDisplayName } from '../utils/categoryUtils';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { usePlaidLink } from 'react-plaid-link';
+import MXConnectWidget from '../components/MXConnectWidget';
 import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, AlertCircle, Calendar, Sparkles, PieChart as PieChartIcon, Target, ArrowRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import ModernBillCalendar from '../components/ModernBillCalendar';
