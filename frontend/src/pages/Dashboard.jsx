@@ -18,9 +18,8 @@ const Dashboard = () => {
   const [stats, setStats] = useState(null);
   const [goals, setGoals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [linkToken, setLinkToken] = useState(null);
+  const [showMXConnect, setShowMXConnect] = useState(false);
   const [syncing, setSyncing] = useState(false);
-  const [plaidError, setPlaidError] = useState(null);
   const [timePeriod, setTimePeriod] = useState('monthly');
 
   const getPeriodLabel = () => {
