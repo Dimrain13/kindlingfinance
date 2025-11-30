@@ -238,22 +238,63 @@ async def sync_transactions(
         mx_transactions = await mx_service.get_transactions(user_id, from_date=from_date)
         
         synced_count = 0
+        skipped_count = 0
+        
         for mx_txn in mx_transactions:
-            # Map MX transaction to our format
-            transaction_data = {
-                "id": mx_txn.get("guid"),
+            mx_account_guid = mx_txn.get("account_guid")
+            
+            # Map MX account guid to local account id
+            local_account = await db.accounts.find_one({
                 "user_id": user_id,
-                "mx_transaction_guid": mx_txn.get("guid"),
-                "mx_account_guid": mx_txn.get("account_guid"),
-                "amount": mx_txn.get("amount"),
+                "mx_account_guid": mx_account_guid
+            })
+            
+            if not local_account:
+                print(f"Skipping transaction - account not found: {mx_account_guid}")
+                skipped_count += 1
+                continue
+            
+            # Get amount and determine transaction type
+            # MX uses negative for debits (expenses), positive for credits (income)
+            amount = float(mx_txn.get("amount", 0))
+            
+            # Determine transaction type based on amount sign
+            if amount < 0:
+                transaction_type = "expense"
+                amount = abs(amount)  # Store as positive
+            else:
+                transaction_type = "income"
+            
+            # Get category (MX provides top-level category)
+            category = mx_txn.get("top_level_category") or mx_txn.get("category") or "Other"
+            
+            # Check if transaction already exists
+            mx_guid = mx_txn.get("guid")
+            existing_txn = await db.transactions.find_one({
+                "user_id": user_id,
+                "mx_transaction_guid": mx_guid
+            })
+            
+            transaction_data = {
+                "id": existing_txn["id"] if existing_txn else mx_guid,
+                "user_id": user_id,
+                "account_id": local_account["id"],
+                "mx_transaction_guid": mx_guid,
+                "amount": amount,
+                "description": mx_txn.get("description", "Unknown"),
+                "transaction_type": transaction_type,
+                "category": category,
                 "date": mx_txn.get("transacted_at", mx_txn.get("posted_at")),
-                "name": mx_txn.get("description"),
-                "merchant_name": mx_txn.get("merchant_name"),
-                "category": mx_txn.get("category"),
+                "merchant_name": mx_txn.get("merchant_name") or mx_txn.get("description"),
+                "is_recurring": False,
                 "pending": mx_txn.get("is_pending", False),
-                "currency_code": mx_txn.get("currency_code", "USD"),
-                "last_synced": datetime.utcnow().isoformat()
+                "ai_categorized": False,
+                "updated_at": datetime.utcnow()
             }
+            
+            # Add created_at only for new transactions
+            if not existing_txn:
+                transaction_data["created_at"] = datetime.utcnow()
             
             # Upsert transaction
             await db.transactions.update_one(
@@ -263,9 +304,14 @@ async def sync_transactions(
             )
             synced_count += 1
         
+        message = f"Successfully synced {synced_count} transactions"
+        if skipped_count > 0:
+            message += f" ({skipped_count} skipped - account not found)"
+        
         return {
-            "message": f"Successfully synced {synced_count} transactions",
-            "count": synced_count
+            "message": message,
+            "count": synced_count,
+            "skipped": skipped_count
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to sync transactions: {str(e)}")
