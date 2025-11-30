@@ -9,12 +9,16 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  console.log('MXConnectWidget mounted');
+
   const createConnectWidget = async () => {
+    console.log('Creating MX connect widget...');
     setLoading(true);
     setError(null);
     
     try {
       const response = await api.post('/mx/connect-widget');
+      console.log('MX connect widget response:', response.data);
       setConnectUrl(response.data.connect_url);
     } catch (err) {
       console.error('Failed to create MX connect widget:', err);
