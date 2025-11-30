@@ -58,49 +58,17 @@ const Dashboard = () => {
     }
   };
 
-  const createLinkToken = async () => {
-    try {
-      setPlaidError(null);
-      console.log('Creating Plaid link token...');
-      const response = await api.post('/plaid/create-link-token');
-      console.log('Link token created successfully');
-      setLinkToken(response.data.link_token);
-    } catch (error) {
-      console.error('Failed to create link token:', error);
-      const errorDetail = error.response?.data?.detail || error.message || 'Failed to initialize Plaid';
-      console.error('Error detail:', errorDetail);
-      setPlaidError(errorDetail);
-    }
+  const handleMXSuccess = () => {
+    setShowMXConnect(false);
+    loadDashboard();
+    alert('✅ Bank account connected successfully!\n\n💡 Your transactions are being synced!');
   };
-
-  const onSuccess = useCallback(async (publicToken) => {
-    try {
-      const response = await api.post('/plaid/exchange-token', { public_token: publicToken });
-      alert(`✅ ${response.data.message}\n\n💡 AI is automatically categorizing your transactions!`);
-      loadDashboard();
-      createLinkToken();
-    } catch (error) {
-      console.error('Failed to exchange token:', error);
-      alert('Failed to link account. Please try again.');
-    }
-  }, []);
-
-  const config = {
-    token: linkToken,
-    onSuccess,
-    onExit: (err, metadata) => {
-      if (err) {
-        console.error('Plaid Link exited with error:', err);
-      }
-    },
-  };
-
-  const { open, ready } = usePlaidLink(config);
 
   const handleSync = async () => {
     setSyncing(true);
     try {
-      await api.post('/plaid/sync');
+      await api.post('/mx/accounts/sync');
+      await api.post('/mx/transactions/sync');
       alert('Transactions synced successfully!');
       loadDashboard();
     } catch (error) {
