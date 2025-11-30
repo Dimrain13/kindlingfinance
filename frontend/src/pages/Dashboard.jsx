@@ -416,6 +416,14 @@ const Dashboard = () => {
 
       {/* Penny the Piggy Mascot */}
       <PennyMascot />
+
+      {/* MX Connect Widget Modal */}
+      {showMXConnect && (
+        <MXConnectWidget 
+          onSuccess={handleMXSuccess}
+          onClose={() => setShowMXConnect(false)}
+        />
+      )}
     </div>
   );
 };
