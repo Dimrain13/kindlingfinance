@@ -17,7 +17,10 @@ class MXService:
     def __init__(self):
         self.api_key = os.getenv('MX_API_KEY')
         self.client_id = os.getenv('MX_CLIENT_ID')
-        self.base_url = "https://api.mx.com"
+        # MX uses different URLs for sandbox/development vs production
+        # Sandbox: https://int-api.mx.com
+        # Production: https://api.mx.com
+        self.base_url = os.getenv('MX_API_URL', 'https://int-api.mx.com')
         
         # Create Basic Auth header
         auth_string = f"{self.client_id}:{self.api_key}"
