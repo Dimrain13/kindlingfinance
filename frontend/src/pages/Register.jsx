@@ -109,7 +109,7 @@ const Register = () => {
               <CampfireLogo size="lg" className="text-orange-600" />
             </div>
             <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text text-transparent">
-              Light Your First Spark
+              Join the Embers
             </CardTitle>
             <CardDescription className="text-center text-base">
               Start managing your finances smarter
