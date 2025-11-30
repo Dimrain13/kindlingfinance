@@ -31,6 +31,27 @@ const Accounts = () => {
     }
   };
 
+  const handleMXSuccess = () => {
+    setShowMXConnect(false);
+    loadAccounts();
+    alert('✅ Bank account connected successfully!\n\n💡 Your transactions are being synced!');
+  };
+
+  const handleSync = async () => {
+    setSyncing(true);
+    try {
+      await api.post('/mx/accounts/sync');
+      await api.post('/mx/transactions/sync');
+      alert('Accounts and transactions synced successfully!');
+      loadAccounts();
+    } catch (error) {
+      console.error('Failed to sync:', error);
+      alert('Failed to sync. Please try again.');
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   const initiateDelete = (account) => {
     setAccountToDelete(account);
     
