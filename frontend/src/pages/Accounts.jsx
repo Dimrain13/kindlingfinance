@@ -142,6 +142,25 @@ const Accounts = () => {
               )}
             </div>
           </div>
+          
+          {/* Action Buttons */}
+          <div className="flex gap-3">
+            <Button 
+              onClick={handleSync}
+              disabled={syncing}
+              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white"
+            >
+              <RefreshCw size={18} className={`mr-2 ${syncing ? 'animate-spin' : ''}`} />
+              {syncing ? 'Syncing...' : 'Sync Accounts'}
+            </Button>
+            <Button 
+              onClick={() => setShowMXConnect(true)}
+              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white"
+            >
+              <Plus size={18} className="mr-2" />
+              Link Account
+            </Button>
+          </div>
         </div>
 
         {/* All Accounts Grid */}
