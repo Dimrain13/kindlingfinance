@@ -150,12 +150,15 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
             account_type = MX_ACCOUNT_TYPE_MAPPING.get(mx_type, "manual")
             
             # Get balance and apply proper sign for liabilities
+            # MX Convention: all balances are positive (including liabilities)
+            # Our App Convention: liabilities should be negative
             raw_balance = float(mx_account.get("balance", 0))
             
-            # Liabilities should be negative
             if account_type in LIABILITY_TYPES:
+                # For liabilities (credit cards, loans, mortgages), make balance negative
                 balance = -abs(raw_balance) if raw_balance != 0 else 0
             else:
+                # For assets (checking, savings, investments), keep balance positive
                 balance = abs(raw_balance) if raw_balance != 0 else 0
             
             # Check if account already exists
