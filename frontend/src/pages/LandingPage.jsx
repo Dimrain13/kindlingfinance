@@ -298,10 +298,10 @@ const LandingPage = () => {
               <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
                 <CampfireLogo size="sm" className="text-white" />
               </div>
-              <span className="text-xl font-bold text-white">Kindling</span>
+              <span className="text-xl font-bold text-white">Ember</span>
             </div>
             <div className="text-sm">
-              © 2025 Kindling. Built with ❤️ for better financial futures.
+              © 2025 Ember. Built with ❤️ for better financial futures.
             </div>
           </div>
         </div>
