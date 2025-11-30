@@ -92,8 +92,11 @@ class Account(BaseModel):
     institution_name: Optional[str] = None
     plaid_account_id: Optional[str] = None
     plaid_item_id: Optional[str] = None
+    mx_account_guid: Optional[str] = None  # MX Platform account GUID
+    mx_member_guid: Optional[str] = None  # MX Platform member (institution) GUID
     currency: str = "USD"
     mask: Optional[str] = None
+    reviewed: Optional[bool] = None  # For transaction review workflow
     created_at: datetime
     updated_at: datetime
 
