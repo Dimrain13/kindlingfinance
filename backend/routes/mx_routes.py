@@ -255,15 +255,18 @@ async def sync_transactions(
                 continue
             
             # Get amount and determine transaction type
-            # MX uses negative for debits (expenses), positive for credits (income)
+            # MX Convention: negative = expense (debit/money out), positive = income (credit/money in)
             amount = float(mx_txn.get("amount", 0))
             
-            # Determine transaction type based on amount sign
+            # Determine transaction type based on MX's sign convention
             if amount < 0:
+                # Negative in MX = expense/debit
                 transaction_type = "expense"
-                amount = abs(amount)  # Store as positive
+                amount = abs(amount)  # Store as positive in our system
             else:
+                # Positive in MX = income/credit
                 transaction_type = "income"
+                # amount already positive, keep as is
             
             # Get category (MX provides top-level category)
             category = mx_txn.get("top_level_category") or mx_txn.get("category") or "Other"
