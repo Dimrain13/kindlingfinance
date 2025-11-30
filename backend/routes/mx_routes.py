@@ -1,0 +1,246 @@
+"""
+MX Platform API Routes
+Handles account connections, transactions, and balance updates via MX
+"""
+from fastapi import APIRouter, HTTPException, Depends
+from typing import Optional
+from datetime import datetime, timedelta
+import sys
+import os
+
+# Add parent directory to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from mx_service import mx_service
+from server import get_current_user, db
+
+router = APIRouter(prefix="/mx", tags=["mx"])
+
+
+@router.post("/connect-widget")
+async def create_connect_widget(
+    institution_code: Optional[str] = None,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Create MX Connect Widget URL for user to link accounts
+    """
+    try:
+        result = await mx_service.create_connect_widget_url(user_id, institution_code)
+        return {
+            "connect_url": result["connect_url"],
+            "user_guid": result["user_guid"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create connect widget: {str(e)}")
+
+
+@router.get("/members")
+async def list_members(user_id: str = Depends(get_current_user)):
+    """
+    List all connected institutions (members) for the user
+    """
+    try:
+        members = await mx_service.list_members(user_id)
+        return {"members": members}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch members: {str(e)}")
+
+
+@router.get("/members/{member_guid}")
+async def get_member_status(
+    member_guid: str,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Get status of a specific member connection
+    """
+    try:
+        member = await mx_service.get_member_status(user_id, member_guid)
+        return {"member": member}
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Member not found: {str(e)}")
+
+
+@router.post("/members/{member_guid}/refresh")
+async def refresh_member(
+    member_guid: str,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Trigger a refresh for a member connection
+    """
+    try:
+        member = await mx_service.refresh_member(user_id, member_guid)
+        return {"member": member, "message": "Refresh triggered successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to refresh member: {str(e)}")
+
+
+@router.delete("/members/{member_guid}")
+async def delete_member(
+    member_guid: str,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Delete a member connection (disconnect institution)
+    """
+    try:
+        success = await mx_service.delete_member(user_id, member_guid)
+        
+        # Also remove accounts from our database
+        await db.accounts.delete_many({
+            "user_id": user_id,
+            "mx_member_guid": member_guid
+        })
+        
+        return {"message": "Member deleted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete member: {str(e)}")
+
+
+@router.get("/accounts")
+async def list_accounts(
+    member_guid: Optional[str] = None,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    List all accounts for the user
+    Optionally filter by member_guid
+    """
+    try:
+        accounts = await mx_service.list_accounts(user_id, member_guid)
+        return {"accounts": accounts}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch accounts: {str(e)}")
+
+
+@router.post("/accounts/sync")
+async def sync_accounts(user_id: str = Depends(get_current_user)):
+    """
+    Sync accounts from MX to local database
+    """
+    try:
+        # Get all accounts from MX
+        mx_accounts = await mx_service.list_accounts(user_id)
+        
+        synced_count = 0
+        for mx_account in mx_accounts:
+            account_data = {
+                "id": mx_account.get("guid"),
+                "user_id": user_id,
+                "mx_account_guid": mx_account.get("guid"),
+                "mx_member_guid": mx_account.get("member_guid"),
+                "name": mx_account.get("name"),
+                "official_name": mx_account.get("institution_name"),
+                "type": mx_account.get("type", "").lower(),
+                "subtype": mx_account.get("subtype", "").lower(),
+                "mask": mx_account.get("account_number", "")[-4:] if mx_account.get("account_number") else None,
+                "balance": {
+                    "current": mx_account.get("balance"),
+                    "available": mx_account.get("available_balance"),
+                    "limit": mx_account.get("credit_limit")
+                },
+                "currency_code": mx_account.get("currency_code", "USD"),
+                "institution_id": mx_account.get("institution_code"),
+                "last_synced": datetime.utcnow().isoformat()
+            }
+            
+            # Upsert account
+            await db.accounts.update_one(
+                {"id": account_data["id"], "user_id": user_id},
+                {"$set": account_data},
+                upsert=True
+            )
+            synced_count += 1
+        
+        return {
+            "message": f"Successfully synced {synced_count} accounts",
+            "count": synced_count
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to sync accounts: {str(e)}")
+
+
+@router.get("/transactions")
+async def get_transactions(
+    from_date: Optional[str] = None,
+    to_date: Optional[str] = None,
+    account_guid: Optional[str] = None,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Get transactions from MX
+    """
+    try:
+        transactions = await mx_service.get_transactions(
+            user_id, 
+            from_date, 
+            to_date, 
+            account_guid
+        )
+        return {"transactions": transactions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch transactions: {str(e)}")
+
+
+@router.post("/transactions/sync")
+async def sync_transactions(
+    from_date: Optional[str] = None,
+    user_id: str = Depends(get_current_user)
+):
+    """
+    Sync transactions from MX to local database
+    """
+    try:
+        # Default to last 90 days
+        if not from_date:
+            from_date = (datetime.utcnow() - timedelta(days=90)).strftime("%Y-%m-%d")
+        
+        # Get transactions from MX
+        mx_transactions = await mx_service.get_transactions(user_id, from_date=from_date)
+        
+        synced_count = 0
+        for mx_txn in mx_transactions:
+            # Map MX transaction to our format
+            transaction_data = {
+                "id": mx_txn.get("guid"),
+                "user_id": user_id,
+                "mx_transaction_guid": mx_txn.get("guid"),
+                "mx_account_guid": mx_txn.get("account_guid"),
+                "amount": mx_txn.get("amount"),
+                "date": mx_txn.get("transacted_at", mx_txn.get("posted_at")),
+                "name": mx_txn.get("description"),
+                "merchant_name": mx_txn.get("merchant_name"),
+                "category": mx_txn.get("category"),
+                "pending": mx_txn.get("is_pending", False),
+                "currency_code": mx_txn.get("currency_code", "USD"),
+                "last_synced": datetime.utcnow().isoformat()
+            }
+            
+            # Upsert transaction
+            await db.transactions.update_one(
+                {"id": transaction_data["id"], "user_id": user_id},
+                {"$set": transaction_data},
+                upsert=True
+            )
+            synced_count += 1
+        
+        return {
+            "message": f"Successfully synced {synced_count} transactions",
+            "count": synced_count
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to sync transactions: {str(e)}")
+
+
+@router.get("/institutions/search")
+async def search_institutions(query: str):
+    """
+    Search for institutions by name
+    """
+    try:
+        institutions = await mx_service.search_institutions(query)
+        return {"institutions": institutions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to search institutions: {str(e)}")
