@@ -168,8 +168,12 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
                 "mx_account_guid": mx_guid
             })
             
+            # Generate proper UUID for new accounts
+            import uuid
+            account_id = existing_account["id"] if existing_account else str(uuid.uuid4())
+            
             account_data = {
-                "id": existing_account["id"] if existing_account else mx_guid,
+                "id": account_id,
                 "user_id": user_id,
                 "mx_account_guid": mx_guid,
                 "mx_member_guid": mx_account.get("member_guid"),
@@ -179,7 +183,8 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
                 "institution_name": mx_account.get("institution_name", "Unknown"),
                 "currency": mx_account.get("currency_code", "USD"),
                 "mask": mx_account.get("account_number", "")[-4:] if mx_account.get("account_number") else None,
-                "updated_at": datetime.utcnow()
+                "updated_at": datetime.utcnow(),
+                "reviewed": True  # MX accounts are considered reviewed by default
             }
             
             # Add created_at only for new accounts
@@ -188,7 +193,7 @@ async def sync_accounts(user_id: str = Depends(get_current_user)):
             
             # Upsert account
             await db.accounts.update_one(
-                {"id": account_data["id"], "user_id": user_id},
+                {"user_id": user_id, "mx_account_guid": mx_guid},
                 {"$set": account_data},
                 upsert=True
             )
