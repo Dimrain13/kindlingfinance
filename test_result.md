@@ -791,6 +791,21 @@ backend:
         -agent: "testing"
         -comment: "🔍 COMPREHENSIVE MX VERIFICATION LOOP INVESTIGATION COMPLETED: Conducted detailed debugging of reported verification loop issue with credentials daniel.r.millner@gmail.com/password. AUTHENTICATION: ✅ Login successful, dashboard loaded correctly. MX WIDGET FUNCTIONALITY: ✅ Link Account button works, MX Connect modal opens successfully, iframe loads from int-widgets.moneydesktop.com. INSTITUTION SELECTION: ✅ Search functionality operational, MX Bank found and selectable. CREDENTIAL FLOW: ✅ Username/password fields functional, test credentials (mxuser/password) submitted successfully. VERIFICATION MONITORING: 🔍 Monitored connection process for 60 seconds specifically looking for verification loop behavior. CRITICAL FINDINGS: ✅ NO VERIFICATION LOOP DETECTED - Connection completed successfully without multiple verification prompts. Normal flow observed: credentials → processing → member connected → sync completed. CONSOLE ANALYSIS: Captured 43 MX-specific events including mx/connect/memberConnected, mx/connect/stepChange, mx/connect/loaded - all indicating successful progression. NETWORK ANALYSIS: 27 MX network requests captured, all returning successful responses (200 status codes). SYNC VERIFICATION: ✅ Successfully synced 6 accounts and 25 transactions after connection completion. CONCLUSION: MX Connect widget is functioning correctly without verification loops in current testing. The user's reported issue may be intermittent, institution-specific, or has been resolved. Current implementation properly handles MX events and completes connections successfully."
 
+  - task: "Net Worth Consistency Check Across Pages"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/utils/financialCalculations.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: "NA"
+        -agent: "user"
+        -comment: "User reports net worth is showing inconsistently across the site. Need to capture the exact net worth values displayed on different pages to identify discrepancies."
+        -working: false
+        -agent: "testing"
+        -comment: "❌ NET WORTH INCONSISTENCY CONFIRMED: Conducted comprehensive testing across all pages showing net worth values. FINDINGS: ✅ Dashboard shows Net Worth: $964,202.13, ✅ Analytics shows Net Worth: $964,202.13 (CONSISTENT), ❌ Portfolio page shows conflicting values: 'Total Portfolio: $510,460.09' and 'Net Worth Over Time: -$15,797.87' (MAJOR DISCREPANCY), ❌ Accounts page Net Worth display not captured by selectors but visible in UI. CRITICAL ISSUE: Portfolio page 'Net Worth Over Time' chart shows -$15,797.87 while Dashboard/Analytics show $964,202.13 - a difference of nearly $980,000. This suggests different calculation methods or data sources between pages. ROOT CAUSE: Portfolio page appears to use different financial calculation logic than Dashboard/Analytics pages. IMPACT: Users see conflicting net worth values which undermines trust in the application's accuracy. RECOMMENDATION: Investigate and standardize net worth calculation across all pages to ensure consistency."
+
 test_plan:
   current_focus:
     - "MX Integration - Complete End-to-End Testing"
