@@ -44,16 +44,15 @@ const NetWorthChart = () => {
         liabilities: snapshot.total_liabilities
       }));
       
-      // Add current real-time value to the end of the chart
-      if (formattedData.length > 0) {
-        formattedData.push({
-          date: 'Today',
-          fullDate: new Date().toISOString(),
-          netWorth: netWorth,
-          assets: totalAssets,
-          liabilities: totalLiabilities
-        });
-      }
+      // Always add current real-time value to the chart
+      // If no historical data, show just today's value
+      formattedData.push({
+        date: 'Today',
+        fullDate: new Date().toISOString(),
+        netWorth: netWorth,
+        assets: totalAssets,
+        liabilities: totalLiabilities
+      });
       
       setData(formattedData);
     } catch (error) {
