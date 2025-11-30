@@ -116,6 +116,7 @@ class Transaction(BaseModel):
     user_id: str
     account_id: str
     plaid_transaction_id: Optional[str] = None
+    mx_transaction_guid: Optional[str] = None  # MX Platform transaction GUID
     amount: float
     description: str
     transaction_type: TransactionType
