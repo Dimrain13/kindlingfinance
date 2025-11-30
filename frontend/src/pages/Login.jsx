@@ -118,8 +118,8 @@ const Login = () => {
         <div className="relative z-10 flex flex-col justify-center max-w-md">
           <div className="mb-8">
             <CampfireLogo size="xl" className="mb-4" />
-            <h1 className="text-5xl font-bold mb-4">Kindling</h1>
-            <p className="text-xl text-orange-100">Gather around your finances</p>
+            <h1 className="text-5xl font-bold mb-4">Ember</h1>
+            <p className="text-xl text-orange-100">Keep your finances glowing</p>
           </div>
           
           <div className="space-y-6 mt-12">
