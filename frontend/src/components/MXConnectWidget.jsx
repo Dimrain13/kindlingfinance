@@ -36,10 +36,19 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
       // Check if message is from MX widget
       if (!event.data) return;
       
-      const messageType = event.data.type || event.data.event;
-      if (!messageType) return;
+      // Log all messages to help debug
+      console.log('📨 Received postMessage:', event.data);
       
-      console.log('MX Widget Event:', messageType, event.data);
+      const messageType = event.data.type || event.data.event;
+      if (!messageType) {
+        // Check if it's an MX metadata update
+        if (event.data.metadata || event.data.mx) {
+          console.log('📊 MX metadata:', event.data);
+        }
+        return;
+      }
+      
+      console.log('🎯 MX Widget Event:', messageType, event.data);
       
       // Handle different MX Connect events
       switch (messageType) {
