@@ -80,30 +80,42 @@ class MXService:
         Returns:
             user_guid: MX's unique identifier for the user
         """
-        async with httpx.AsyncClient() as client:
-            # Try to list users and find existing
+        # Import here to avoid circular import
+        from motor.motor_asyncio import AsyncIOMotorClient
+        import os
+        
+        # First check our database for stored MX user GUID
+        mongo_url = os.getenv('MONGO_URL')
+        db_name = os.getenv('DB_NAME', 'financehub_db')
+        client = AsyncIOMotorClient(mongo_url)
+        db = client[db_name]
+        
+        # Check if we have a stored MX GUID for this user
+        user_doc = await db.users.find_one({"id": user_id})
+        if user_doc and user_doc.get("mx_user_guid"):
+            print(f"✅ Found stored MX GUID: {user_doc['mx_user_guid']}")
+            return user_doc["mx_user_guid"]
+        
+        # No stored GUID, need to create new MX user
+        async with httpx.AsyncClient() as client_http:
             try:
-                response = await client.get(
-                    f"{self.base_url}/users",
-                    headers=self.headers,
-                    timeout=30.0
-                )
-                response.raise_for_status()
-                users = response.json().get("users", [])
-                
-                # Find user by our ID
-                for user in users:
-                    if user.get("id") == user_id:
-                        return user.get("guid")
-                
-                # User not found, create new one
+                # Create new MX user
                 new_user = await self.create_user(user_id)
-                return new_user.get("guid")
+                mx_guid = new_user.get("guid")
+                
+                # Store the MX GUID in our database for future use
+                if user_doc:
+                    await db.users.update_one(
+                        {"id": user_id},
+                        {"$set": {"mx_user_guid": mx_guid}}
+                    )
+                    print(f"✅ Stored new MX GUID: {mx_guid}")
+                
+                return mx_guid
                 
             except Exception as e:
-                # If error, try to create user
-                new_user = await self.create_user(user_id)
-                return new_user.get("guid")
+                print(f"❌ Error creating MX user: {e}")
+                raise
     
     async def create_connect_widget_url(self, user_id: str, institution_code: Optional[str] = None) -> Dict:
         """
