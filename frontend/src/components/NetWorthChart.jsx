@@ -34,8 +34,8 @@ const NetWorthChart = () => {
       setCurrentAssets(totalAssets);
       setCurrentLiabilities(totalLiabilities);
       
-      // Fetch historical snapshots for trend line
-      const historyResponse = await api.get(`/networth/history?days=${timeRange}`);
+      // Fetch calculated historical data based on transactions
+      const historyResponse = await api.get(`/networth/calculated-history?days=${timeRange}`);
       const formattedData = historyResponse.data.map(snapshot => ({
         date: new Date(snapshot.snapshot_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         fullDate: snapshot.snapshot_date,
@@ -43,16 +43,6 @@ const NetWorthChart = () => {
         assets: snapshot.total_assets,
         liabilities: snapshot.total_liabilities
       }));
-      
-      // Always add current real-time value to the chart
-      // If no historical data, show just today's value
-      formattedData.push({
-        date: 'Today',
-        fullDate: new Date().toISOString(),
-        netWorth: netWorth,
-        assets: totalAssets,
-        liabilities: totalLiabilities
-      });
       
       setData(formattedData);
     } catch (error) {
