@@ -304,18 +304,21 @@ async def sync_transactions(
             # Determine transaction type based on MX's sign convention and category
             category_raw = mx_txn.get("top_level_category") or mx_txn.get("category") or "Other"
             
-            # Check for income indicators in description or category
+            # Determine transaction type based on MX amount sign
+            # MX Convention: negative = expense (money out), positive = income (money in)
             description = mx_txn.get("description", "").lower()
-            is_income_transaction = (
+            
+            # Check for income keywords
+            has_income_keywords = (
                 "deposit" in description or 
                 "payroll" in description or 
                 "salary" in description or
                 "income" in description or
-                "refund" in description or
-                raw_amount > 0  # MX positive amounts are typically income
+                "refund" in description
             )
             
-            if is_income_transaction and raw_amount > 0:
+            # Determine type based on amount sign (primary) and keywords (secondary)
+            if raw_amount > 0 or has_income_keywords:
                 transaction_type = "income"
                 amount = abs(raw_amount)
             else:
