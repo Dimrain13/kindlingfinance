@@ -2441,8 +2441,11 @@ try:
     
     from routes.mx_debug_routes import router as mx_debug_router
     app.include_router(mx_debug_router, prefix="/api")
+    
+    from routes.networth_routes import router as networth_calc_router
+    app.include_router(networth_calc_router, prefix="/api")
 except ImportError as e:
-    print(f"Warning: Could not import MX routes: {e}")
+    print(f"Warning: Could not import routes: {e}")
 
 # Health check
 @app.get("/health")
