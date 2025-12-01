@@ -27,6 +27,9 @@ const Budgets = () => {
     icon: '💰',
     color: '#3B82F6'
   });
+  const [showSmartSuggestions, setShowSmartSuggestions] = useState(false);
+  const [smartSuggestions, setSmartSuggestions] = useState([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
   useEffect(() => {
     loadBudgets();
