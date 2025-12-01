@@ -1,26 +1,32 @@
 /* Kindling Brand Colors - Warm, Trustworthy, Growth-Oriented */
 
 :root {
-  /* Primary Brand Colors - Fire/Spark Theme */
-  --kindling-flame: #F59E0B;      /* Amber-500 - Main brand color */
-  --kindling-ember: #FB923C;       /* Orange-400 - Warm accent */
-  --kindling-coal: #1E293B;        /* Slate-800 - Deep, warm dark */
+  /* Primary Brand Colors - Fun & Vibrant Fire Theme */
+  --kindling-fire: #FF6B35;        /* Bright coral-orange - Main brand */
+  --kindling-blaze: #FF8C42;       /* Sunset orange - Warm glow */
+  --kindling-spark: #FFB84D;       /* Golden yellow - Sparks */
+  --kindling-berry: #E63946;       /* Warm red-pink - Playful accent */
+  --kindling-plum: #9B5DE5;        /* Soft purple - Fun accent */
+  --kindling-mint: #00F5D4;        /* Bright teal - Cool contrast */
   
-  /* Trust & Security (Financial) */
-  --kindling-trust: #0D9488;       /* Teal-600 - Reliability */
-  --kindling-depth: #1E3A8A;       /* Navy-700 - Depth, stability */
+  /* Supporting Warm Neutrals */
+  --kindling-coal: #2F2F2F;        /* Deep charcoal */
+  --kindling-ash: #6B6B6B;         /* Medium gray */
+  --kindling-smoke: #A8A8A8;       /* Light gray */
+  --kindling-cream: #FFF8E7;       /* Warm cream */
+  --kindling-honey: #FFCF9D;       /* Peachy beige */
+  
+  /* Trust & Security (Financial) - Updated */
+  --kindling-trust: #00F5D4;       /* Bright teal - Reliability */
+  --kindling-depth: #9B5DE5;       /* Purple - Depth, stability */
   
   /* Growth & Success */
   --kindling-growth: #059669;      /* Emerald-600 - Money, growth */
   --kindling-sprout: #10B981;      /* Emerald-500 - Fresh growth */
   
-  /* Warmth & Energy */
-  --kindling-warmth: #F97316;      /* Orange-500 - Energy */
-  --kindling-glow: #FDBA74;        /* Orange-300 - Soft warmth */
-  
   /* Alerts & Warnings */
-  --kindling-alert: #F87171;       /* Coral-400 - Warm warning */
-  --kindling-caution: #FCD34D;     /* Yellow-300 - Gentle alert */
+  --kindling-alert: #E63946;       /* Berry red - Warm warning */
+  --kindling-caution: #FFB84D;     /* Spark yellow - Gentle alert */
   
   /* Neutral Warm Grays */
   --kindling-ash-50: #F8FAFC;      /* Very light */
