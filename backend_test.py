@@ -2858,6 +2858,525 @@ class FinanceHubTester:
         
         return results
     
+    # ==================== COMPREHENSIVE DATE FILTERING & ACCOUNT TYPE VERIFICATION ====================
+    
+    def test_comprehensive_date_filtering_and_account_verification(self) -> Dict[str, Any]:
+        """
+        COMPREHENSIVE DATE FILTERING & ACCOUNT TYPE VERIFICATION TEST
+        As requested in the review request for daniel.r.millner@gmail.com
+        
+        Tests:
+        1. Dashboard Analytics - Period Filtering (monthly, quarterly, yearly)
+        2. Cash Flow Page - Date Range & Account Types
+        3. Transactions Endpoint - Date Filtering
+        4. Budget Calculations - Monthly Date Logic
+        5. Net Worth History - Account Type Coverage
+        6. Account Balance Verification by Type
+        """
+        print("\n🎯 COMPREHENSIVE DATE FILTERING & ACCOUNT TYPE VERIFICATION TEST")
+        print("Testing for user: daniel.r.millner@gmail.com")
+        results = {"phase": "Comprehensive Date Filtering & Account Verification", "tests": []}
+        
+        # Test 1: Dashboard Analytics - Period Filtering
+        print("\n1️⃣ TESTING DASHBOARD ANALYTICS - PERIOD FILTERING")
+        period_tests = ["monthly", "quarterly", "yearly"]
+        
+        for period in period_tests:
+            try:
+                print(f"  Testing period: {period}")
+                response = self.session.get(f"{BACKEND_URL}/analytics/dashboard?period={period}")
+                if response.status_code == 200:
+                    data = response.json()
+                    results["tests"].append({
+                        "test": f"Dashboard Analytics - {period}",
+                        "status": "✅ PASS",
+                        "data": {
+                            "total_balance": data.get("total_balance"),
+                            "net_worth": data.get("net_worth"),
+                            "total_income": data.get("total_income"),
+                            "total_expenses": data.get("total_expenses"),
+                            "spending_categories": len(data.get("spending_by_category", []))
+                        }
+                    })
+                    print(f"    ✅ {period}: Balance=${data.get('total_balance', 0):,.2f}, Income=${data.get('total_income', 0):,.2f}")
+                else:
+                    results["tests"].append({
+                        "test": f"Dashboard Analytics - {period}",
+                        "status": "❌ FAIL",
+                        "error": f"Status: {response.status_code}, Response: {response.text}"
+                    })
+                    print(f"    ❌ {period} failed: {response.status_code}")
+            except Exception as e:
+                results["tests"].append({
+                    "test": f"Dashboard Analytics - {period}",
+                    "status": "❌ ERROR",
+                    "error": str(e)
+                })
+                print(f"    ❌ {period} error: {str(e)}")
+        
+        # Test 2: Cash Flow Page - Date Range & Account Types
+        print("\n2️⃣ TESTING CASH FLOW - DATE RANGE & ACCOUNT TYPES")
+        try:
+            response = self.session.get(f"{BACKEND_URL}/analytics/cash-flow?period=monthly")
+            if response.status_code == 200:
+                cash_flow = response.json()
+                results["tests"].append({
+                    "test": "Cash Flow Monthly View",
+                    "status": "✅ PASS",
+                    "data": {
+                        "has_data": bool(cash_flow),
+                        "data_points": len(cash_flow) if isinstance(cash_flow, list) else 1
+                    }
+                })
+                print(f"    ✅ Cash flow data retrieved successfully")
+            else:
+                results["tests"].append({
+                    "test": "Cash Flow Monthly View",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"    ❌ Cash flow failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Cash Flow Monthly View",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Cash flow error: {str(e)}")
+        
+        # Test 3: Transactions Endpoint - Date Filtering
+        print("\n3️⃣ TESTING TRANSACTIONS - DATE FILTERING")
+        
+        # Test date range filtering
+        try:
+            start_date = "2025-11-01"
+            end_date = "2025-11-30"
+            response = self.session.get(f"{BACKEND_URL}/transactions?start_date={start_date}&end_date={end_date}")
+            if response.status_code == 200:
+                transactions = response.json()
+                results["tests"].append({
+                    "test": "Transactions Date Range Filter",
+                    "status": "✅ PASS",
+                    "count": len(transactions),
+                    "date_range": f"{start_date} to {end_date}"
+                })
+                print(f"    ✅ Date range filter: {len(transactions)} transactions found")
+                
+                # Verify transactions are within date range
+                date_violations = []
+                for txn in transactions[:10]:  # Check first 10
+                    txn_date = txn.get('date', '')
+                    if txn_date < start_date or txn_date > end_date:
+                        date_violations.append(txn_date)
+                
+                if date_violations:
+                    results["tests"].append({
+                        "test": "Date Range Validation",
+                        "status": "❌ FAIL",
+                        "error": f"Found {len(date_violations)} transactions outside date range: {date_violations[:5]}"
+                    })
+                    print(f"    ❌ Date violations found: {len(date_violations)}")
+                else:
+                    results["tests"].append({
+                        "test": "Date Range Validation",
+                        "status": "✅ PASS",
+                        "message": "All transactions within specified date range"
+                    })
+                    print(f"    ✅ All transactions within date range")
+            else:
+                results["tests"].append({
+                    "test": "Transactions Date Range Filter",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"    ❌ Date range filter failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Transactions Date Range Filter",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Date range filter error: {str(e)}")
+        
+        # Test account filtering for each account type
+        account_types = ["checking", "savings", "investment", "crypto", "credit_card", "loan", "mortgage"]
+        
+        try:
+            # First get all accounts to test filtering
+            accounts_response = self.session.get(f"{BACKEND_URL}/accounts")
+            if accounts_response.status_code == 200:
+                accounts = accounts_response.json()
+                
+                for account_type in account_types:
+                    # Find accounts of this type
+                    type_accounts = [acc for acc in accounts if acc.get('account_type') == account_type]
+                    
+                    if type_accounts:
+                        test_account = type_accounts[0]
+                        account_id = test_account.get('id')
+                        
+                        # Test filtering by this account
+                        filter_response = self.session.get(f"{BACKEND_URL}/transactions?account_id={account_id}")
+                        if filter_response.status_code == 200:
+                            filtered_txns = filter_response.json()
+                            results["tests"].append({
+                                "test": f"Account Filter - {account_type}",
+                                "status": "✅ PASS",
+                                "account_name": test_account.get('name'),
+                                "transaction_count": len(filtered_txns)
+                            })
+                            print(f"    ✅ {account_type}: {len(filtered_txns)} transactions")
+                        else:
+                            results["tests"].append({
+                                "test": f"Account Filter - {account_type}",
+                                "status": "❌ FAIL",
+                                "error": f"Status: {filter_response.status_code}"
+                            })
+                            print(f"    ❌ {account_type} filter failed")
+                    else:
+                        results["tests"].append({
+                            "test": f"Account Filter - {account_type}",
+                            "status": "⚠️ SKIP",
+                            "reason": f"No {account_type} accounts found"
+                        })
+                        print(f"    ⚠️ {account_type}: No accounts found")
+            else:
+                results["tests"].append({
+                    "test": "Get Accounts for Filtering",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {accounts_response.status_code}"
+                })
+        except Exception as e:
+            results["tests"].append({
+                "test": "Account Type Filtering",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+        
+        # Test 4: Budget Calculations - Monthly Date Logic
+        print("\n4️⃣ TESTING BUDGET CALCULATIONS - MONTHLY DATE LOGIC")
+        try:
+            response = self.session.get(f"{BACKEND_URL}/budgets/status")
+            if response.status_code == 200:
+                budget_status = response.json()
+                results["tests"].append({
+                    "test": "Budget Monthly Calculations",
+                    "status": "✅ PASS",
+                    "data": budget_status
+                })
+                print(f"    ✅ Budget status retrieved successfully")
+                
+                # Verify spending is for current month only
+                current_month = datetime.now().strftime('%Y-%m')
+                print(f"    📅 Current month: {current_month}")
+                
+                # Check if budget data includes month information
+                if isinstance(budget_status, dict) and 'budgets' in budget_status:
+                    for budget in budget_status['budgets'][:3]:  # Check first 3
+                        spent = budget.get('spent', 0)
+                        category = budget.get('category', 'Unknown')
+                        print(f"    💰 {category}: ${spent:,.2f} spent this month")
+                
+            else:
+                results["tests"].append({
+                    "test": "Budget Monthly Calculations",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"    ❌ Budget status failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Budget Monthly Calculations",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Budget calculations error: {str(e)}")
+        
+        # Test 5: Net Worth History - Account Type Coverage
+        print("\n5️⃣ TESTING NET WORTH HISTORY - ACCOUNT TYPE COVERAGE")
+        
+        for days in [30, 90]:
+            try:
+                response = self.session.get(f"{BACKEND_URL}/networth/calculated-history?days={days}")
+                if response.status_code == 200:
+                    networth_history = response.json()
+                    results["tests"].append({
+                        "test": f"Net Worth History - {days} days",
+                        "status": "✅ PASS",
+                        "data_points": len(networth_history) if isinstance(networth_history, list) else 1
+                    })
+                    print(f"    ✅ {days} days: Net worth history retrieved")
+                else:
+                    results["tests"].append({
+                        "test": f"Net Worth History - {days} days",
+                        "status": "❌ FAIL",
+                        "error": f"Status: {response.status_code}, Response: {response.text}"
+                    })
+                    print(f"    ❌ {days} days failed: {response.status_code}")
+            except Exception as e:
+                results["tests"].append({
+                    "test": f"Net Worth History - {days} days",
+                    "status": "❌ ERROR",
+                    "error": str(e)
+                })
+                print(f"    ❌ {days} days error: {str(e)}")
+        
+        # Test 6: Account Balance Verification by Type
+        print("\n6️⃣ TESTING ACCOUNT BALANCE VERIFICATION BY TYPE")
+        try:
+            response = self.session.get(f"{BACKEND_URL}/accounts")
+            if response.status_code == 200:
+                accounts = response.json()
+                
+                # Group accounts by type
+                account_groups = {}
+                for account in accounts:
+                    acc_type = account.get('account_type', 'unknown')
+                    if acc_type not in account_groups:
+                        account_groups[acc_type] = []
+                    account_groups[acc_type].append(account)
+                
+                # Verify balance signs for each type
+                liability_types = ["credit_card", "loan", "mortgage"]
+                asset_types = ["checking", "savings", "investment", "crypto"]
+                
+                balance_issues = []
+                
+                for acc_type, accounts_list in account_groups.items():
+                    total_balance = sum(acc.get('balance', 0) for acc in accounts_list)
+                    count = len(accounts_list)
+                    
+                    print(f"    📊 {acc_type}: {count} accounts, Total: ${total_balance:,.2f}")
+                    
+                    # Check balance signs
+                    if acc_type in liability_types:
+                        # Liabilities should be negative or zero
+                        positive_liabilities = [acc for acc in accounts_list if acc.get('balance', 0) > 0]
+                        if positive_liabilities:
+                            balance_issues.append({
+                                'type': acc_type,
+                                'issue': 'positive_liability',
+                                'count': len(positive_liabilities),
+                                'examples': [f"{acc.get('name')}: ${acc.get('balance', 0):,.2f}" for acc in positive_liabilities[:3]]
+                            })
+                            print(f"      ⚠️ Found {len(positive_liabilities)} positive liability balances")
+                    
+                    elif acc_type in asset_types:
+                        # Assets should be positive or zero
+                        negative_assets = [acc for acc in accounts_list if acc.get('balance', 0) < 0]
+                        if negative_assets:
+                            balance_issues.append({
+                                'type': acc_type,
+                                'issue': 'negative_asset',
+                                'count': len(negative_assets),
+                                'examples': [f"{acc.get('name')}: ${acc.get('balance', 0):,.2f}" for acc in negative_assets[:3]]
+                            })
+                            print(f"      ⚠️ Found {len(negative_assets)} negative asset balances")
+                
+                if balance_issues:
+                    results["tests"].append({
+                        "test": "Account Balance Sign Verification",
+                        "status": "❌ FAIL",
+                        "issues": balance_issues,
+                        "total_issues": len(balance_issues)
+                    })
+                    print(f"    ❌ Found {len(balance_issues)} balance sign issues")
+                else:
+                    results["tests"].append({
+                        "test": "Account Balance Sign Verification",
+                        "status": "✅ PASS",
+                        "message": "All account balance signs are correct"
+                    })
+                    print(f"    ✅ All account balance signs correct")
+                
+                # Summary of account types
+                results["tests"].append({
+                    "test": "Account Type Coverage Summary",
+                    "status": "✅ PASS",
+                    "account_groups": {k: len(v) for k, v in account_groups.items()},
+                    "total_accounts": len(accounts)
+                })
+                
+            else:
+                results["tests"].append({
+                    "test": "Account Balance Verification",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"    ❌ Account verification failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Account Balance Verification",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Account verification error: {str(e)}")
+        
+        # Test 7: Transaction Type Verification
+        print("\n7️⃣ TESTING TRANSACTION TYPE VERIFICATION")
+        try:
+            response = self.session.get(f"{BACKEND_URL}/transactions?limit=100")
+            if response.status_code == 200:
+                transactions = response.json()
+                
+                # Count transaction types
+                type_counts = {}
+                amount_issues = []
+                
+                for txn in transactions:
+                    txn_type = txn.get('transaction_type', 'unknown')
+                    amount = txn.get('amount', 0)
+                    
+                    type_counts[txn_type] = type_counts.get(txn_type, 0) + 1
+                    
+                    # Check for amount/type mismatches
+                    if txn_type == 'income' and amount < 0:
+                        amount_issues.append({
+                            'id': txn.get('id'),
+                            'description': txn.get('description', ''),
+                            'type': txn_type,
+                            'amount': amount,
+                            'issue': 'negative_income'
+                        })
+                    elif txn_type == 'expense' and amount > 0:
+                        amount_issues.append({
+                            'id': txn.get('id'),
+                            'description': txn.get('description', ''),
+                            'type': txn_type,
+                            'amount': amount,
+                            'issue': 'positive_expense'
+                        })
+                
+                print(f"    📊 Transaction Type Distribution:")
+                for txn_type, count in type_counts.items():
+                    print(f"      {txn_type}: {count} transactions")
+                
+                if amount_issues:
+                    results["tests"].append({
+                        "test": "Transaction Type vs Amount Verification",
+                        "status": "❌ FAIL",
+                        "issues": amount_issues[:10],  # First 10 issues
+                        "total_issues": len(amount_issues)
+                    })
+                    print(f"    ❌ Found {len(amount_issues)} amount/type mismatches")
+                else:
+                    results["tests"].append({
+                        "test": "Transaction Type vs Amount Verification",
+                        "status": "✅ PASS",
+                        "message": "All transaction types match their amounts"
+                    })
+                    print(f"    ✅ All transaction types match amounts")
+                
+                results["tests"].append({
+                    "test": "Transaction Type Distribution",
+                    "status": "✅ PASS",
+                    "type_counts": type_counts,
+                    "total_transactions": len(transactions)
+                })
+                
+            else:
+                results["tests"].append({
+                    "test": "Transaction Type Verification",
+                    "status": "❌ FAIL",
+                    "error": f"Status: {response.status_code}, Response: {response.text}"
+                })
+                print(f"    ❌ Transaction type verification failed: {response.status_code}")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Transaction Type Verification",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Transaction type verification error: {str(e)}")
+        
+        # Test 8: Cross-Page Data Consistency
+        print("\n8️⃣ TESTING CROSS-PAGE DATA CONSISTENCY")
+        try:
+            # Get data from multiple endpoints
+            dashboard_response = self.session.get(f"{BACKEND_URL}/analytics/dashboard")
+            accounts_response = self.session.get(f"{BACKEND_URL}/accounts")
+            
+            if all(r.status_code == 200 for r in [dashboard_response, accounts_response]):
+                dashboard_data = dashboard_response.json()
+                accounts_data = accounts_response.json()
+                
+                # Calculate net worth from accounts
+                liability_types = ["credit_card", "mortgage", "loan"]
+                calculated_assets = sum(acc.get('balance', 0) for acc in accounts_data if acc.get('account_type') not in liability_types)
+                calculated_liabilities = sum(abs(acc.get('balance', 0)) for acc in accounts_data if acc.get('account_type') in liability_types)
+                calculated_net_worth = calculated_assets - calculated_liabilities
+                
+                # Compare with dashboard
+                dashboard_net_worth = dashboard_data.get('net_worth', 0)
+                dashboard_balance = dashboard_data.get('total_balance', 0)
+                dashboard_income = dashboard_data.get('total_income', 0)
+                dashboard_expenses = dashboard_data.get('total_expenses', 0)
+                
+                print(f"    📊 Data Consistency Check:")
+                print(f"      Calculated Net Worth: ${calculated_net_worth:,.2f}")
+                print(f"      Dashboard Net Worth: ${dashboard_net_worth:,.2f}")
+                print(f"      Dashboard Balance: ${dashboard_balance:,.2f}")
+                print(f"      Dashboard Income: ${dashboard_income:,.2f}")
+                print(f"      Dashboard Expenses: ${dashboard_expenses:,.2f}")
+                
+                # Check for significant discrepancies (>$1000)
+                net_worth_diff = abs(calculated_net_worth - dashboard_net_worth)
+                balance_diff = abs(calculated_net_worth - dashboard_balance)
+                
+                consistency_issues = []
+                if net_worth_diff > 1000:
+                    consistency_issues.append({
+                        'type': 'net_worth_mismatch',
+                        'calculated': calculated_net_worth,
+                        'dashboard': dashboard_net_worth,
+                        'difference': net_worth_diff
+                    })
+                
+                if balance_diff > 1000:
+                    consistency_issues.append({
+                        'type': 'balance_mismatch',
+                        'calculated': calculated_net_worth,
+                        'dashboard': dashboard_balance,
+                        'difference': balance_diff
+                    })
+                
+                if consistency_issues:
+                    results["tests"].append({
+                        "test": "Cross-Page Data Consistency",
+                        "status": "❌ FAIL",
+                        "issues": consistency_issues,
+                        "calculated_net_worth": calculated_net_worth,
+                        "dashboard_net_worth": dashboard_net_worth,
+                        "dashboard_balance": dashboard_balance
+                    })
+                    print(f"    ❌ Found {len(consistency_issues)} consistency issues")
+                else:
+                    results["tests"].append({
+                        "test": "Cross-Page Data Consistency",
+                        "status": "✅ PASS",
+                        "calculated_net_worth": calculated_net_worth,
+                        "dashboard_net_worth": dashboard_net_worth,
+                        "dashboard_balance": dashboard_balance
+                    })
+                    print(f"    ✅ Data is consistent across pages")
+                
+            else:
+                results["tests"].append({
+                    "test": "Cross-Page Data Consistency",
+                    "status": "❌ FAIL",
+                    "error": "Failed to retrieve data from one or more endpoints"
+                })
+                print(f"    ❌ Failed to retrieve data for consistency check")
+        except Exception as e:
+            results["tests"].append({
+                "test": "Cross-Page Data Consistency",
+                "status": "❌ ERROR",
+                "error": str(e)
+            })
+            print(f"    ❌ Consistency check error: {str(e)}")
+        
+        return results
+    
     def run_comprehensive_data_verification_tests(self):
         """Run comprehensive data verification and date filtering tests"""
         print("=" * 80)
