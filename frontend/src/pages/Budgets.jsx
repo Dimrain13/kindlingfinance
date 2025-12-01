@@ -678,6 +678,98 @@ const Budgets = () => {
           </div>
         )}
 
+        {/* Smart Budget Suggestions Modal */}
+        {showSmartSuggestions && (
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+            <Card className="w-full max-w-2xl shadow-2xl bg-white dark:bg-gray-800 border-0 max-h-[90vh] overflow-y-auto">
+              <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white sticky top-0 z-10">
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <Lightbulb className="h-5 w-5" />
+                  AI-Powered Budget Suggestions
+                </CardTitle>
+                <p className="text-sm opacity-90 mt-1">
+                  Based on your income and household size
+                </p>
+              </CardHeader>
+              <CardContent className="pt-6 space-y-4">
+                {loadingSuggestions ? (
+                  <div className="flex flex-col items-center justify-center py-12">
+                    <RefreshCw className="h-12 w-12 text-purple-500 animate-spin mb-4" />
+                    <p className="text-gray-600 dark:text-gray-400">Analyzing your finances...</p>
+                  </div>
+                ) : smartSuggestions.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-gray-600 dark:text-gray-400">
+                      No suggestions available. Make sure you have linked your accounts and have transaction data.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {smartSuggestions.map((suggestion, index) => (
+                      <Card 
+                        key={index} 
+                        className="border-2 hover:border-purple-400 transition-colors cursor-pointer"
+                        onClick={() => applySuggestion(suggestion)}
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex items-start gap-3 flex-1">
+                              <div className="text-3xl">{suggestion.icon || '💰'}</div>
+                              <div className="flex-1">
+                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+                                  {suggestion.category}
+                                </h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                  {suggestion.reasoning}
+                                </p>
+                                <div className="flex items-center gap-4 mt-3">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs font-medium text-gray-500">Suggested:</span>
+                                    <span className="text-lg font-bold text-purple-600">
+                                      {formatCurrency(suggestion.suggested_amount)}
+                                    </span>
+                                  </div>
+                                  {suggestion.current_spending && (
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-xs font-medium text-gray-500">Current:</span>
+                                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                                        {formatCurrency(suggestion.current_spending)}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shrink-0"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                applySuggestion(suggestion);
+                              }}
+                            >
+                              Apply
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex justify-end pt-4 border-t">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowSmartSuggestions(false)}
+                  >
+                    Close
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
         {/* Delete Confirmation Modal */}
         {deletingBudget && (
           <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
