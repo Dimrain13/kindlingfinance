@@ -119,23 +119,23 @@ const Accounts = () => {
       <div className="p-6 space-y-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
               Accounts
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
+            <p className="text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base md:text-lg">
               {accounts.length} {accounts.length === 1 ? 'account' : 'accounts'}
             </p>
-            <div className="mt-3 flex flex-wrap gap-6 text-sm">
+            <div className="mt-2 sm:mt-3 flex flex-wrap gap-3 sm:gap-6 text-sm">
               <div>
                 <span className="text-gray-500 text-xs">Total Balance</span>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                   {formatCurrency(totalBalance)}
                 </p>
               </div>
               {totalLiabilities > 0 && (
                 <div>
                   <span className="text-gray-500 text-xs">Net Worth</span>
-                  <p className="text-2xl font-bold text-amber-600">
+                  <p className="text-xl sm:text-2xl font-bold text-amber-600 break-words">
                     {formatCurrency(netWorth)}
                   </p>
                 </div>
