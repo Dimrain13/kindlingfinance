@@ -323,22 +323,22 @@ const Budgets = () => {
                         <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">{budget.period}</p>
                       </div>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1 sm:gap-2">
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => startEdit(budget)}
-                        className="hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                        className="hover:bg-orange-50 dark:hover:bg-orange-900/20 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
                       >
-                        <Edit className="h-4 w-4 text-kindling-fire" />
+                        <Edit className="h-4 w-4 sm:h-5 sm:w-5 text-kindling-fire" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => setDeletingBudget(budget)}
-                        className="hover:bg-red-50 dark:hover:bg-red-900/20"
+                        className="hover:bg-red-50 dark:hover:bg-red-900/20 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0"
                       >
-                        <Trash2 className="h-4 w-4 text-red-600" />
+                        <Trash2 className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
                       </Button>
                     </div>
                   </div>
