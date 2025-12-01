@@ -12,7 +12,8 @@ const Settings = () => {
     has_children: false,
     primary_goals: [],
     risk_tolerance: 'moderate',
-    monthly_income: null
+    monthly_income: null,
+    credit_score: null
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
