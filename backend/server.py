@@ -296,6 +296,7 @@ async def get_user_settings(user_id: str = Depends(get_current_user)):
             "primary_goals": [],
             "risk_tolerance": "moderate",
             "monthly_income": None,
+            "credit_score": None,
             "updated_at": datetime.utcnow()
         }
         await user_settings_collection.insert_one(default_settings)
