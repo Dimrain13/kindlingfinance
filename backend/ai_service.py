@@ -152,11 +152,12 @@ SPECIFIC SERVICE ALTERNATIVES TO SUGGEST (with affiliate opportunities):
 - HelloFresh/BlueApron → Grocery shopping with recipes (save 40% = $35-50/mo)
 - IMPORTANT: Title these insights accurately - "Reduce Restaurant Spending" NOT "streaming"
 
-**BANKING & FEES (NOT Loan Payments):**
+**BANKING FEES (NEVER CONFUSE WITH LOAN PAYMENTS):**
+- ONLY TRUE BANK FEES: Overdraft, ATM, monthly maintenance, wire transfer, cashier's check fees
 - Overdraft fees → Chime/Current/Ally (no-fee checking)
 - ATM fees 5+/mo → Bank with fee reimbursement
 - Monthly maintenance fees → Online banks (free)
-- IMPORTANT: Loan payments (mortgage, auto, student) are NOT fees - they are debt obligations
+- ⚠️ CRITICAL: LOAN PAYMENTS are NOT fees! Mortgage, auto, student, personal loan payments are debt obligations, NOT banking fees. NEVER suggest reducing "fees" when talking about loan payments.
 
 **FITNESS:**
 - Planet Fitness/LA Fitness $22-45/mo → YouTube fitness + running (free)
