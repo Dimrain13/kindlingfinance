@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { LinkIcon, RefreshCw } from 'lucide-react';
 import api from '../utils/api';
 
-const MXConnectWidget = ({ onSuccess, onClose }) => {
+const MXConnectWidget = ({ onSuccess, onClose, onLoad }) => {
   const [connectUrl, setConnectUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
