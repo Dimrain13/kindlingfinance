@@ -54,7 +54,7 @@ from crypto_service import (
     encrypt_api_key
 )
 from routes.bills_routes import router as bills_router
-from routes.gamification_routes import router as gamification_router
+# from routes.gamification_routes import router as gamification_router  # Disabled - Sage the Owl removed
 from routes.investments_routes import router as investments_router
 from routes.analytics_routes import router as analytics_router
 from routes.alerts_routes import router as alerts_router
