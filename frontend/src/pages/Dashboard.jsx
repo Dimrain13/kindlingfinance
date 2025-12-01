@@ -10,7 +10,6 @@ import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, Calendar
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import ModernBillCalendar from '../components/ModernBillCalendar';
 import CashFlowChart from '../components/CashFlowChart';
-import PennyMascot from '../components/PennyMascot';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
