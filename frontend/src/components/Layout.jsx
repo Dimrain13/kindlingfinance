@@ -169,9 +169,9 @@ const Layout = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 main-content-wrapper">
-        {/* Top Header with Alerts */}
-        <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-end shadow-sm">
+      <div className="flex-1 flex flex-col overflow-hidden bg-gray-50 main-content-wrapper pt-14 lg:pt-0">
+        {/* Top Header with Alerts - Hidden on mobile to save space */}
+        <div className="hidden lg:flex bg-white border-b border-gray-200 px-6 py-3 items-center justify-end shadow-sm">
           <AlertsWidget />
         </div>
         
