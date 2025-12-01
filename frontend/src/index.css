@@ -21,8 +21,14 @@
   
   @media (max-width: 640px) {
     html {
-      font-size: 14px;
+      font-size: 15px; /* Slightly larger for better readability */
     }
+  }
+  
+  /* Prevent text overflow and clipping */
+  * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 }
 
