@@ -19,6 +19,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showMXConnect, setShowMXConnect] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [mxWidgetLoading, setMxWidgetLoading] = useState(false);
   const [timePeriod, setTimePeriod] = useState('monthly');
 
   const getPeriodLabel = () => {
