@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
     { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/accounts', icon: Wallet, label: 'Accounts' },
     { path: '/transactions', icon: Receipt, label: 'Transactions' },
-    { path: '/budgets', icon: PiggyBank, label: 'Budgets & Bills' },
+    { path: '/budgets', icon: PiggyBank, label: 'Budgets' },
     { path: '/goals', icon: Calendar, label: 'Goals' },
     { path: '/portfolio', icon: Briefcase, label: 'Portfolio' },
     { path: '/cashflow', icon: Activity, label: 'Cash Flow' },
