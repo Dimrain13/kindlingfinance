@@ -4,7 +4,8 @@ import { formatCurrency } from '../utils/formatNumber';
 import { calculateNetWorth, calculateTotalBalance, LIABILITY_TYPES } from '../utils/financialCalculations';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Wallet, Plus, Trash2, RefreshCw } from 'lucide-react';
+import { Wallet, Plus, Trash2, RefreshCw, Copy, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Badge } from '../components/ui/badge';
 import MXConnectWidget from '../components/MXConnectWidget';
 
 const Accounts = () => {
