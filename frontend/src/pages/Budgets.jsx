@@ -194,6 +194,34 @@ const Budgets = () => {
     return { status: 'good', color: 'text-green-600', icon: TrendingDown };
   };
 
+  const fetchSmartSuggestions = async () => {
+    setLoadingSuggestions(true);
+    setShowSmartSuggestions(true);
+    try {
+      const response = await api.post('/budget-suggestions');
+      setSmartSuggestions(response.data.suggestions || []);
+    } catch (error) {
+      console.error('Failed to fetch smart suggestions:', error);
+      alert('Failed to generate budget suggestions. Please try again.');
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
+  const applySuggestion = (suggestion) => {
+    // Pre-fill the Add Budget modal with the suggestion
+    setNewBudget({
+      category: suggestion.category,
+      amount: suggestion.suggested_amount.toString(),
+      period: 'monthly',
+      rollover: false,
+      icon: suggestion.icon || '💰',
+      color: suggestion.color || '#3B82F6'
+    });
+    setShowSmartSuggestions(false);
+    setShowAdd(true);
+  };
+
   // Totals are now calculated above from budgetStatuses
 
   return (
