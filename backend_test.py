@@ -1783,6 +1783,7 @@ class FinanceHubTester:
         
         # Run FOCUSED test first as requested in review
         focused_test_phases = [
+            ("FOCUSED: Date Filtering & Account Verification", self.test_comprehensive_date_filtering_and_account_verification),
             ("FOCUSED: Goals Data Investigation", self.test_goals_data_investigation),
             ("FOCUSED: Budgets & Bills", self.test_budgets_and_bills_focused)
         ]
