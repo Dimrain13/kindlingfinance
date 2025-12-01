@@ -2426,7 +2426,7 @@ async def get_investment_performance(user_id: str = Depends(get_current_user)):
 app.include_router(api_router)
 app.include_router(advanced_router, prefix="/api", tags=["advanced"])
 app.include_router(bills_router, prefix="/api")
-app.include_router(gamification_router, prefix="/api")
+# app.include_router(gamification_router, prefix="/api")  # Disabled - Sage the Owl removed
 app.include_router(investments_router, prefix="/api/investments")
 app.include_router(analytics_router, prefix="/api")
 app.include_router(alerts_router, prefix="/api")
