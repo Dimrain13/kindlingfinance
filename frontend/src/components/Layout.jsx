@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-kindling-fire via-kindling-blaze to-kindling-spark flex items-center justify-center shadow-lg">
               <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C12 2 10 5 10 7.5C10 9.43 11.34 11 13 11C14.66 11 16 9.43 16 7.5C16 5 14 2 14 2C14 2 13 4 12.5 5.5C12.5 5.5 12 3.5 12 2Z" opacity="0.9"/>
                 <path d="M8 10C8 10 6.5 12 6.5 13.5C6.5 14.88 7.62 16 9 16C10.38 16 11.5 14.88 11.5 13.5C11.5 12 10 10 10 10C10 10 9 11.5 8.5 12.5C8.5 12.5 8 11 8 10Z" opacity="0.8"/>
@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
                 <rect x="6" y="20" width="12" height="2" rx="1" opacity="0.6"/>
               </svg>
             </div>
-            <h1 className="text-base font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-base font-bold bg-gradient-to-r from-kindling-fire via-kindling-berry to-kindling-plum bg-clip-text text-transparent">
               Kindling Financial
             </h1>
           </div>
