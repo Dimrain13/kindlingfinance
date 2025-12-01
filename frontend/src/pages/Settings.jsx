@@ -171,6 +171,32 @@ const Settings = () => {
               Helps us provide budget recommendations relative to your income
             </p>
           </div>
+
+          {/* Credit Score */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Credit Score (Optional)
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                placeholder="750"
+                min="300"
+                max="850"
+                value={settings.credit_score || ''}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!value || (value >= 300 && value <= 850)) {
+                    setSettings({...settings, credit_score: value || null});
+                  }
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-800 dark:border-gray-600"
+              />
+            </div>
+            <p className="text-sm text-gray-500 mt-1">
+              Used to calculate your Financial Health Score (range: 300-850)
+            </p>
+          </div>
         </CardContent>
       </Card>
 
