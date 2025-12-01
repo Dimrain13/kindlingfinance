@@ -5,7 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Progress } from '../components/ui/progress';
 import { Badge } from '../components/ui/badge';
-import { PiggyBank, Plus, Trash2, TrendingDown, TrendingUp, AlertTriangle, Edit, RefreshCw, CheckCircle, XCircle } from 'lucide-react';
+import { PiggyBank, Plus, Trash2, TrendingDown, TrendingUp, AlertTriangle, Edit, RefreshCw, CheckCircle, XCircle, Sparkles, Lightbulb } from 'lucide-react';
 import { formatCurrency } from '../utils/formatNumber';
 import { BUDGET_CATEGORIES, getBudgetCategoryInfo, BUDGET_GROUPS } from '../utils/budgetCategories';
 import TimeFilterButtons from '../components/TimeFilterButtons';
