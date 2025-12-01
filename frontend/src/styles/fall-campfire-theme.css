@@ -23,13 +23,15 @@
   --bg-playful-accent: linear-gradient(135deg, #9B5DE5 0%, #E63946 100%);
 }
 
-/* Global Warm Background - Very Subtle Fall Glow */
+/* Global Fun Background - Vibrant & Playful */
 body {
   background: linear-gradient(
-    to bottom right,
-    #FFFBEB 0%,
-    #FEF3C7 50%,
-    #FEEBC8 100%
+    135deg,
+    #FFF8E7 0%,
+    #FFE4D6 25%,
+    #FFD4C2 50%,
+    #FFC9B8 75%,
+    #FFCF9D 100%
   );
   background-attachment: fixed;
 }
