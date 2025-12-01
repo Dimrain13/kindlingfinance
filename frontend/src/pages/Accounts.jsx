@@ -441,6 +441,131 @@ const Accounts = () => {
         </div>
       )}
 
+      {/* Duplicate Accounts Management Modal */}
+      {showDuplicates && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm overflow-y-auto">
+          <Card className="w-full max-w-4xl shadow-2xl bg-white dark:bg-gray-800 border-0 my-8">
+            <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+              <CardTitle className="text-xl flex items-center gap-2">
+                <Copy className="h-5 w-5" />
+                Manage Duplicate Accounts
+              </CardTitle>
+              <p className="text-sm opacity-90 mt-1">
+                Found {duplicateGroups.length} group(s) of potential duplicates
+              </p>
+            </CardHeader>
+            <CardContent className="pt-6 space-y-6 max-h-[70vh] overflow-y-auto">
+              {duplicateGroups.map((group, groupIndex) => (
+                <Card key={group.group_id} className="border-2 border-purple-200 dark:border-purple-700">
+                  <CardHeader className="bg-purple-50 dark:bg-purple-900/20">
+                    <CardTitle className="text-lg flex items-center justify-between">
+                      <span className="flex items-center gap-2">
+                        <AlertTriangle className="h-5 w-5 text-purple-600" />
+                        {group.institution || 'Unknown Institution'}
+                      </span>
+                      <Badge className="bg-purple-600 text-white">
+                        {group.accounts.length} duplicates
+                      </Badge>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-4 space-y-3">
+                    {group.accounts.map((account) => (
+                      <div
+                        key={account.id}
+                        className={`p-4 rounded-lg border-2 transition-all cursor-pointer ${
+                          selectedPrimary[groupIndex] === account.id
+                            ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                            : 'border-gray-200 dark:border-gray-700 hover:border-purple-400'
+                        }`}
+                        onClick={() => setSelectedPrimary({...selectedPrimary, [groupIndex]: account.id})}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              {selectedPrimary[groupIndex] === account.id && (
+                                <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                              )}
+                              <h4 className="font-semibold text-gray-900 dark:text-gray-100">
+                                {account.name}
+                              </h4>
+                              {account.is_mx_account && (
+                                <Badge className="bg-green-600 text-white text-xs">MX (Current)</Badge>
+                              )}
+                              {account.is_plaid_account && !account.is_mx_account && (
+                                <Badge className="bg-gray-400 text-white text-xs">Plaid (Old)</Badge>
+                              )}
+                            </div>
+                            
+                            <div className="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                              <p>Balance: <span className="font-semibold">{formatCurrency(account.balance)}</span></p>
+                              {account.account_number && (
+                                <p>Account: ****{account.account_number.slice(-4)}</p>
+                              )}
+                              <p>Type: {account.type}</p>
+                              {account.duplicate_reasons && account.duplicate_reasons.length > 0 && (
+                                <p className="text-xs text-purple-600 dark:text-purple-400 mt-2">
+                                  Duplicate reasons: {account.duplicate_reasons.join(', ')}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {selectedPrimary[groupIndex] !== account.id && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="ml-4 text-red-600 border-red-300 hover:bg-red-50"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeleteDuplicate(account.id, account.name);
+                              }}
+                            >
+                              <Trash2 size={14} className="mr-1" />
+                              Delete
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                    
+                    <div className="pt-3 border-t flex justify-between items-center">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Select the account to keep (primary), others will be merged into it
+                      </p>
+                      <Button
+                        onClick={() => handleMergeDuplicates(groupIndex)}
+                        disabled={mergingAccounts}
+                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                      >
+                        {mergingAccounts ? (
+                          <>
+                            <RefreshCw size={16} className="mr-2 animate-spin" />
+                            Merging...
+                          </>
+                        ) : (
+                          <>
+                            Merge Group
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              
+              <div className="flex justify-end pt-4 border-t">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setShowDuplicates(false)}
+                >
+                  Close
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* MX Connect Widget Modal */}
       {showMXConnect && (
         <MXConnectWidget 
