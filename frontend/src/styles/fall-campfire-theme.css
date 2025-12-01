@@ -1,30 +1,26 @@
 /* Fall Campfire Theme - Warm, Cozy, Autumn Vibes */
 
 :root {
-  /* Warm Fall Color Palette */
-  --fall-ember: #F59E0B;           /* Amber - glowing embers */
-  --fall-flame: #FB923C;           /* Orange - dancing flames */
-  --fall-sunset: #F97316;          /* Deep orange - sunset glow */
-  --fall-oak: #92400E;             /* Brown - oak wood */
-  --fall-maple: #D97706;           /* Amber-700 - maple leaves */
+  /* Vibrant Fire Palette - Fun & Energetic */
+  --fire-bright: #FF6B35;          /* Bright coral-orange - main fire */
+  --fire-blaze: #FF8C42;           /* Sunset orange - warm glow */
+  --fire-spark: #FFB84D;           /* Golden yellow - sparks */
+  --fire-berry: #E63946;           /* Warm red-pink - accent */
+  --fire-plum: #9B5DE5;            /* Soft purple - playful accent */
+  --fire-mint: #00F5D4;            /* Bright teal - cool contrast */
   
-  /* Cozy Neutral Tones */
-  --fall-cream: #FEF3C7;           /* Warm cream */
-  --fall-sand: #FDE68A;            /* Light sand */
-  --fall-toast: #FCD34D;           /* Toast */
-  --fall-ash: #78716C;             /* Warm gray */
-  --fall-charcoal: #44403C;        /* Deep warm gray */
+  /* Supporting Warm Neutrals */
+  --warm-cream: #FFF8E7;           /* Warm cream */
+  --warm-honey: #FFCF9D;           /* Peachy beige */
+  --warm-coal: #2F2F2F;            /* Deep charcoal */
+  --warm-ash: #6B6B6B;             /* Medium gray */
+  --warm-smoke: #A8A8A8;           /* Light gray */
   
-  /* Autumn Accents */
-  --fall-forest: #065F46;          /* Deep forest green */
-  --fall-rust: #DC2626;            /* Rust red */
-  --fall-twilight: #1E3A8A;        /* Evening sky */
-  
-  /* Background Gradients */
-  --bg-campfire: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FCD34D 100%);
-  --bg-ember-glow: linear-gradient(135deg, #F59E0B 0%, #FB923C 50%, #F97316 100%);
-  --bg-autumn-dusk: linear-gradient(180deg, #FEF3C7 0%, #FDBA74 50%, #FB923C 100%);
-  --bg-warm-wood: linear-gradient(135deg, #78350F 0%, #92400E 100%);
+  /* Playful Gradients */
+  --bg-fun-fire: linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFB84D 100%);
+  --bg-sunset-party: linear-gradient(135deg, #E63946 0%, #FF6B35 50%, #FF8C42 100%);
+  --bg-spark-glow: linear-gradient(180deg, #FFB84D 0%, #FF8C42 50%, #FF6B35 100%);
+  --bg-playful-accent: linear-gradient(135deg, #9B5DE5 0%, #E63946 100%);
 }
 
 /* Global Warm Background - Very Subtle Fall Glow */
