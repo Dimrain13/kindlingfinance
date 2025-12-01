@@ -54,15 +54,22 @@ module.exports = {
                                 '5': 'hsl(var(--chart-5))'
                         },
                         kindling: {
-                                ember: '#C2410C',
-                                'ember-light': '#EA580C',
-                                flame: '#D97706',
-                                'flame-light': '#F59E0B',
-                                wood: '#78350F',
-                                ash: '#57534E',
-                                smoke: '#A8A29E',
-                                glow: '#FEF3C7',
-                                warmth: '#FED7AA'
+                                // Primary warm colors - more vibrant
+                                fire: '#FF6B35',      // Bright coral-orange
+                                blaze: '#FF8C42',     // Sunset orange
+                                spark: '#FFB84D',     // Golden yellow
+                                
+                                // Accent colors - playful pops
+                                berry: '#E63946',     // Warm red-pink
+                                plum: '#9B5DE5',      // Soft purple
+                                mint: '#00F5D4',      // Bright teal
+                                
+                                // Supporting warm neutrals
+                                coal: '#2F2F2F',      // Deep charcoal
+                                ash: '#6B6B6B',       // Medium gray
+                                smoke: '#A8A8A8',     // Light gray
+                                cream: '#FFF8E7',     // Warm cream
+                                honey: '#FFCF9D'      // Peachy beige
                         }
                 },
                 keyframes: {
