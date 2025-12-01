@@ -814,7 +814,19 @@ backend:
         -comment: "User reported bug that Expense Donut Chart is not rendering on Cash Flow page. Need to verify if this is actually a problem or if it was already fixed. Test objectives: 1) Navigate to Cash Flow page, 2) Verify 'Expense Breakdown' section visibility, 3) Check ExpenseDonutChart component rendering, 4) Take screenshots at different scroll positions, 5) Report findings about chart appearance."
         -working: true
         -agent: "testing"
-        -comment: "✅ EXPENSE DONUT CHART TESTING COMPLETED: Conducted comprehensive testing of the Expense Donut Chart on Cash Flow page as requested. AUTHENTICATION: ✅ Successfully logged in with daniel.r.millner@gmail.com/password. NAVIGATION: ✅ Successfully navigated to /cashflow page. COMPONENT VERIFICATION: ✅ Found 'Expense Breakdown' heading (both H2 and H3 versions) at bottom of Cash Flow page, ✅ ExpenseDonutChart component is present in the code and rendering correctly, ✅ Component displays 'Total Expenses: $0.00' as expected, ✅ No console errors or rendering issues detected. VISUAL CONFIRMATION: ✅ Screenshots captured showing the component is visible and functional. CONCLUSION: The Expense Donut Chart is WORKING and VISIBLE on the Cash Flow page. The reported bug appears to be resolved or was a false alarm. The component renders correctly but shows $0.00 because the user has no expense transactions in the current time period (This Month filter). This is expected behavior when there's no expense data to display - the donut chart component itself is properly implemented and functional."
+        -comment: "✅ EXPENSE DONUT CHART TESTING COMPLETED: Conducted comprehensive testing of the Expense Donut Chart on Cash Flow page as requested. AUTHENTICATION: ✅ Successfully logged in with daniel.r.millner@gmail.com/password. NAVIGATION: ✅ Successfully navigated to /cashflow page. COMPONENT VERIFICATION: ✅ Found 'Expense Breakdown' heading (both H2 and H3 versions) at bottom of Cash Flow page, ✅ ExpenseDonutChart component is present in the code and rendering correctly, ✅ Component displays 'Total Expenses: $0.00' as expected, ✅ No console errors or rendering issues detected. VISUAL CONFIRMATION: ✅ Screenshots captured showing the component is visible and functional. CONCLUSION: The Expense Donut Chart is WORKING and VISIBLE on the Cash Flow page. The reported bug appears to be resolved or was a false alarm. The component renders correctly but shows $0.00 because the user has no expense transactions in the current time period (This Month filter). This is expected behavior when there's no expense data to display - the donut chart component itself is properly implemented and"
+
+  - task: "Duplicate Account Management Feature"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Accounts.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test complete duplicate account management system: 1) Verify 'Manage Duplicates' button appears on Accounts page, 2) Test duplicate detection functionality, 3) Verify UI shows duplicate groups correctly with institution names, account details, badges (MX Current vs Plaid Old), 4) Test merge and delete functionality, 5) Test primary account selection (green highlight), 6) Verify confirmation dialogs and success messages" functional."
 
   - task: "Net Worth Consistency Check Across Pages"
     implemented: true
