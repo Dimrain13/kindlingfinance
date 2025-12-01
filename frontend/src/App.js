@@ -64,6 +64,7 @@ function App() {
           <Route path="/debt-payoff" element={<ProtectedRoute><Layout><DebtPayoff /></Layout></ProtectedRoute>} />
           <Route path="/analytics" element={<ProtectedRoute><Layout><AnalyticsEnhanced /></Layout></ProtectedRoute>} />
           <Route path="/planning" element={<ProtectedRoute><Layout><PlanningTools /></Layout></ProtectedRoute>} />
+          <Route path="/financial-health" element={<ProtectedRoute><Layout><FinancialHealth /></Layout></ProtectedRoute>} />
           
           {/* Redirects for old routes */}
           <Route path="/reports" element={<Navigate to="/analytics?tab=trends" replace />} />
