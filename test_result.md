@@ -823,12 +823,15 @@ backend:
 
 test_plan:
   current_focus:
-    - "MX Integration - Complete End-to-End Testing"
-  stuck_tasks: []
+    - "Comprehensive Date Filtering & Account Type Verification"
+  stuck_tasks:
+    - "Cash Flow API Implementation"
+    - "Transaction Type Amount Sign Correction"
   test_all: false
   test_priority: "high_first"
   mx_integration_testing_completed: true
   comprehensive_mx_test_completed: true
+  date_filtering_verification_completed: true
 
 agent_communication:
     -agent: "testing"
