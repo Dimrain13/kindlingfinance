@@ -41,17 +41,25 @@
   --kindling-ash-900: #0F172A;
 }
 
-/* Gradient Backgrounds */
+/* Gradient Backgrounds - Fun & Vibrant */
 .bg-kindling-flame-gradient {
-  background: linear-gradient(135deg, #F59E0B 0%, #FB923C 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
 }
 
-.bg-kindling-ember-gradient {
-  background: linear-gradient(135deg, #FB923C 0%, #F97316 100%);
+.bg-kindling-fire-gradient {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 50%, #FFB84D 100%);
+}
+
+.bg-kindling-party-gradient {
+  background: linear-gradient(135deg, #E63946 0%, #FF6B35 50%, #FF8C42 100%);
+}
+
+.bg-kindling-playful-gradient {
+  background: linear-gradient(135deg, #9B5DE5 0%, #E63946 100%);
 }
 
 .bg-kindling-trust-gradient {
-  background: linear-gradient(135deg, #0D9488 0%, #1E3A8A 100%);
+  background: linear-gradient(135deg, #00F5D4 0%, #9B5DE5 100%);
 }
 
 .bg-kindling-growth-gradient {
@@ -60,14 +68,14 @@
 
 /* Text Gradients */
 .text-kindling-flame-gradient {
-  background: linear-gradient(135deg, #F59E0B 0%, #FB923C 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .text-kindling-brand-gradient {
-  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #E63946 50%, #9B5DE5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
