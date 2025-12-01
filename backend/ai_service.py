@@ -47,7 +47,9 @@ Categories to use:
 - Education (tuition, books, courses)
 - Personal Care (salon, gym, beauty)
 - Home & Garden (furniture, repairs, supplies)
-- Financial (bank fees, investments, loans)
+- Loan & Debt Payments (mortgage, auto loan, student loan, personal loan payments)
+- Fees & Charges (bank fees, ATM fees, overdraft fees, late fees)
+- Investments & Savings (brokerage, retirement, transfers to savings)
 - Other (anything that doesn't fit above)
 
 Return JSON object with transaction index as key and category as value:
