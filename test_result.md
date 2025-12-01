@@ -366,6 +366,18 @@ test_plan:
         -comment: "✅ COMPREHENSIVE CANDLESTICK CHART TESTING COMPLETED: Conducted detailed visual review and testing of the Candlestick Chart as requested. LOGIN & NAVIGATION: Successfully logged in with daniel.r.millner@gmail.com/password and navigated to /cashflow page. CHART VERIFICATION: Found 'Daily Cash Flow Pattern (Candlestick)' section with proper BarChart3 icon. CANDLESTICK RENDERING: Chart displays individual candlestick bars with proper wicks and shadows - found 21 green candlesticks and 10 red candlesticks representing balance changes. TIME RANGE FUNCTIONALITY: All 3 buttons (30D, 60D, 90D) present and functional - tested switching between views, chart updates correctly. TOOLTIP TESTING: Excellent tooltip functionality - hovering shows detailed information including Date (Nov 2, Nov 5), Spending amount ($0.00, $9.49), Average spending ($285.20), Difference (-$285.20, -$275.71), Status (Under Average), and Transaction count (0, 1). CHART SCALE: Y-axis shows dollar amounts in thousands ($0k, $1k, $2k, $3k), X-axis shows dates (Oct 25, Nov 25). REFERENCE LINE: Blue dashed 'Avg Daily Spending' reference line visible at ~$285 level. LEGEND: Complete legend showing Green Candle (balance increased), Red Candle (balance decreased), and Wicks/Shadows explanations. DESCRIPTION: Chart description correctly states 'Tracking checking/cash accounts only | Green = balance increased | Red = balance decreased | Avg daily income: $375.95'. All requirements from review request fully verified and working perfectly. Screenshots captured showing comprehensive chart functionality."
 
 backend:
+  - task: "Comprehensive Date Filtering & Account Type Verification"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: false
+        -agent: "testing"
+        -comment: "❌ COMPREHENSIVE DATE FILTERING & ACCOUNT VERIFICATION TESTING COMPLETED - CRITICAL ISSUES FOUND: Conducted comprehensive testing of date filtering and account type verification for daniel.r.millner@gmail.com as requested in review. AUTHENTICATION: ✅ Login successful. RESULTS: 85.7% success rate (18/21 tests passed). CRITICAL ISSUES IDENTIFIED: 1) ❌ CASH FLOW API MISSING: GET /api/analytics/cash-flow?period=monthly returns 404 - endpoint not implemented, 2) ❌ TRANSACTION TYPE VERIFICATION: Found 69 transactions with amount/type mismatches - income transactions have negative amounts when they should be positive, expense transactions may have incorrect signs. WORKING CORRECTLY: ✅ Dashboard analytics with all period filters (monthly, quarterly, yearly), ✅ Transaction date range filtering (Nov 1-30: 50 transactions found, all within range), ✅ Account type filtering for all 7 account types (checking, savings, investment, credit_card, loan, mortgage), ✅ Budget monthly calculations, ✅ Net worth history (30 & 90 days), ✅ Account balance sign verification (all liability accounts properly negative, asset accounts positive), ✅ Cross-page data consistency (calculated vs dashboard net worth matches: $964,202.13). ACCOUNT TYPE COVERAGE: ✅ All 7 required account types found and properly categorized: credit_card (2 accounts, -$15,743.37), loan (4 accounts, -$33,961.53), savings (3 accounts, $500,460.09), checking (3 accounts, $513,446.94), mortgage (1 account, -$10,000.00), investment (1 account, $10,000.00). ROOT CAUSE: 1) Cash flow endpoint missing from analytics routes, 2) Transaction type mapping from MX data still has issues with income/expense detection and amount signs."
+
   - task: "MX Integration - Complete End-to-End Testing"
     implemented: true
     working: true
