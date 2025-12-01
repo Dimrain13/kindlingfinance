@@ -41,6 +41,13 @@
     @apply transition-all duration-300;
     @apply hover:shadow-2xl hover:-translate-y-1;
   }
+  
+  /* Responsive card content spacing */
+  @media (max-width: 640px) {
+    .card-content {
+      @apply px-4 py-3;
+    }
+  }
 
   /* Modern Button Styles */
   .modern-btn {
