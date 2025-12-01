@@ -55,6 +55,7 @@ const Layout = ({ children }) => {
     { path: '/cashflow', icon: Activity, label: 'Cash Flow' },
     { path: '/analytics', icon: BarChart3, label: 'Analytics & Reports' },
     { path: '/planning', icon: Target, label: 'Planning Tools' },
+    { path: '/financial-health', icon: TrendingUp, label: 'Financial Health' },
     { path: '/insights', icon: Lightbulb, label: 'AI Insights' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
