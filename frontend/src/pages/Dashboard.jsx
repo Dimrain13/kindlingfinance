@@ -218,8 +218,8 @@ const Dashboard = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-gray-900 dark:text-white">{formatCurrency(stats?.monthly_bills || 0)}</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Recurring expenses</p>
+              <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white break-words">{formatCurrency(stats?.monthly_bills || 0)}</div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 sm:mt-2">Recurring expenses</p>
             </CardContent>
           </Card>
         </div>
