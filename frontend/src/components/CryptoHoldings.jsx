@@ -116,7 +116,7 @@ const CryptoHoldings = () => {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
-              <Bitcoin className="h-5 w-5 mr-2 text-orange-500" />
+              <Bitcoin className="h-5 w-5 mr-2 text-kindling-blaze" />
               Crypto Portfolio
             </CardTitle>
             <div className="flex items-center space-x-4 mt-2">
@@ -167,7 +167,7 @@ const CryptoHoldings = () => {
                     <div key={source.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div className="flex items-center gap-3">
                         {source.source_type === 'wallet' ? (
-                          <Wallet className="h-5 w-5 text-amber-600" />
+                          <Wallet className="h-5 w-5 text-kindling-fire" />
                         ) : (
                           <Building2 className="h-5 w-5 text-green-600" />
                         )}
@@ -221,7 +221,7 @@ const CryptoHoldings = () => {
                   <div key={holding.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                        <span className="text-sm font-bold text-orange-600">{holding.symbol}</span>
+                        <span className="text-sm font-bold text-kindling-fire">{holding.symbol}</span>
                       </div>
                       <div>
                         <p className="font-semibold text-gray-900">{holding.name}</p>

@@ -148,7 +148,7 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="pt-6 text-center">
-          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-orange-600" />
+          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-kindling-fire" />
           <p className="text-gray-600">Initializing secure connection...</p>
         </CardContent>
       </Card>
@@ -194,7 +194,7 @@ const MXConnectWidget = ({ onSuccess, onClose }) => {
         <CardContent className="p-0 relative">
           {/* Loading overlay while iframe initializes */}
           <div className="absolute inset-0 bg-white flex flex-col items-center justify-center z-10 transition-opacity duration-300">
-            <RefreshCw className="h-12 w-12 animate-spin text-orange-600 mb-4" />
+            <RefreshCw className="h-12 w-12 animate-spin text-kindling-fire mb-4" />
             <p className="text-gray-700 font-medium text-lg">Loading bank connections...</p>
             <p className="text-gray-500 text-sm mt-2">This may take a few moments</p>
             {/* Fake progress bar for better UX */}

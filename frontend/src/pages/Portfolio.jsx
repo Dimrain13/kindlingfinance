@@ -83,7 +83,7 @@ const Portfolio = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
             Portfolio
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -170,7 +170,7 @@ const Portfolio = () => {
           <Card className="shadow-xl hover:shadow-2xl transition-all duration-300">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-amber-600" />
+                <DollarSign className="h-5 w-5 text-kindling-fire" />
                 Asset Allocation
               </CardTitle>
             </CardHeader>
@@ -203,7 +203,7 @@ const Portfolio = () => {
         <Card className="shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Briefcase className="h-5 w-5 text-amber-600" />
+              <Briefcase className="h-5 w-5 text-kindling-fire" />
               Retirement Accounts
             </CardTitle>
           </CardHeader>
@@ -212,7 +212,7 @@ const Portfolio = () => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 bg-amber-50 dark:bg-purple-900/20 rounded-lg">
                   <span className="font-semibold">Total Retirement</span>
-                  <span className="text-2xl font-bold text-amber-600">{formatCurrency(totalRetirement)}</span>
+                  <span className="text-2xl font-bold text-kindling-fire">{formatCurrency(totalRetirement)}</span>
                 </div>
                 {retirementAccounts.map(acc => (
                   <div key={acc.id} className="flex items-center justify-between p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
@@ -268,7 +268,7 @@ const Portfolio = () => {
         {investmentAccounts.length > 0 && (
           <Card className="shadow-xl">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-amber-600">
+              <CardTitle className="flex items-center gap-2 text-kindling-fire">
                 <TrendingUp className="h-5 w-5" />
                 Investment Accounts
               </CardTitle>
@@ -282,7 +282,7 @@ const Portfolio = () => {
                         <p className="font-medium">{acc.name}</p>
                         <p className="text-xs text-gray-500">{acc.institution_name}</p>
                       </div>
-                      <span className="font-bold text-amber-600">{formatCurrency(acc.balance)}</span>
+                      <span className="font-bold text-kindling-fire">{formatCurrency(acc.balance)}</span>
                     </div>
                   </div>
                 ))}
@@ -295,7 +295,7 @@ const Portfolio = () => {
         {cryptoAccounts.length > 0 && (
           <Card className="shadow-xl">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-amber-600">
+              <CardTitle className="flex items-center gap-2 text-kindling-fire">
                 <Bitcoin className="h-5 w-5" />
                 Crypto Accounts
               </CardTitle>
@@ -309,7 +309,7 @@ const Portfolio = () => {
                         <p className="font-medium">{acc.name}</p>
                         <p className="text-xs text-gray-500">{acc.institution_name}</p>
                       </div>
-                      <span className="font-bold text-amber-600">{formatCurrency(acc.balance)}</span>
+                      <span className="font-bold text-kindling-fire">{formatCurrency(acc.balance)}</span>
                     </div>
                   </div>
                 ))}

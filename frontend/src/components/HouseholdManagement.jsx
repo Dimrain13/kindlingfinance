@@ -115,13 +115,13 @@ const HouseholdManagement = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5 text-amber-600" />
+            <Users className="h-5 w-5 text-kindling-fire" />
             Household & Collaborators
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kindling-fire mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading household...</p>
           </div>
         </CardContent>
@@ -133,7 +133,7 @@ const HouseholdManagement = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-amber-600" />
+          <Users className="h-5 w-5 text-kindling-fire" />
           Household & Collaborators
         </CardTitle>
         <p className="text-sm text-gray-600 mt-2">
@@ -339,7 +339,7 @@ const HouseholdManagement = () => {
         <div>
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-              <Users className="h-4 w-4 text-amber-500" />
+              <Users className="h-4 w-4 text-kindling-blaze" />
               Collaborators ({household.collaborators?.length || 0})
             </h3>
             {!addingCollaborator && (
@@ -402,7 +402,7 @@ const HouseholdManagement = () => {
                 <div key={index} className="flex items-center justify-between bg-blue-50 p-3 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Users className="h-5 w-5 text-amber-600" />
+                      <Users className="h-5 w-5 text-kindling-fire" />
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">{collaborator.name || collaborator.email}</p>

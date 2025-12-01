@@ -124,7 +124,7 @@ const TagsManager = () => {
       {/* Tags Grid */}
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kindling-fire mx-auto"></div>
         </div>
       ) : tags.length === 0 ? (
         <Card className="bg-white border border-gray-200 shadow-sm">
@@ -173,7 +173,7 @@ const TagsManager = () => {
       <Card className="bg-blue-50 border border-blue-200">
         <CardContent className="p-4">
           <div className="flex items-start space-x-3">
-            <Tag className="h-5 w-5 text-amber-600 mt-0.5" />
+            <Tag className="h-5 w-5 text-kindling-fire mt-0.5" />
             <div>
               <p className="text-sm font-medium text-blue-900 mb-1">How to use tags</p>
               <p className="text-sm text-blue-700">

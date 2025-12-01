@@ -119,7 +119,7 @@ const Accounts = () => {
       <div className="p-6 space-y-6">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
               Accounts
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base md:text-lg">
@@ -135,7 +135,7 @@ const Accounts = () => {
               {totalLiabilities > 0 && (
                 <div>
                   <span className="text-gray-500 text-xs">Net Worth</span>
-                  <p className="text-xl sm:text-2xl font-bold text-amber-600 break-words">
+                  <p className="text-xl sm:text-2xl font-bold text-kindling-fire break-words">
                     {formatCurrency(netWorth)}
                   </p>
                 </div>
@@ -172,7 +172,7 @@ const Accounts = () => {
                 <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="bg-amber-600 p-2 rounded-lg">
+                      <div className="bg-kindling-fire p-2 rounded-lg">
                         <Wallet className="h-5 w-5 text-white" />
                       </div>
                       <CardTitle className="text-lg">{account.name}</CardTitle>
@@ -209,7 +209,7 @@ const Accounts = () => {
                     <div className="border-t pt-3 mt-3">
                       <div className="flex items-baseline justify-between">
                         <div>
-                          <p className={`text-xl sm:text-2xl lg:text-3xl font-bold break-words ${isLiability ? 'text-red-600' : 'text-amber-600'}`}>
+                          <p className={`text-xl sm:text-2xl lg:text-3xl font-bold break-words ${isLiability ? 'text-red-600' : 'text-kindling-fire'}`}>
                             {formatCurrency(account.balance)}
                           </p>
                           {isLiability && (

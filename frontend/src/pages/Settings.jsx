@@ -100,7 +100,7 @@ const Settings = () => {
       <Card className="shadow-lg">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
           <CardTitle className="flex items-center space-x-2">
-            <Users className="h-5 w-5 text-amber-600" />
+            <Users className="h-5 w-5 text-kindling-fire" />
             <span>Household Information</span>
           </CardTitle>
         </CardHeader>
@@ -120,7 +120,7 @@ const Settings = () => {
                 className="flex-1"
               />
               <div className="bg-blue-100 dark:bg-blue-900 px-4 py-2 rounded-lg">
-                <span className="text-2xl font-bold text-amber-600 dark:text-blue-300">
+                <span className="text-2xl font-bold text-kindling-fire dark:text-blue-300">
                   {settings.family_size}
                 </span>
               </div>
@@ -137,7 +137,7 @@ const Settings = () => {
                 type="checkbox"
                 checked={settings.has_children}
                 onChange={(e) => setSettings({...settings, has_children: e.target.checked})}
-                className="w-5 h-5 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                className="w-5 h-5 rounded border-gray-300 text-kindling-fire focus:ring-amber-500"
               />
               <div className="flex items-center space-x-2">
                 <Heart className="h-5 w-5 text-red-500" />
@@ -250,7 +250,7 @@ const Settings = () => {
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg px-8"
+          className="bg-gradient-to-r from-kindling-fire to-kindling-blaze hover:from-blue-700 hover:to-indigo-700 shadow-lg px-8"
         >
           <Save size={16} className="mr-2" />
           {saving ? 'Saving...' : 'Save Settings'}

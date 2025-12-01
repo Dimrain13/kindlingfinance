@@ -227,7 +227,7 @@ const TransactionRules = () => {
       {/* Rules List */}
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kindling-fire mx-auto"></div>
         </div>
       ) : rules.length === 0 ? (
         <Card className="bg-white border border-gray-200 shadow-sm">

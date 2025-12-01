@@ -109,7 +109,7 @@ const AlertsWidget = () => {
           bg: 'bg-blue-50',
           border: 'border-blue-200',
           text: 'text-blue-700',
-          icon: 'text-amber-600'
+          icon: 'text-kindling-fire'
         };
       case 'info':
         return {

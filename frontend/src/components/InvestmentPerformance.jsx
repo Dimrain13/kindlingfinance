@@ -43,7 +43,7 @@ const InvestmentPerformance = () => {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-amber-600" />
+            <Activity className="h-5 w-5 text-kindling-fire" />
             Investment Performance
           </CardTitle>
         </CardHeader>
@@ -66,7 +66,7 @@ const InvestmentPerformance = () => {
       <Card className={`shadow-xl border-2 ${isPositive ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' : 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200'}`}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="h-6 w-6 text-amber-600" />
+            <Activity className="h-6 w-6 text-kindling-fire" />
             Investment Performance Overview
           </CardTitle>
         </CardHeader>
@@ -75,10 +75,10 @@ const InvestmentPerformance = () => {
             {/* Total Value */}
             <div className="text-center p-4 bg-white rounded-lg shadow-sm">
               <div className="flex items-center justify-center mb-2">
-                <DollarSign className="h-5 w-5 text-amber-600" />
+                <DollarSign className="h-5 w-5 text-kindling-fire" />
               </div>
               <p className="text-sm text-gray-600 mb-1">Total Value</p>
-              <p className="text-2xl font-bold text-amber-600">{formatCurrency(performance.total_value)}</p>
+              <p className="text-2xl font-bold text-kindling-fire">{formatCurrency(performance.total_value)}</p>
             </div>
 
             {/* Cost Basis */}
@@ -119,7 +119,7 @@ const InvestmentPerformance = () => {
 
           {/* Info Banner */}
           <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
+            <AlertCircle className="h-5 w-5 text-kindling-fire mt-0.5" />
             <div className="text-sm text-blue-900">
               <p className="font-semibold mb-1">Note on Performance Calculations</p>
               <p>Performance metrics are estimated based on current account values. For more accurate tracking, consider linking detailed investment holdings or manually entering cost basis information.</p>
@@ -191,7 +191,7 @@ const InvestmentPerformance = () => {
         <Card className="shadow-xl">
           <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
             <CardTitle className="flex items-center gap-2">
-              <BarChart className="h-5 w-5 text-amber-600" />
+              <BarChart className="h-5 w-5 text-kindling-fire" />
               Investment Accounts
             </CardTitle>
           </CardHeader>
@@ -233,7 +233,7 @@ const InvestmentPerformance = () => {
                           <p className="text-xs text-gray-500">{acc.institution}</p>
                         </div>
                         <div className="text-right">
-                          <div className="font-bold text-amber-600">{formatCurrency(acc.current_value)}</div>
+                          <div className="font-bold text-kindling-fire">{formatCurrency(acc.current_value)}</div>
                           <div className="text-xs text-gray-500">{acc.percentage.toFixed(1)}%</div>
                         </div>
                       </div>
@@ -254,27 +254,27 @@ const InvestmentPerformance = () => {
       <Card className="shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-amber-600" />
+            <TrendingUp className="h-5 w-5 text-kindling-fire" />
             Investment Tips
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Diversify your portfolio</p>
               <p className="text-sm text-gray-600">Spread investments across different asset classes to reduce risk.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Monitor fees</p>
               <p className="text-sm text-gray-600">High expense ratios and fees can significantly impact long-term returns.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Rebalance periodically</p>
               <p className="text-sm text-gray-600">Review and adjust your asset allocation quarterly or annually to maintain your target mix.</p>

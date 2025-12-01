@@ -130,7 +130,7 @@ const Pricing = () => {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kindling-fire mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading pricing...</p>
         </div>
       </div>
@@ -145,7 +145,7 @@ const Pricing = () => {
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center text-gray-700 hover:text-amber-600 transition-colors"
+              className="flex items-center text-gray-700 hover:text-kindling-fire transition-colors"
             >
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="font-medium">Back to Home</span>
@@ -155,7 +155,7 @@ const Pricing = () => {
               <Button
                 variant="ghost"
                 onClick={() => navigate('/login')}
-                className="text-gray-700 hover:text-amber-600"
+                className="text-gray-700 hover:text-kindling-fire"
               >
                 Sign In
               </Button>
@@ -175,11 +175,11 @@ const Pricing = () => {
         <div className="text-center mb-12">
           {/* Campfire Logo */}
           <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-2xl ember-glow">
+            <div className="w-20 h-20 bg-gradient-to-br from-kindling-fire to-kindling-blaze rounded-2xl flex items-center justify-center shadow-2xl ember-glow">
               <CampfireLogo size="xl" className="text-white" />
             </div>
           </div>
-          <p className="text-amber-600 font-semibold mb-2 text-sm uppercase tracking-wide">
+          <p className="text-kindling-fire font-semibold mb-2 text-sm uppercase tracking-wide">
             Start Free - No Credit Card Required
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
@@ -293,7 +293,7 @@ const Pricing = () => {
                   {tier.features.length > 8 && (
                     <button
                       onClick={() => toggleFeatures(tierKey)}
-                      className="flex items-center text-sm text-amber-600 hover:text-blue-700 font-medium ml-7 mt-2"
+                      className="flex items-center text-sm text-kindling-fire hover:text-blue-700 font-medium ml-7 mt-2"
                     >
                       {expandedTiers[tierKey] ? (
                         <>
@@ -347,7 +347,7 @@ const Pricing = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Check className="h-6 w-6 text-amber-600" />
+                <Check className="h-6 w-6 text-kindling-fire" />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">No Ads, Ever</h3>
               <p className="text-gray-600 text-sm">
@@ -377,7 +377,7 @@ const Pricing = () => {
 
             <div className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                <Check className="h-6 w-6 text-orange-600" />
+                <Check className="h-6 w-6 text-kindling-fire" />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Built to Last</h3>
               <p className="text-gray-600 text-sm">

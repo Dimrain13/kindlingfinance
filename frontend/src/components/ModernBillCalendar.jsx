@@ -897,7 +897,7 @@ const ModernBillCalendar = () => {
                         onClick={() => handleOpenLinkTransaction(expense)}
                         size="sm"
                         variant="outline"
-                        className="hover:bg-blue-50 dark:hover:bg-blue-900/30 text-amber-600"
+                        className="hover:bg-blue-50 dark:hover:bg-blue-900/30 text-kindling-fire"
                         title="Link Transaction"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -999,7 +999,7 @@ const ModernBillCalendar = () => {
                       <Button
                         onClick={() => handleLinkTransaction(txn.id)}
                         size="sm"
-                        className="bg-amber-600 hover:bg-amber-700 text-white"
+                        className="bg-kindling-fire hover:bg-kindling-berry text-white"
                       >
                         Link
                       </Button>

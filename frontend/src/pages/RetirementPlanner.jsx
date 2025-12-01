@@ -127,7 +127,7 @@ const RetirementPlanner = () => {
                 </>
               ) : (
                 <>
-                  <AlertCircle className="h-6 w-6 text-orange-600" />
+                  <AlertCircle className="h-6 w-6 text-kindling-fire" />
                   <div>
                     <p className="font-semibold text-orange-900">Action needed</p>
                     <p className="text-sm text-orange-700">
@@ -152,7 +152,7 @@ const RetirementPlanner = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-amber-600">
+            <div className="text-2xl font-bold text-kindling-fire">
               {summary ? formatCurrency(summary.projectedSavings) : '-'}
             </div>
             <p className="text-xs text-gray-500 mt-1">Age {inputs.retirementAge}</p>
@@ -182,7 +182,7 @@ const RetirementPlanner = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${summary?.isOnTrack ? 'text-green-600' : 'text-orange-600'}`}>
+            <div className={`text-2xl font-bold ${summary?.isOnTrack ? 'text-green-600' : 'text-kindling-fire'}`}>
               {summary ? summary.yearsOfFunding : '-'} years
             </div>
             <p className="text-xs text-gray-500 mt-1">Of {inputs.lifeExpectancy - inputs.retirementAge} needed</p>
@@ -197,7 +197,7 @@ const RetirementPlanner = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-kindling-fire">
               {inputs.expectedReturn}%
             </div>
             <p className="text-xs text-gray-500 mt-1">Annual return</p>
@@ -351,7 +351,7 @@ const RetirementPlanner = () => {
             <div className="mt-6 grid grid-cols-2 gap-4">
               <div className="p-4 bg-blue-50 rounded-lg">
                 <p className="text-sm font-medium text-blue-900">Years to Retirement</p>
-                <p className="text-2xl font-bold text-amber-600">{inputs.retirementAge - inputs.currentAge}</p>
+                <p className="text-2xl font-bold text-kindling-fire">{inputs.retirementAge - inputs.currentAge}</p>
               </div>
               <div className="p-4 bg-purple-50 rounded-lg">
                 <p className="text-sm font-medium text-purple-900">Monthly Savings Needed</p>
@@ -366,27 +366,27 @@ const RetirementPlanner = () => {
       <Card className="shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-amber-600" />
+            <TrendingUp className="h-5 w-5 text-kindling-fire" />
             Recommendations
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Maximize employer match</p>
               <p className="text-sm text-gray-600">If available, contribute enough to get full employer 401(k) matching - it's free money!</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Consider tax-advantaged accounts</p>
               <p className="text-sm text-gray-600">IRA and 401(k) contributions can reduce taxable income and grow tax-deferred.</p>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+            <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
             <div>
               <p className="font-medium text-gray-900">Review and adjust annually</p>
               <p className="text-sm text-gray-600">Increase contributions as your income grows and adjust assumptions based on actual returns.</p>

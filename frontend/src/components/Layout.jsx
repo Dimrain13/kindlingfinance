@@ -94,7 +94,7 @@ const Layout = ({ children }) => {
         {/* Logo Header */}
         <div className="p-6 border-b border-gray-100">
           <div className="flex items-center space-x-3">
-            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-kindling-fire to-kindling-blaze flex items-center justify-center shadow-lg">
               <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                 {/* Campfire icon - logs and flames */}
                 <path d="M12 2C12 2 10 5 10 7.5C10 9.43 11.34 11 13 11C14.66 11 16 9.43 16 7.5C16 5 14 2 14 2C14 2 13 4 12.5 5.5C12.5 5.5 12 3.5 12 2Z" opacity="0.9"/>
@@ -106,7 +106,7 @@ const Layout = ({ children }) => {
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Kindling Financial</h1>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">Kindling Financial</h1>
               <p className="text-xs text-gray-500">Spark Your Growth</p>
             </div>
           </div>
@@ -137,7 +137,7 @@ const Layout = ({ children }) => {
               className={({ isActive }) =>
                 `flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
                   isActive
-                    ? 'bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 font-medium border-l-4 border-amber-500'
+                    ? 'bg-gradient-to-r from-amber-50 to-orange-50 text-amber-700 font-medium border-l-4 border-kindling-blaze'
                     : 'text-gray-700 hover:bg-amber-50/50 hover:text-gray-900'
                 }`
               }
@@ -146,7 +146,7 @@ const Layout = ({ children }) => {
                 <>
                   <item.icon 
                     size={20} 
-                    className={`transition-colors ${isActive ? 'text-amber-600' : 'text-gray-400 group-hover:text-amber-600'}`}
+                    className={`transition-colors ${isActive ? 'text-kindling-fire' : 'text-gray-400 group-hover:text-kindling-fire'}`}
                   />
                   <span className="text-sm font-medium">{item.label}</span>
                 </>

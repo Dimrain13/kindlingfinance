@@ -64,7 +64,7 @@ const Analytics = () => {
     return (
       <div className="p-6">
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kindling-fire mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading analytics...</p>
         </div>
       </div>

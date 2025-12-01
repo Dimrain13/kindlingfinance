@@ -82,7 +82,7 @@ const Login = () => {
           <div className="flex items-center justify-between h-16">
             <button
               onClick={() => navigate('/')}
-              className="flex items-center text-gray-700 hover:text-amber-600 transition-colors"
+              className="flex items-center text-gray-700 hover:text-kindling-fire transition-colors"
             >
               <ArrowLeft className="h-5 w-5 mr-2" />
               <span className="font-medium">Back to Home</span>
@@ -92,7 +92,7 @@ const Login = () => {
               <Button
                 variant="ghost"
                 onClick={() => navigate('/pricing')}
-                className="text-gray-700 hover:text-amber-600"
+                className="text-gray-700 hover:text-kindling-fire"
               >
                 Pricing
               </Button>
@@ -112,7 +112,7 @@ const Login = () => {
         {/* Left Side - Branding */}
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-orange-700 via-red-700 to-orange-900 p-12 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-500 opacity-10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-kindling-blaze opacity-10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-full -ml-48 -mb-48 blur-3xl"></div>
         
         <div className="relative z-10 flex flex-col justify-center max-w-md">
@@ -161,7 +161,7 @@ const Login = () => {
         <Card className="w-full max-w-md shadow-2xl border-0">
           <CardHeader className="space-y-1 pb-8">
             <div className="flex justify-center mb-4 lg:hidden">
-              <CampfireLogo size="lg" className="text-amber-600" />
+              <CampfireLogo size="lg" className="text-kindling-fire" />
             </div>
             <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-orange-700 to-red-700 bg-clip-text text-transparent">
               Welcome Back to the Fire
@@ -226,8 +226,8 @@ const Login = () => {
 
             {/* Google Sign-In Loading State */}
             {googleLoading && (
-              <div className="mt-4 bg-amber-50 dark:bg-blue-900/20 border border-amber-200 dark:border-blue-800 text-amber-600 dark:text-blue-400 p-4 rounded-lg text-sm flex items-center justify-center space-x-2">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-amber-600"></div>
+              <div className="mt-4 bg-amber-50 dark:bg-blue-900/20 border border-amber-200 dark:border-blue-800 text-kindling-fire dark:text-blue-400 p-4 rounded-lg text-sm flex items-center justify-center space-x-2">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-kindling-fire"></div>
                 <span className="font-medium">Completing Google Sign-In...</span>
               </div>
             )}
@@ -275,7 +275,7 @@ const Login = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 Don't have an account?{' '}
-                <Link to="/register" className="font-semibold text-amber-600 hover:text-blue-700 transition-colors">
+                <Link to="/register" className="font-semibold text-kindling-fire hover:text-blue-700 transition-colors">
                   Sign up for free
                 </Link>
               </p>

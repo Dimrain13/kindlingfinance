@@ -241,7 +241,7 @@ const Reports = () => {
       <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700">
           <CardTitle className="flex items-center space-x-2">
-            <BarChart3 className="h-6 w-6 text-amber-600" />
+            <BarChart3 className="h-6 w-6 text-kindling-fire" />
             <span className="text-lg">Income vs Expenses (6 Months)</span>
           </CardTitle>
         </CardHeader>
@@ -374,7 +374,7 @@ const Reports = () => {
         <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
           <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-700">
             <CardTitle className="flex items-center space-x-2">
-              <BarChart3 className="h-6 w-6 text-amber-600" />
+              <BarChart3 className="h-6 w-6 text-kindling-fire" />
               <span className="text-lg">Top 5 Spending Categories</span>
             </CardTitle>
           </CardHeader>

@@ -98,7 +98,7 @@ const InvestmentPerformanceEnhanced = () => {
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-amber-600" />
+            <Activity className="h-5 w-5 text-kindling-fire" />
             Investment Performance
           </CardTitle>
         </CardHeader>
@@ -167,7 +167,7 @@ const InvestmentPerformanceEnhanced = () => {
       <Card className={`shadow-xl border-2 ${isPositive ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' : 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200'}`}>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="h-6 w-6 text-amber-600" />
+            <Activity className="h-6 w-6 text-kindling-fire" />
             Portfolio Overview
           </CardTitle>
         </CardHeader>
@@ -176,10 +176,10 @@ const InvestmentPerformanceEnhanced = () => {
             {/* Total Value */}
             <div className="text-center p-4 bg-white rounded-lg shadow-sm">
               <div className="flex items-center justify-center mb-2">
-                <DollarSign className="h-5 w-5 text-amber-600" />
+                <DollarSign className="h-5 w-5 text-kindling-fire" />
               </div>
               <p className="text-sm text-gray-600 mb-1">Current Value</p>
-              <p className="text-2xl font-bold text-amber-600">{formatCurrency(performance.current_value)}</p>
+              <p className="text-2xl font-bold text-kindling-fire">{formatCurrency(performance.current_value)}</p>
             </div>
 
             {/* Cost Basis */}
@@ -241,7 +241,7 @@ const InvestmentPerformanceEnhanced = () => {
         <Card className="shadow-xl">
           <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
             <CardTitle className="flex items-center gap-2">
-              <LineChartIcon className="h-5 w-5 text-amber-600" />
+              <LineChartIcon className="h-5 w-5 text-kindling-fire" />
               Performance Over Time
               {benchmark && !benchmark.using_dummy_data && (
                 <span className="text-sm font-normal text-gray-600 ml-2">vs S&P 500</span>
@@ -327,7 +327,7 @@ const InvestmentPerformanceEnhanced = () => {
                     <p className="text-sm text-gray-600">{acc.institution}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-amber-600">{formatCurrency(acc.current_value)}</div>
+                    <div className="text-2xl font-bold text-kindling-fire">{formatCurrency(acc.current_value)}</div>
                     <div className="text-sm text-gray-600">{acc.percentage_of_portfolio.toFixed(1)}% of portfolio</div>
                   </div>
                 </div>

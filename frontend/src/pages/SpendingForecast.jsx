@@ -50,7 +50,7 @@ const SpendingForecast = () => {
       case 'medium':
         return <Info className="h-5 w-5 text-yellow-600" />;
       default:
-        return <Info className="h-5 w-5 text-amber-600" />;
+        return <Info className="h-5 w-5 text-kindling-fire" />;
     }
   };
 
@@ -145,7 +145,7 @@ const SpendingForecast = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Avg Monthly</p>
-                <p className="text-2xl font-bold text-amber-600">
+                <p className="text-2xl font-bold text-kindling-fire">
                   {formatCurrency(forecast.average_monthly_spending)}
                 </p>
               </div>
@@ -324,7 +324,7 @@ const SpendingForecast = () => {
               {forecast.category_forecasts.map((cat, idx) => (
                 <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-amber-600 rounded-full"></div>
+                    <div className="w-2 h-2 bg-kindling-fire rounded-full"></div>
                     <span className="font-medium text-gray-900">{cat.category.replace(/_/g, ' ')}</span>
                   </div>
                   <div className="text-right">
@@ -342,25 +342,25 @@ const SpendingForecast = () => {
       <Card className="shadow-lg bg-gradient-to-r from-blue-50 to-purple-50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Info className="h-5 w-5 text-amber-600" />
+            <Info className="h-5 w-5 text-kindling-fire" />
             Tips for Better Forecasts
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-start gap-3">
-            <ArrowRight className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <ArrowRight className="h-5 w-5 text-kindling-fire mt-0.5 flex-shrink-0" />
             <p className="text-gray-700">
               <strong>Consistent tracking:</strong> The more transaction history we have, the more accurate your forecasts become
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <ArrowRight className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <ArrowRight className="h-5 w-5 text-kindling-fire mt-0.5 flex-shrink-0" />
             <p className="text-gray-700">
               <strong>Categorize transactions:</strong> Properly categorized transactions help us identify spending patterns
             </p>
           </div>
           <div className="flex items-start gap-3">
-            <ArrowRight className="h-5 w-5 text-amber-600 mt-0.5 flex-shrink-0" />
+            <ArrowRight className="h-5 w-5 text-kindling-fire mt-0.5 flex-shrink-0" />
             <p className="text-gray-700">
               <strong>Review regularly:</strong> Check your forecasts monthly to stay ahead of potential overspending
             </p>

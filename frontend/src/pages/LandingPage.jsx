@@ -87,14 +87,14 @@ const LandingPage = () => {
               <Button 
                 variant="ghost" 
                 onClick={() => navigate('/pricing')}
-                className="text-gray-700 hover:text-amber-600"
+                className="text-gray-700 hover:text-kindling-fire"
               >
                 Pricing
               </Button>
               <Button 
                 variant="ghost" 
                 onClick={() => navigate('/login')}
-                className="text-gray-700 hover:text-amber-600"
+                className="text-gray-700 hover:text-kindling-fire"
               >
                 Log In
               </Button>
@@ -207,8 +207,8 @@ const LandingPage = () => {
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-amber-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-amber-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 bg-kindling-blaze rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-kindling-blaze rounded-full blur-3xl opacity-20 animate-pulse"></div>
       </section>
 
       {/* Stats Section */}
@@ -295,7 +295,7 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center gap-3 mb-4 md:mb-0">
-              <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 bg-gradient-to-br from-kindling-fire to-kindling-blaze rounded-lg flex items-center justify-center shadow-lg">
                 <CampfireLogo size="sm" className="text-white" />
               </div>
               <span className="text-xl font-bold text-white">Kindling Financial</span>

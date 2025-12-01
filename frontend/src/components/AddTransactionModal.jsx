@@ -203,7 +203,7 @@ const AddTransactionModal = ({ isOpen, onClose, onSuccess }) => {
               <Button 
                 type="submit" 
                 disabled={loading}
-                className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700"
+                className="flex-1 bg-gradient-to-r from-kindling-fire to-kindling-blaze hover:from-blue-700 hover:to-indigo-700"
               >
                 {loading ? 'Adding...' : 'Add Transaction'}
               </Button>

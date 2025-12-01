@@ -133,7 +133,7 @@ const AnalyticsEnhanced = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
             Analytics & Reports
           </h1>
           <p className="text-gray-600 mt-2">Comprehensive financial insights and reporting</p>
@@ -192,10 +192,10 @@ const AnalyticsEnhanced = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-gray-600">Net Savings</CardTitle>
-                <DollarSign className="h-4 w-4 text-amber-600" />
+                <DollarSign className="h-4 w-4 text-kindling-fire" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-amber-600">{formatCurrency(totalIncome - totalExpenses)}</div>
+                <div className="text-2xl font-bold text-kindling-fire">{formatCurrency(totalIncome - totalExpenses)}</div>
                 <p className="text-xs text-gray-500 mt-1">{savingsRate.toFixed(1)}% savings rate</p>
               </CardContent>
             </Card>
@@ -203,10 +203,10 @@ const AnalyticsEnhanced = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-gray-600">Net Worth</CardTitle>
-                <Wallet className="h-4 w-4 text-amber-600" />
+                <Wallet className="h-4 w-4 text-kindling-fire" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-amber-600">{formatCurrency(netWorth)}</div>
+                <div className="text-2xl font-bold text-kindling-fire">{formatCurrency(netWorth)}</div>
                 <p className="text-xs text-gray-500 mt-1">Assets: {formatCurrency(totalAssets)} | Liabilities: {formatCurrency(totalLiabilities)}</p>
               </CardContent>
             </Card>

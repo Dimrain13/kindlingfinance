@@ -66,7 +66,7 @@ const PennyMascot = () => {
                   🦉
                 </div>
                 {profile.current_streak > 0 && (
-                  <div className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg">
+                  <div className="absolute -top-1 -right-1 bg-kindling-blaze text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg">
                     🔥
                   </div>
                 )}
@@ -93,7 +93,7 @@ const PennyMascot = () => {
             <div className="mb-3">
               <div className="flex items-center justify-between text-xs mb-1">
                 <span className="text-gray-600 font-medium">Level {profile.level} Progress</span>
-                <span className="text-orange-600 font-bold">{profile.points_to_next_level} to next level</span>
+                <span className="text-kindling-fire font-bold">{profile.points_to_next_level} to next level</span>
               </div>
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
@@ -106,11 +106,11 @@ const PennyMascot = () => {
             {/* Stats Row */}
             <div className="grid grid-cols-3 gap-2 mb-3">
               <div className="bg-white rounded-lg p-2 text-center shadow-sm border border-gray-100">
-                <div className="text-lg font-bold text-orange-600">{profile.total_points}</div>
+                <div className="text-lg font-bold text-kindling-fire">{profile.total_points}</div>
                 <div className="text-xs text-gray-600">Points</div>
               </div>
               <div className="bg-white rounded-lg p-2 text-center shadow-sm border border-orange-100">
-                <div className="text-lg font-bold text-orange-600 flex items-center justify-center gap-1">
+                <div className="text-lg font-bold text-kindling-fire flex items-center justify-center gap-1">
                   <Zap className="h-4 w-4" />
                   {profile.current_streak}
                 </div>
@@ -136,7 +136,7 @@ const PennyMascot = () => {
                 onClick={performCheckIn}
                 size="sm"
                 variant="outline"
-                className="flex-1 border-blue-300 text-amber-600 hover:bg-blue-50"
+                className="flex-1 border-blue-300 text-kindling-fire hover:bg-blue-50"
               >
                 <TrendingUp className="h-4 w-4 mr-1" />
                 Check Stats
@@ -191,7 +191,7 @@ const PennyMascot = () => {
                           </h3>
                           <p className="text-sm text-gray-600 mb-2">{achievement.description}</p>
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-orange-600">+{achievement.points} points</span>
+                            <span className="text-xs font-bold text-kindling-fire">+{achievement.points} points</span>
                             {!isUnlocked && progress > 0 && (
                               <span className="text-xs text-gray-500">{progress}% complete</span>
                             )}

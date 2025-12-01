@@ -324,7 +324,7 @@ const DebtPayoff = () => {
             <CardContent className="pt-6 space-y-4">
               {loadingDebts ? (
                 <div className="text-center py-8">
-                  <RefreshCw className="h-8 w-8 animate-spin text-amber-600 mx-auto mb-2" />
+                  <RefreshCw className="h-8 w-8 animate-spin text-kindling-fire mx-auto mb-2" />
                   <p className="text-gray-600">Loading your debt accounts...</p>
                 </div>
               ) : debts.length === 0 ? (
@@ -347,7 +347,7 @@ const DebtPayoff = () => {
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold text-gray-900">Debt #{index + 1}</h3>
                       {debt.fromAccount && (
-                        <span className="text-xs bg-amber-600 text-white px-2 py-0.5 rounded-full">
+                        <span className="text-xs bg-kindling-fire text-white px-2 py-0.5 rounded-full">
                           From Account
                         </span>
                       )}
@@ -414,7 +414,7 @@ const DebtPayoff = () => {
           <Card className="shadow-lg">
             <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50">
               <CardTitle className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-amber-600" />
+                <Target className="h-5 w-5 text-kindling-fire" />
                 Payoff Strategy
               </CardTitle>
             </CardHeader>
@@ -437,12 +437,12 @@ const DebtPayoff = () => {
                     onClick={() => setStrategy('avalanche')}
                     className={`w-full p-4 rounded-lg border-2 text-left transition-all ${
                       strategy === 'avalanche' 
-                        ? 'border-amber-600 bg-blue-50 ring-2 ring-blue-300' 
+                        ? 'border-kindling-fire bg-blue-50 ring-2 ring-blue-300' 
                         : 'border-gray-200 hover:border-blue-300'
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <Zap className="h-5 w-5 text-amber-600 mt-0.5" />
+                      <Zap className="h-5 w-5 text-kindling-fire mt-0.5" />
                       <div>
                         <p className="font-semibold text-gray-900">Avalanche Method</p>
                         <p className="text-sm text-gray-600">Pay highest interest rate first • Saves the most money</p>
@@ -473,7 +473,7 @@ const DebtPayoff = () => {
                 <Button
                   onClick={calculatePayoff}
                   disabled={loading}
-                  className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white"
+                  className="flex-1 bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white"
                 >
                   <Calculator className="h-4 w-4 mr-2" />
                   {loading ? 'Calculating...' : 'Calculate Payoff'}
@@ -505,12 +505,12 @@ const DebtPayoff = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Min. Payment</p>
-                <p className="text-2xl font-bold text-orange-600">{formatCurrency(totalMinimum)}/mo</p>
+                <p className="text-2xl font-bold text-kindling-fire">{formatCurrency(totalMinimum)}/mo</p>
               </div>
               {parseFloat(extraPayment) > 0 && (
                 <div>
                   <p className="text-sm text-gray-600">Total Monthly Payment</p>
-                  <p className="text-2xl font-bold text-amber-600">
+                  <p className="text-2xl font-bold text-kindling-fire">
                     {formatCurrency(totalMinimum + parseFloat(extraPayment))}/mo
                   </p>
                 </div>
@@ -521,7 +521,7 @@ const DebtPayoff = () => {
           <Card className="shadow-lg bg-gradient-to-br from-blue-50 to-purple-50">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <Info className="h-5 w-5 text-amber-600" />
+                <Info className="h-5 w-5 text-kindling-fire" />
                 Tips
               </CardTitle>
             </CardHeader>
@@ -564,9 +564,9 @@ const DebtPayoff = () => {
               </div>
               
               <div className="p-4 bg-blue-50 rounded-lg text-center">
-                <TrendingDown className="h-8 w-8 text-amber-600 mx-auto mb-2" />
+                <TrendingDown className="h-8 w-8 text-kindling-fire mx-auto mb-2" />
                 <p className="text-sm text-gray-600">Total Paid</p>
-                <p className="text-2xl font-bold text-amber-600">{formatCurrency(results.total_amount_paid)}</p>
+                <p className="text-2xl font-bold text-kindling-fire">{formatCurrency(results.total_amount_paid)}</p>
               </div>
               
               <div className="p-4 bg-purple-50 rounded-lg text-center">
@@ -644,11 +644,11 @@ const DebtPayoff = () => {
 
       {/* Chunking Strategy Section */}
       {!mortgageDebt && (
-        <Card className="shadow-lg border-l-4 border-orange-600">
+        <Card className="shadow-lg border-l-4 border-kindling-fire">
           <CardContent className="pt-6">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-orange-100 rounded-lg">
-                <Zap className="h-6 w-6 text-orange-600" />
+                <Zap className="h-6 w-6 text-kindling-fire" />
               </div>
               <div>
                 <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100 mb-2">
@@ -676,7 +676,7 @@ const DebtPayoff = () => {
       )}
       
       {mortgageDebt && (
-        <Card className="shadow-2xl border-4 border-orange-600">
+        <Card className="shadow-2xl border-4 border-kindling-fire">
           <CardHeader className="bg-gradient-to-r from-orange-600 to-red-600 text-white">
             <CardTitle className="text-2xl flex items-center gap-2">
               <Zap className="h-6 w-6" />

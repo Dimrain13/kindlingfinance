@@ -633,7 +633,7 @@ const CashFlow = () => {
       <Card className="shadow-xl hover:shadow-2xl transition-all duration-300 border-0">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700">
           <CardTitle className="flex items-center space-x-2">
-            <Activity className="h-6 w-6 text-amber-600" />
+            <Activity className="h-6 w-6 text-kindling-fire" />
             <span className="text-lg">Net Cash Flow Trend</span>
           </CardTitle>
         </CardHeader>
@@ -718,7 +718,7 @@ const CashFlow = () => {
                         {formatCurrency(month.expenses)}
                       </td>
                       <td className={`py-3 px-4 text-right font-bold ${
-                        month.netFlow >= 0 ? 'text-amber-600' : 'text-orange-600'
+                        month.netFlow >= 0 ? 'text-kindling-fire' : 'text-kindling-fire'
                       }`}>
                         {month.netFlow >= 0 ? '+' : ''}{formatCurrency(month.netFlow)}
                       </td>

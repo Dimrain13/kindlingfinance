@@ -141,7 +141,7 @@ const BudgetTemplates = () => {
             {monthlyIncome && (
               <div className="text-center">
                 <p className="text-sm text-gray-600 mb-1">Monthly Income</p>
-                <p className="text-3xl font-bold text-amber-600">
+                <p className="text-3xl font-bold text-kindling-fire">
                   {formatCurrency(parseFloat(monthlyIncome))}
                 </p>
               </div>
@@ -157,7 +157,7 @@ const BudgetTemplates = () => {
             key={template.id}
             className={`cursor-pointer transition-all duration-300 hover:shadow-xl ${
               selectedTemplate?.id === template.id
-                ? 'border-4 border-amber-500 shadow-2xl'
+                ? 'border-4 border-kindling-blaze shadow-2xl'
                 : 'border-2 border-gray-200 hover:border-blue-300'
             }`}
             onClick={() => setSelectedTemplate(template)}
@@ -168,12 +168,12 @@ const BudgetTemplates = () => {
                   <CardTitle className="text-xl flex items-center gap-2 mb-2">
                     {template.name}
                     {selectedTemplate?.id === template.id && (
-                      <CheckCircle className="h-5 w-5 text-amber-600" />
+                      <CheckCircle className="h-5 w-5 text-kindling-fire" />
                     )}
                   </CardTitle>
                   <p className="text-sm text-gray-600">{template.description}</p>
                 </div>
-                <div className="text-amber-600">
+                <div className="text-kindling-fire">
                   {getTemplateIcon(template.icon)}
                 </div>
               </div>
@@ -184,11 +184,11 @@ const BudgetTemplates = () => {
                 {template.total_needs && (
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-3 bg-amber-50 rounded-lg">
-                      <p className="text-2xl font-bold text-amber-600">{template.total_needs}%</p>
+                      <p className="text-2xl font-bold text-kindling-fire">{template.total_needs}%</p>
                       <p className="text-xs text-gray-600">Needs</p>
                     </div>
                     <div className="p-3 bg-amber-50 rounded-lg">
-                      <p className="text-2xl font-bold text-amber-600">{template.total_wants}%</p>
+                      <p className="text-2xl font-bold text-kindling-fire">{template.total_wants}%</p>
                       <p className="text-xs text-gray-600">Wants</p>
                     </div>
                     <div className="p-3 bg-green-50 rounded-lg">
@@ -216,7 +216,7 @@ const BudgetTemplates = () => {
                 {/* Principle note */}
                 {template.principle && (
                   <div className="flex items-start gap-2 p-3 bg-gray-50 rounded-lg">
-                    <Info className="h-4 w-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                    <Info className="h-4 w-4 text-kindling-fire mt-0.5 flex-shrink-0" />
                     <p className="text-xs text-gray-600">{template.principle}</p>
                   </div>
                 )}
@@ -229,7 +229,7 @@ const BudgetTemplates = () => {
       {/* Preview Section */}
       {selectedTemplate && monthlyIncome && previewData && (
         <Card className="shadow-2xl border-4 border-blue-200">
-          <CardHeader className="bg-gradient-to-r from-amber-600 to-orange-600 text-white">
+          <CardHeader className="bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white">
             <CardTitle className="text-2xl flex items-center gap-2">
               Budget Preview: {selectedTemplate.name}
             </CardTitle>
@@ -292,7 +292,7 @@ const BudgetTemplates = () => {
                 onClick={applyTemplate}
                 disabled={applying}
                 size="lg"
-                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white text-lg px-12"
+                className="bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white text-lg px-12"
               >
                 {applying ? (
                   'Applying...'
@@ -322,31 +322,31 @@ const BudgetTemplates = () => {
         <Card className="shadow-lg bg-gradient-to-r from-amber-50 to-orange-50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Info className="h-6 w-6 text-amber-600" />
+              <Info className="h-6 w-6 text-kindling-fire" />
               How Budget Templates Work
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
               <p className="text-gray-700">
                 <strong>Select a template</strong> that matches your financial philosophy
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
               <p className="text-gray-700">
                 <strong>Enter your monthly income</strong> to see how the budget would look
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
               <p className="text-gray-700">
                 <strong>Review the preview</strong> and adjust if needed
               </p>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-2 h-2 bg-amber-600 rounded-full mt-2"></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full mt-2"></div>
               <p className="text-gray-700">
                 <strong>Apply the template</strong> to automatically create your budget categories
               </p>

@@ -70,15 +70,15 @@ const SubscriptionSuccess = () => {
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <div className="mb-6">
-            <Loader className="h-16 w-16 text-amber-600 mx-auto animate-spin" />
+            <Loader className="h-16 w-16 text-kindling-fire mx-auto animate-spin" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Processing Payment</h2>
           <p className="text-gray-600">{message}</p>
           <div className="mt-6">
             <div className="flex space-x-2 justify-center">
-              <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-              <div className="w-2 h-2 bg-amber-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-2 h-2 bg-kindling-fire rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
             </div>
           </div>
         </div>

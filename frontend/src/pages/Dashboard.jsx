@@ -82,7 +82,7 @@ const Dashboard = () => {
     return (
       <div className="flex items-center justify-center h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-amber-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-kindling-fire mx-auto mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Loading your dashboard...</p>
         </div>
       </div>
@@ -113,7 +113,7 @@ const Dashboard = () => {
                 onClick={handleSync} 
                 disabled={syncing} 
                 variant="outline"
-                className="shadow-md hover:shadow-lg transition-all border-amber-500 text-amber-700 hover:bg-amber-50"
+                className="shadow-md hover:shadow-lg transition-all border-kindling-blaze text-amber-700 hover:bg-amber-50"
               >
                 <RefreshCw size={18} className={`mr-2 ${syncing ? 'animate-spin' : ''}`} />
                 {syncing ? 'Syncing...' : 'Sync'}
@@ -165,7 +165,7 @@ const Dashboard = () => {
                 Net Worth
               </CardTitle>
               <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                <DollarSign className="h-5 w-5 text-orange-600 dark:text-indigo-400" />
+                <DollarSign className="h-5 w-5 text-kindling-fire dark:text-indigo-400" />
               </div>
             </CardHeader>
             <CardContent>
@@ -213,7 +213,7 @@ const Dashboard = () => {
                 Monthly Bills
               </CardTitle>
               <div className="bg-amber-100 dark:bg-amber-900/30 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                <Calendar className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                <Calendar className="h-5 w-5 text-kindling-fire dark:text-amber-400" />
               </div>
             </CardHeader>
             <CardContent>
@@ -260,7 +260,7 @@ const Dashboard = () => {
           <Card className="shadow-xl border-0 overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-amber-600" />
+                <Target className="h-5 w-5 text-kindling-fire" />
                 <CardTitle className="text-xl">Financial Goals</CardTitle>
               </div>
               <Link to="/goals">

@@ -77,7 +77,7 @@ const Subscriptions = () => {
                 <p className="text-xs text-gray-500 mt-1">Recurring monthly</p>
               </div>
               <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
-                <Calendar className="h-6 w-6 text-amber-600" />
+                <Calendar className="h-6 w-6 text-kindling-fire" />
               </div>
             </div>
           </CardContent>
@@ -92,7 +92,7 @@ const Subscriptions = () => {
                 <p className="text-xs text-gray-500 mt-1">Per year</p>
               </div>
               <div className="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-amber-600" />
+                <TrendingUp className="h-6 w-6 text-kindling-fire" />
               </div>
             </div>
           </CardContent>
@@ -116,7 +116,7 @@ const Subscriptions = () => {
 
       {loading ? (
         <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-kindling-fire mx-auto"></div>
           <p className="text-gray-500 mt-4">Analyzing transactions...</p>
         </div>
       ) : (
@@ -143,7 +143,7 @@ const Subscriptions = () => {
                         <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
-                              <span className="text-sm font-bold text-amber-600">
+                              <span className="text-sm font-bold text-kindling-fire">
                                 {item.merchant_name.charAt(0).toUpperCase()}
                               </span>
                             </div>
@@ -183,7 +183,7 @@ const Subscriptions = () => {
                     <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                          <span className="text-sm font-bold text-amber-600">
+                          <span className="text-sm font-bold text-kindling-fire">
                             {item.merchant_name.charAt(0).toUpperCase()}
                           </span>
                         </div>

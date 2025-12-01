@@ -265,10 +265,10 @@ const CashFlowChart = ({ compact = false }) => {
         {/* Chart Legend & Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-            <div className="w-3 h-0.5 bg-amber-600" style={{ borderTop: '2px dashed #3B82F6' }}></div>
+            <div className="w-3 h-0.5 bg-kindling-fire" style={{ borderTop: '2px dashed #3B82F6' }}></div>
             <div>
               <p className="text-xs text-gray-600 dark:text-gray-400">Avg Daily Income</p>
-              <p className="font-bold text-amber-600">{formatCurrency(chartData.avgDailyIncome)}</p>
+              <p className="font-bold text-kindling-fire">{formatCurrency(chartData.avgDailyIncome)}</p>
             </div>
           </div>
           

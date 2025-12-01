@@ -276,7 +276,7 @@ const Goals = () => {
 
         {/* Breakdown if there are debt goals */}
         {goals.some(g => g.type === 'debt_payoff') && (
-          <Card className="shadow-lg border-l-4 border-orange-600">
+          <Card className="shadow-lg border-l-4 border-kindling-fire">
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -296,7 +296,7 @@ const Goals = () => {
                     </div>
                     <div className="flex justify-between pt-2 border-t">
                       <span className="text-gray-700 dark:text-gray-300">📊 Net Progress:</span>
-                      <span className="font-bold text-orange-600">
+                      <span className="font-bold text-kindling-fire">
                         {formatCurrency(goals.reduce((sum, g) => sum + g.current_amount, 0))}
                       </span>
                     </div>
@@ -348,7 +348,7 @@ const Goals = () => {
                           className="p-2 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors"
                           title="Edit goal"
                         >
-                          <Edit className="h-4 w-4 text-orange-600" />
+                          <Edit className="h-4 w-4 text-kindling-fire" />
                         </button>
                         <button
                           onClick={() => {
@@ -494,7 +494,7 @@ const Goals = () => {
             </p>
             <Button
               onClick={() => setShowModal(true)}
-              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              className="bg-gradient-to-r from-kindling-fire to-kindling-blaze hover:from-blue-700 hover:to-purple-700 text-white"
             >
               <Plus className="h-5 w-5 mr-2" />
               Create Your First Goal
@@ -517,7 +517,7 @@ const Goals = () => {
                     onClick={() => handleTypeChange(type)}
                     className={`p-3 rounded-lg border-2 transition-all ${
                       formData.type === type
-                        ? 'border-amber-600 bg-amber-50 dark:bg-blue-900/20'
+                        ? 'border-kindling-fire bg-amber-50 dark:bg-blue-900/20'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
@@ -643,7 +643,7 @@ const Goals = () => {
                 </div>
                 <div className="flex justify-between text-sm mt-2 pt-2 border-t border-orange-300">
                   <span className="text-gray-700 dark:text-gray-300">Remaining:</span>
-                  <span className="font-bold text-orange-600">{formatCurrency(selectedGoal.target_amount - selectedGoal.current_amount)}</span>
+                  <span className="font-bold text-kindling-fire">{formatCurrency(selectedGoal.target_amount - selectedGoal.current_amount)}</span>
                 </div>
               </div>
 

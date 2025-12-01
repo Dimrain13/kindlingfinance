@@ -118,7 +118,7 @@ const ExpenseDonutChart = ({ transactions, onCategoryClick, selectedCategory }) 
               {selectedCategory && (
                 <button
                   onClick={() => onCategoryClick(null)}
-                  className="mt-2 text-sm text-amber-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="mt-2 text-sm text-kindling-fire hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                 >
                   Clear filter
                 </button>

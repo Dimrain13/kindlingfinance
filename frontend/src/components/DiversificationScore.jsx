@@ -62,9 +62,9 @@ const DiversificationScore = () => {
 
   const getGradeColor = (grade) => {
     if (grade.startsWith('A')) return 'text-green-600 bg-green-100';
-    if (grade === 'B') return 'text-amber-600 bg-blue-100';
+    if (grade === 'B') return 'text-kindling-fire bg-blue-100';
     if (grade === 'C') return 'text-yellow-600 bg-yellow-100';
-    if (grade === 'D') return 'text-orange-600 bg-orange-100';
+    if (grade === 'D') return 'text-kindling-fire bg-orange-100';
     return 'text-red-600 bg-red-100';
   };
 

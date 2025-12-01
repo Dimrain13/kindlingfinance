@@ -199,14 +199,14 @@ const Budgets = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
               Budgets
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Track your spending against your goals
             </p>
           </div>
-          <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-amber-600 to-orange-600 shadow-lg">
+          <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-kindling-fire to-kindling-blaze shadow-lg">
             <Plus size={16} className="mr-2" />
             Add Budget
           </Button>
@@ -330,7 +330,7 @@ const Budgets = () => {
                         onClick={() => startEdit(budget)}
                         className="hover:bg-orange-50 dark:hover:bg-orange-900/20"
                       >
-                        <Edit className="h-4 w-4 text-orange-600" />
+                        <Edit className="h-4 w-4 text-kindling-fire" />
                       </Button>
                       <Button
                         variant="ghost"
@@ -450,7 +450,7 @@ const Budgets = () => {
               <PiggyBank className="h-16 w-16 text-gray-300 mx-auto mb-4" />
               <p className="text-xl font-medium text-gray-600 mb-2">No budgets set yet</p>
               <p className="text-gray-500 mb-4">Create budgets to track your spending</p>
-              <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-amber-600 to-orange-600">
+              <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-kindling-fire to-kindling-blaze">
                 <Plus size={16} className="mr-2" />
                 Create Your First Budget
               </Button>
@@ -486,8 +486,8 @@ const Budgets = () => {
                                 onClick={() => handleCategorySelect(category)}
                                 className={`p-3 rounded-lg border-2 transition-all text-left hover:shadow-md bg-white dark:bg-gray-700 ${
                                   newBudget.category === category.name
-                                    ? 'border-amber-600 bg-amber-50 dark:bg-blue-900/40 ring-2 ring-blue-300'
-                                    : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-amber-500'
+                                    ? 'border-kindling-fire bg-amber-50 dark:bg-blue-900/40 ring-2 ring-blue-300'
+                                    : 'border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-kindling-blaze'
                                 }`}
                               >
                                 <div className="flex items-center gap-2">
@@ -532,7 +532,7 @@ const Budgets = () => {
                       id="rollover"
                       checked={newBudget.rollover}
                       onChange={(e) => setNewBudget({ ...newBudget, rollover: e.target.checked })}
-                      className="mt-1 h-4 w-4 text-amber-600 border-gray-300 rounded focus:ring-amber-500"
+                      className="mt-1 h-4 w-4 text-kindling-fire border-gray-300 rounded focus:ring-amber-500"
                     />
                     <div className="flex-1">
                       <label htmlFor="rollover" className="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer">
@@ -608,7 +608,7 @@ const Budgets = () => {
                     id="edit-rollover"
                     checked={editingBudget.rollover}
                     onChange={(e) => setEditingBudget({ ...editingBudget, rollover: e.target.checked })}
-                    className="h-4 w-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                    className="h-4 w-4 text-kindling-fire border-gray-300 rounded focus:ring-orange-500"
                   />
                   <label htmlFor="edit-rollover" className="text-sm font-medium text-gray-900 dark:text-gray-100 cursor-pointer flex-1">
                     Enable Rollover

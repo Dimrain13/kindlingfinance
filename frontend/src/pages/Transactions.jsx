@@ -332,11 +332,11 @@ const Transactions = () => {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
                 Transactions
               </h1>
               {unreviewedCount > 0 && (
-                <Badge className="bg-orange-500 text-white px-3 py-1 text-sm">
+                <Badge className="bg-kindling-blaze text-white px-3 py-1 text-sm">
                   {unreviewedCount} to review
                 </Badge>
               )}
@@ -358,7 +358,7 @@ const Transactions = () => {
             )}
             <Button 
               onClick={() => setShowAddModal(true)}
-              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+              className="bg-gradient-to-r from-kindling-fire to-kindling-blaze hover:from-blue-700 hover:to-indigo-700 shadow-lg"
             >
               <Plus size={16} className="mr-2" />
               Add Transaction
@@ -411,7 +411,7 @@ const Transactions = () => {
               onClick={() => setViewMode('table')}
               variant={viewMode === 'table' ? 'default' : 'outline'}
               size="sm"
-              className={viewMode === 'table' ? 'bg-gradient-to-r from-amber-600 to-orange-600' : ''}
+              className={viewMode === 'table' ? 'bg-gradient-to-r from-kindling-fire to-kindling-blaze' : ''}
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -422,7 +422,7 @@ const Transactions = () => {
               onClick={() => setViewMode('chart')}
               variant={viewMode === 'chart' ? 'default' : 'outline'}
               size="sm"
-              className={viewMode === 'chart' ? 'bg-gradient-to-r from-amber-600 to-orange-600' : ''}
+              className={viewMode === 'chart' ? 'bg-gradient-to-r from-kindling-fire to-kindling-blaze' : ''}
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
@@ -496,7 +496,7 @@ const Transactions = () => {
                             {txn.reviewed ? (
                               <CheckCircle2 className="h-5 w-5 text-green-600" />
                             ) : (
-                              <Circle className="h-5 w-5 text-gray-300 hover:text-orange-500" />
+                              <Circle className="h-5 w-5 text-gray-300 hover:text-kindling-blaze" />
                             )}
                           </button>
                         </td>
@@ -687,7 +687,7 @@ const Transactions = () => {
                   </Button>
                   <Button
                     onClick={handleConfirmRecategory}
-                    className="flex-1 h-11 bg-amber-600 hover:bg-amber-700 text-white shadow-lg hover:shadow-xl transition-all"
+                    className="flex-1 h-11 bg-kindling-fire hover:bg-kindling-berry text-white shadow-lg hover:shadow-xl transition-all"
                   >
                     Update {recategoryOption === 'all' ? 'All' : 'Transaction'}
                   </Button>

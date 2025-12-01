@@ -69,9 +69,9 @@ const Alerts = () => {
       case 'low_balance':
         return <TrendingDown className={`${iconClass} text-red-600`} />;
       case 'unusual_spending':
-        return <AlertTriangle className={`${iconClass} text-orange-600`} />;
+        return <AlertTriangle className={`${iconClass} text-kindling-fire`} />;
       case 'large_transaction':
-        return <DollarSign className={`${iconClass} text-amber-600`} />;
+        return <DollarSign className={`${iconClass} text-kindling-fire`} />;
       case 'budget_warning':
         return <AlertCircle className={`${iconClass} text-yellow-600`} />;
       case 'budget_exceeded':
@@ -131,7 +131,7 @@ const Alerts = () => {
           <Button
             onClick={generateAlerts}
             disabled={generating}
-            className="bg-gradient-to-r from-amber-600 to-orange-600 text-white"
+            className="bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white"
           >
             {generating ? (
               <>
@@ -172,7 +172,7 @@ const Alerts = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">High Priority</p>
-                <p className="text-3xl font-bold text-orange-600">
+                <p className="text-3xl font-bold text-kindling-fire">
                   {alerts.filter(a => a.severity === 'high').length}
                 </p>
               </div>
@@ -186,7 +186,7 @@ const Alerts = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Alerts</p>
-                <p className="text-3xl font-bold text-amber-600">{alerts.length}</p>
+                <p className="text-3xl font-bold text-kindling-fire">{alerts.length}</p>
               </div>
               <Info className="h-12 w-12 text-blue-200" />
             </div>
@@ -324,7 +324,7 @@ const Alerts = () => {
               <Button
                 onClick={generateAlerts}
                 disabled={generating}
-                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white"
+                className="bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white"
               >
                 {generating ? 'Checking...' : 'Check for Alerts'}
               </Button>

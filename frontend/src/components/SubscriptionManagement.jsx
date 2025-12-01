@@ -60,7 +60,7 @@ const SubscriptionManagement = () => {
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-kindling-fire mx-auto"></div>
             <p className="mt-4 text-gray-600">Loading subscription...</p>
           </div>
         </CardContent>
@@ -204,7 +204,7 @@ const SubscriptionManagement = () => {
           <Button
             onClick={() => navigate('/pricing')}
             variant="ghost"
-            className="w-full text-gray-600 hover:text-amber-600"
+            className="w-full text-gray-600 hover:text-kindling-fire"
           >
             View All Plans
           </Button>

@@ -88,7 +88,7 @@ const Insights = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
               AI Insights
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2 flex items-center space-x-2">
@@ -109,7 +109,7 @@ const Insights = () => {
             <Button 
               onClick={generateInsights} 
               disabled={loading}
-              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg"
+              className="bg-gradient-to-r from-kindling-fire to-kindling-blaze hover:from-blue-700 hover:to-indigo-700 shadow-lg"
             >
               <RefreshCw size={16} className={`mr-2 ${loading ? 'animate-spin' : ''}`} />
               {loading ? 'Generating...' : 'Generate Insights'}
@@ -119,7 +119,7 @@ const Insights = () => {
 
         {/* Status Message */}
         {statusMessage && (
-          <Card className="border-l-4 border-amber-500 bg-blue-50 dark:bg-blue-900/20 animate-pulse">
+          <Card className="border-l-4 border-kindling-blaze bg-blue-50 dark:bg-blue-900/20 animate-pulse">
             <CardContent className="py-4">
               <p className="text-center font-semibold text-blue-900 dark:text-blue-100">
                 {statusMessage}
@@ -129,10 +129,10 @@ const Insights = () => {
         )}
 
         {/* Info Banner */}
-        <Card className="border-l-4 border-amber-500 bg-blue-50 dark:bg-blue-900/20">
+        <Card className="border-l-4 border-kindling-blaze bg-blue-50 dark:bg-blue-900/20">
           <CardContent className="pt-6">
             <div className="flex items-start space-x-3">
-              <Sparkles className="h-6 w-6 text-amber-600 mt-1" />
+              <Sparkles className="h-6 w-6 text-kindling-fire mt-1" />
               <div>
                 <p className="font-semibold text-blue-900 dark:text-blue-100">💡 AI-Powered Savings Finder</p>
                 <p className="text-sm text-blue-800 dark:text-blue-200 mt-1">
@@ -192,7 +192,7 @@ const Insights = () => {
               <h2 className="text-2xl font-bold">Financial Insights</h2>
             </div>
             {loading && (
-              <div className="flex items-center space-x-2 text-amber-600">
+              <div className="flex items-center space-x-2 text-kindling-fire">
                 <RefreshCw className="h-5 w-5 animate-spin" />
                 <span className="text-sm font-medium">Analyzing your spending...</span>
               </div>
@@ -202,7 +202,7 @@ const Insights = () => {
           {loading ? (
             <Card className="shadow-lg">
               <CardContent className="text-center py-16">
-                <RefreshCw className="h-16 w-16 text-amber-500 mx-auto mb-4 animate-spin" />
+                <RefreshCw className="h-16 w-16 text-kindling-blaze mx-auto mb-4 animate-spin" />
                 <p className="text-xl font-medium text-gray-600 mb-2">AI is analyzing your transactions</p>
                 <p className="text-gray-500">Looking for subscriptions, price increases, and savings opportunities...</p>
               </CardContent>
@@ -304,7 +304,7 @@ const Insights = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="bg-blue-100 dark:bg-blue-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="h-8 w-8 text-amber-600" />
+                  <Sparkles className="h-8 w-8 text-kindling-fire" />
                 </div>
                 <h3 className="font-semibold mb-2">1. Categorize</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
