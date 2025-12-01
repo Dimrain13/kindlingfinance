@@ -237,10 +237,19 @@ const Budgets = () => {
               Track your spending against your goals
             </p>
           </div>
-          <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-kindling-fire to-kindling-blaze shadow-lg">
-            <Plus size={16} className="mr-2" />
-            Add Budget
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              onClick={fetchSmartSuggestions} 
+              className="bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg hover:from-purple-600 hover:to-pink-600"
+            >
+              <Sparkles size={16} className="mr-2" />
+              Smart Suggestions
+            </Button>
+            <Button onClick={() => setShowAdd(true)} className="bg-gradient-to-r from-kindling-fire to-kindling-blaze shadow-lg">
+              <Plus size={16} className="mr-2" />
+              Add Budget
+            </Button>
+          </div>
         </div>
 
         {/* Time Filter Buttons */}
