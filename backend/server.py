@@ -322,6 +322,7 @@ async def update_user_settings(
             "primary_goals": settings.primary_goals or [],
             "risk_tolerance": settings.risk_tolerance or "moderate",
             "monthly_income": settings.monthly_income,
+            "credit_score": settings.credit_score,
             "updated_at": datetime.utcnow()
         }
         await user_settings_collection.insert_one(settings_doc)
@@ -338,6 +339,8 @@ async def update_user_settings(
             update_data["risk_tolerance"] = settings.risk_tolerance
         if settings.monthly_income is not None:
             update_data["monthly_income"] = settings.monthly_income
+        if settings.credit_score is not None:
+            update_data["credit_score"] = settings.credit_score
         
         await user_settings_collection.update_one(
             {"user_id": user_id},
