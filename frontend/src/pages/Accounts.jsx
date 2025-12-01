@@ -44,6 +44,93 @@ const Accounts = () => {
     alert('✅ Bank account connected successfully!\n\n💡 Your transactions are being synced!');
   };
 
+  const findDuplicates = async () => {
+    setLoadingDuplicates(true);
+    try {
+      const response = await api.get('/accounts/duplicates');
+      setDuplicateGroups(response.data.duplicate_groups || []);
+      
+      if (response.data.total_groups === 0) {
+        alert('✅ No duplicate accounts found!');
+      } else {
+        setShowDuplicates(true);
+        // Initialize selected primary accounts (first in each group)
+        const initialSelection = {};
+        response.data.duplicate_groups.forEach((group, index) => {
+          // Default to MX account if available, otherwise first account
+          const mxAccount = group.accounts.find(acc => acc.is_mx_account);
+          initialSelection[index] = mxAccount ? mxAccount.id : group.accounts[0].id;
+        });
+        setSelectedPrimary(initialSelection);
+      }
+    } catch (error) {
+      console.error('Failed to find duplicates:', error);
+      alert('Failed to find duplicates. Please try again.');
+    } finally {
+      setLoadingDuplicates(false);
+    }
+  };
+
+  const handleMergeDuplicates = async (groupIndex) => {
+    const group = duplicateGroups[groupIndex];
+    const primaryId = selectedPrimary[groupIndex];
+    const duplicateIds = group.accounts
+      .filter(acc => acc.id !== primaryId)
+      .map(acc => acc.id);
+
+    if (duplicateIds.length === 0) {
+      alert('Please select accounts to merge');
+      return;
+    }
+
+    const primaryAccount = group.accounts.find(acc => acc.id === primaryId);
+    const confirmMsg = `Merge ${duplicateIds.length} duplicate account(s) into "${primaryAccount.name}"?\n\nThis will:\n- Transfer all transactions to the primary account\n- Delete the duplicate accounts\n\nThis action cannot be undone.`;
+    
+    if (!window.confirm(confirmMsg)) {
+      return;
+    }
+
+    setMergingAccounts(true);
+    try {
+      const response = await api.post('/accounts/merge', {
+        primary_account_id: primaryId,
+        duplicate_account_ids: duplicateIds,
+        merge_transactions: true
+      });
+
+      alert(`✅ ${response.data.message}\n\n📊 Transactions moved: ${response.data.transactions_moved}`);
+      
+      // Reload accounts and duplicates
+      await loadAccounts();
+      await findDuplicates();
+    } catch (error) {
+      console.error('Failed to merge accounts:', error);
+      alert('Failed to merge accounts. Please try again.');
+    } finally {
+      setMergingAccounts(false);
+    }
+  };
+
+  const handleDeleteDuplicate = async (accountId, accountName) => {
+    const confirmMsg = `Delete "${accountName}" and all its transactions?\n\nThis action cannot be undone.`;
+    
+    if (!window.confirm(confirmMsg)) {
+      return;
+    }
+
+    try {
+      const response = await api.delete(`/accounts/${accountId}/with-transactions`);
+      alert(`✅ ${response.data.message}`);
+      
+      // Reload accounts and duplicates
+      await loadAccounts();
+      await findDuplicates();
+    } catch (error) {
+      console.error('Failed to delete account:', error);
+      alert('Failed to delete account. Please try again.');
+    }
+  };
+
   const handleSync = async () => {
     setSyncing(true);
     try {
