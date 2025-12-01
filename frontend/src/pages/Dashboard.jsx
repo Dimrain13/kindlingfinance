@@ -102,7 +102,7 @@ const Dashboard = () => {
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-3 sm:gap-4">
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-kindling-fire via-kindling-berry to-kindling-plum bg-clip-text text-transparent">
                 Dashboard
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1 sm:mt-2 text-sm sm:text-base md:text-lg">
