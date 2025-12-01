@@ -15,6 +15,7 @@ const Accounts = () => {
   const [deleteOption, setDeleteOption] = useState('single'); // 'single' or 'all'
   const [showMXConnect, setShowMXConnect] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [mxWidgetLoading, setMxWidgetLoading] = useState(false);
 
   useEffect(() => {
     loadAccounts();
