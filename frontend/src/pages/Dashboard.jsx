@@ -158,7 +158,7 @@ const Dashboard = () => {
         </div>
 
         {/* Stats Cards - Kindling Financial Design */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {/* Net Worth - First Card */}
           <Card className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-l-indigo-600 bg-white dark:bg-gray-800 hover:-translate-y-1 group">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
