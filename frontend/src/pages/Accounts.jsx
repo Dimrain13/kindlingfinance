@@ -17,6 +17,11 @@ const Accounts = () => {
   const [showMXConnect, setShowMXConnect] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [mxWidgetLoading, setMxWidgetLoading] = useState(false);
+  const [showDuplicates, setShowDuplicates] = useState(false);
+  const [duplicateGroups, setDuplicateGroups] = useState([]);
+  const [loadingDuplicates, setLoadingDuplicates] = useState(false);
+  const [selectedPrimary, setSelectedPrimary] = useState({});
+  const [mergingAccounts, setMergingAccounts] = useState(false);
 
   useEffect(() => {
     loadAccounts();
