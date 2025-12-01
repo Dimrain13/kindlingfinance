@@ -401,9 +401,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Penny the Piggy Mascot */}
-      <PennyMascot />
-
       {/* MX Connect Widget Modal */}
       {showMXConnect && (
         <MXConnectWidget 
