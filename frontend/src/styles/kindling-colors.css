@@ -95,29 +95,29 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Button Styles */
+/* Button Styles - Fun & Vibrant */
 .btn-kindling-primary {
-  background: var(--kindling-flame);
+  background: var(--kindling-fire);
   color: white;
   border: none;
   transition: all 0.3s ease;
 }
 
 .btn-kindling-primary:hover {
-  background: var(--kindling-warmth);
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  background: var(--kindling-berry);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
 }
 
 .btn-kindling-secondary {
   background: white;
-  color: var(--kindling-flame);
-  border: 2px solid var(--kindling-flame);
+  color: var(--kindling-fire);
+  border: 2px solid var(--kindling-fire);
   transition: all 0.3s ease;
 }
 
 .btn-kindling-secondary:hover {
-  background: #FEF3C7; /* Amber-50 */
-  border-color: var(--kindling-warmth);
+  background: var(--kindling-cream);
+  border-color: var(--kindling-berry);
 }
 
 /* Stat Cards with Colored Borders */
