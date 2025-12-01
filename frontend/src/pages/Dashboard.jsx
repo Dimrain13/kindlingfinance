@@ -122,12 +122,23 @@ const Dashboard = () => {
               <Button 
                 onClick={() => {
                   console.log('Link Account clicked, setting showMXConnect to true');
+                  setMxWidgetLoading(true);
                   setShowMXConnect(true);
                 }}
-                className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all text-white"
+                disabled={mxWidgetLoading}
+                className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 shadow-lg hover:shadow-xl transition-all text-white disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Plus size={18} className="mr-2" />
-                Link Account
+                {mxWidgetLoading ? (
+                  <>
+                    <RefreshCw size={18} className="mr-2 animate-spin" />
+                    Loading...
+                  </>
+                ) : (
+                  <>
+                    <Plus size={18} className="mr-2" />
+                    Link Account
+                  </>
+                )}
               </Button>
             </div>
           </div>
