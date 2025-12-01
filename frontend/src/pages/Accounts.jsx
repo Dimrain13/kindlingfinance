@@ -209,7 +209,7 @@ const Accounts = () => {
                     <div className="border-t pt-3 mt-3">
                       <div className="flex items-baseline justify-between">
                         <div>
-                          <p className={`text-3xl font-bold ${isLiability ? 'text-red-600' : 'text-amber-600'}`}>
+                          <p className={`text-xl sm:text-2xl lg:text-3xl font-bold break-words ${isLiability ? 'text-red-600' : 'text-amber-600'}`}>
                             {formatCurrency(account.balance)}
                           </p>
                           {isLiability && (
