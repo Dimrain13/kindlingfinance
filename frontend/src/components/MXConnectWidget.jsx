@@ -54,6 +54,7 @@ const MXConnectWidget = ({ onSuccess, onClose, onLoad }) => {
       switch (messageType) {
         case 'mx/connect/loaded':
           console.log('✅ MX Widget loaded successfully');
+          if (onLoad) onLoad();
           break;
           
         case 'mx/connect/memberConnected':
