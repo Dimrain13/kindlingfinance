@@ -92,6 +92,28 @@
     @apply bg-gradient-to-b from-blue-400 to-indigo-500 rounded-full;
     @apply hover:from-blue-500 hover:to-indigo-600;
   }
+  
+  /* Mobile Touch Optimizations */
+  @media (max-width: 768px) {
+    /* Larger touch targets on mobile */
+    button, a, input, select, textarea {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Prevent text size adjustment on mobile */
+    html {
+      -webkit-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    /* Prevent double-tap zoom */
+    * {
+      touch-action: manipulation;
+    }
+  }
 }
 
 /* Animations */
