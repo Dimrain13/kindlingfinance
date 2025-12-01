@@ -85,8 +85,8 @@ const Layout = ({ children }) => {
 
       {/* Sidebar - Cozy Campfire Theme */}
       <div className={`
-        fixed lg:static inset-y-0 left-0 z-40
-        w-64 cozy-sidebar flex flex-col shadow-lg
+        fixed lg:static inset-y-0 left-0 z-50
+        w-64 cozy-sidebar flex flex-col shadow-2xl
         transform transition-transform duration-300 ease-in-out
         lg:transform-none
         ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
