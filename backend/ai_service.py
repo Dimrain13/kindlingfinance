@@ -257,7 +257,10 @@ CRITICAL RULES:
   * Streaming (Netflix, Spotify) → "Consolidate Streaming Services"
   * Groceries (Whole Foods) → "Switch to Budget Grocery Stores"
   * Coffee (Starbucks) → "Cut Coffee Shop Spending"
-  * NEVER mix categories - Chipotle is NOT a streaming service!
+  * Banking Fees → "Switch to No-Fee Banking" (ONLY for actual bank fees like overdraft, ATM, monthly charges)
+  * Loan Refinancing → "Refinance High-Interest Loans" or "Refinance Your Mortgage" (for loan payments)
+  * ⚠️ NEVER call loan payments "fees"! Mortgage/auto/student loan payments are debt obligations, NOT fees
+  * NEVER mix categories - Chipotle is NOT a streaming service! Loan payments are NOT fees!
   * Mint Mobile: If family size ≥3, suggest family plan ($15/line for 3+ lines)
   * Streaming: If family size ≥3, keep 1 family plan, rotate others
   * Groceries: Larger families should focus on Costco/bulk buying (30-40% savings)
