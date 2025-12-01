@@ -238,7 +238,24 @@ const Accounts = () => {
           </div>
           
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
+            <Button 
+              onClick={findDuplicates}
+              disabled={loadingDuplicates}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+            >
+              {loadingDuplicates ? (
+                <>
+                  <RefreshCw size={18} className="mr-2 animate-spin" />
+                  Checking...
+                </>
+              ) : (
+                <>
+                  <Copy size={18} className="mr-2" />
+                  Manage Duplicates
+                </>
+              )}
+            </Button>
             <Button 
               onClick={handleSync}
               disabled={syncing}
