@@ -2434,6 +2434,7 @@ app.include_router(alerts_router, prefix="/api")
 app.include_router(subscriptions_router, prefix="/api/subscriptions")
 app.include_router(household_router, prefix="/api")
 app.include_router(budgets_router, prefix="/api")
+app.include_router(budget_suggestions_router, prefix="/api")
 
 # Import and include MX routes
 try:
