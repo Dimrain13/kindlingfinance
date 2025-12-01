@@ -335,9 +335,7 @@ test_plan:
 
 test_plan:
   current_focus:
-    - "Portfolio page with Investment Performance Analysis"
-    - "Subscriptions page with auto-detection"
-    - "Frontend authentication context for browser testing"
+    - "Duplicate Account Management Feature"
   stuck_tasks:
     - "Daily Cash Flow Candlestick Chart on Dashboard and Cash Flow pages"
     - "Frontend authentication context for browser testing"
