@@ -63,6 +63,7 @@ from routes.household_routes import router as household_router
 from routes.budgets_routes import router as budgets_router
 from routes.budget_suggestions_routes import router as budget_suggestions_router
 from routes.financial_health_routes import router as financial_health_router
+from routes.duplicate_accounts_routes import router as duplicate_accounts_router
 
 # Create FastAPI app
 app = FastAPI(title="FinanceHub API", version="1.0.0")
