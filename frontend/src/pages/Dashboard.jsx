@@ -417,7 +417,11 @@ const Dashboard = () => {
       {showMXConnect && (
         <MXConnectWidget 
           onSuccess={handleMXSuccess}
-          onClose={() => setShowMXConnect(false)}
+          onClose={() => {
+            setShowMXConnect(false);
+            setMxWidgetLoading(false);
+          }}
+          onLoad={() => setMxWidgetLoading(false)}
         />
       )}
     </div>
