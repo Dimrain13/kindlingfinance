@@ -133,6 +133,7 @@ const Layout = ({ children }) => {
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={() => setMobileMenuOpen(false)}
               className={({ isActive }) =>
                 `flex items-center space-x-3 px-3 py-2.5 rounded-lg transition-all duration-200 group ${
                   isActive
