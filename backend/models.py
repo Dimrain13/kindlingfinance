@@ -64,6 +64,7 @@ class UserSettings(BaseModel):
     primary_goals: List[str] = []  # e.g., ["save_money", "pay_debt", "build_emergency_fund"]
     risk_tolerance: str = "moderate"  # conservative, moderate, aggressive
     monthly_income: Optional[float] = None
+    credit_score: Optional[int] = None  # Credit score for financial health tracking
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
 class UserSettingsUpdate(BaseModel):
@@ -72,6 +73,7 @@ class UserSettingsUpdate(BaseModel):
     primary_goals: Optional[List[str]] = None
     risk_tolerance: Optional[str] = None
     monthly_income: Optional[float] = None
+    credit_score: Optional[int] = None
 
 
 # Account Models
