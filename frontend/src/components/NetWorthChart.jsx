@@ -26,12 +26,25 @@ const NetWorthChart = () => {
       const accountsResponse = await api.get('/accounts');
       const accounts = accountsResponse.data;
       
-      // Calculate real-time net worth from current accounts
+      // Fetch properties to include equity in net worth
+      const propertiesResponse = await api.get('/properties');
+      const properties = propertiesResponse.data;
+      
+      // Calculate property equity
+      const propertyEquity = properties.reduce((sum, prop) => {
+        return sum + (prop.equity !== undefined ? prop.equity : prop.current_value);
+      }, 0);
+      
+      // Calculate net worth from accounts
       const { calculateNetWorth } = await import('../utils/financialCalculations');
       const { netWorth, totalAssets, totalLiabilities } = calculateNetWorth(accounts);
       
-      setCurrentNetWorth(netWorth);
-      setCurrentAssets(totalAssets);
+      // Add property equity to assets and net worth
+      const totalAssetsWithEquity = totalAssets + propertyEquity;
+      const netWorthWithEquity = netWorth + propertyEquity;
+      
+      setCurrentNetWorth(netWorthWithEquity);
+      setCurrentAssets(totalAssetsWithEquity);
       setCurrentLiabilities(totalLiabilities);
       
       // Fetch calculated historical data based on transactions
