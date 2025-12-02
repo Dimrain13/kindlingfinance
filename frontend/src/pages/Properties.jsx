@@ -442,23 +442,43 @@ const Properties = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Link to Mortgage (Optional)</label>
+                    <label className="block text-sm font-medium mb-2">Mortgage Information (Optional)</label>
                     <select
                       value={newProperty.linked_mortgage_account_id}
-                      onChange={(e) => setNewProperty({...newProperty, linked_mortgage_account_id: e.target.value})}
+                      onChange={(e) => setNewProperty({...newProperty, linked_mortgage_account_id: e.target.value, manual_mortgage_balance: ''})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kindling-fire dark:bg-gray-800 dark:border-gray-600"
                     >
-                      <option value="">-- No Mortgage --</option>
+                      <option value="">-- Select Option --</option>
+                      <option value="manual">Enter Mortgage Amount Manually</option>
                       {accounts.map((acc) => (
                         <option key={acc.id} value={acc.id}>
-                          {acc.name} - {formatCurrency(acc.balance)}
+                          {acc.name} - {formatCurrency(Math.abs(acc.balance))} remaining
                         </option>
                       ))}
                     </select>
                     <p className="text-xs text-gray-500 mt-1">
-                      Link this property to a mortgage account to track equity
+                      Link to an existing mortgage account or enter amount manually
                     </p>
                   </div>
+
+                  {newProperty.linked_mortgage_account_id === 'manual' && (
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Mortgage Balance</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-3 text-gray-500">$</span>
+                        <Input
+                          type="number"
+                          value={newProperty.manual_mortgage_balance}
+                          onChange={(e) => setNewProperty({...newProperty, manual_mortgage_balance: e.target.value})}
+                          placeholder="223000"
+                          className="pl-8"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Enter the remaining mortgage balance
+                      </p>
+                    </div>
+                  )}
 
                   {/* Tax & Financial Information */}
                   <div className="border-t pt-4 mt-4">
