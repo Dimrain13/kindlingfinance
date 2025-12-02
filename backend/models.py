@@ -604,6 +604,7 @@ class PropertyUpdate(BaseModel):
     property_type: Optional[str] = None
     current_value: Optional[float] = None
     linked_mortgage_account_id: Optional[str] = None
+    manual_mortgage_balance: Optional[float] = None
     annual_property_tax: Optional[float] = None
     hoa_fee_monthly: Optional[float] = None
     is_rental: Optional[bool] = None
