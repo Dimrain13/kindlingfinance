@@ -2444,6 +2444,7 @@ app.include_router(budgets_router, prefix="/api")
 app.include_router(budget_suggestions_router, prefix="/api")
 app.include_router(financial_health_router, prefix="/api")
 app.include_router(duplicate_accounts_router, prefix="/api")
+app.include_router(properties_router, prefix="/api")
 
 # Import and include MX routes
 try:
