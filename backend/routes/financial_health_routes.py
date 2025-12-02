@@ -471,8 +471,8 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     # Calculate diversification score
     score = 0
     
-    # Base score from number of investment accounts (0-3 points)
-    account_count = len(investment_accounts)
+    # Base score from number of investment accounts + properties (0-3 points)
+    account_count = len(investment_accounts) + len(properties)
     if account_count >= 3:
         score += 3
     elif account_count == 2:
@@ -480,18 +480,30 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     else:
         score += 1
     
-    # Bonus for asset type diversity (0-4 points)
-    asset_diversity_score = min(4, len(asset_types) * 2)
+    # Bonus for asset type diversity (0-3.5 points)
+    asset_diversity_score = min(3.5, len(asset_types) * 1.5)
     score += asset_diversity_score
     
-    # Crypto bonus: small but meaningful (0-1 point)
+    # Real estate bonus: significant diversification (0-1 point)
+    # Real estate should be 20-40% of portfolio for optimal score
+    if has_real_estate and total_investment_value > 0:
+        re_percentage = (total_real_estate / total_investment_value) * 100
+        if 20 <= re_percentage <= 40:
+            score += 1  # Perfect real estate allocation
+        elif 10 <= re_percentage < 20 or 40 < re_percentage <= 60:
+            score += 0.5  # Acceptable allocation
+        elif re_percentage < 10:
+            score += 0.25  # Some real estate better than none
+        # No extra points if >60% (too concentrated in real estate)
+    
+    # Crypto bonus: small but meaningful (0-0.5 point)
     # Crypto should be 5-15% of portfolio for optimal score
     if has_crypto and total_investment_value > 0:
         crypto_percentage = (crypto_value / total_investment_value) * 100
         if 5 <= crypto_percentage <= 15:
-            score += 1  # Perfect crypto allocation
+            score += 0.5  # Perfect crypto allocation
         elif 2 <= crypto_percentage < 5 or 15 < crypto_percentage <= 20:
-            score += 0.5  # Acceptable crypto allocation
+            score += 0.25  # Acceptable crypto allocation
         # No points if crypto is <2% (too small) or >20% (too risky)
     
     # Determine status
