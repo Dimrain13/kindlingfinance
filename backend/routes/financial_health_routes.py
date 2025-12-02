@@ -416,8 +416,17 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     
     investment_accounts = [acc for acc in accounts if acc.get("type", "").lower() in ["investment", "brokerage", "retirement"]]
     
-    # Calculate total real estate value
-    total_real_estate = sum(prop.get("current_value", 0) for prop in properties)
+    # Calculate total real estate EQUITY (not full value)
+    total_real_estate = 0
+    for prop in properties:
+        # Use equity if available, otherwise use full value
+        if "equity" in prop and prop["equity"] is not None:
+            total_real_estate += prop["equity"]
+        else:
+            # Calculate equity on the fly if not pre-calculated
+            prop_value = prop.get("current_value", 0)
+            mortgage_balance = prop.get("manual_mortgage_balance", 0)
+            total_real_estate += (prop_value - mortgage_balance)
     
     if not investment_accounts and not properties:
         return {
