@@ -433,6 +433,11 @@ const Dashboard = () => {
           onLoad={() => setMxWidgetLoading(false)}
         />
       )}
+
+      {/* Welcome Onboarding Modal */}
+      {showOnboarding && (
+        <WelcomeOnboarding onClose={() => setShowOnboarding(false)} />
+      )}
     </div>
   );
 };
