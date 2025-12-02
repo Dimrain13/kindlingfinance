@@ -52,6 +52,7 @@ const Layout = ({ children }) => {
     { path: '/budgets', icon: PiggyBank, label: 'Budgets' },
     { path: '/goals', icon: Calendar, label: 'Goals' },
     { path: '/portfolio', icon: Briefcase, label: 'Portfolio' },
+    { path: '/properties', icon: Home, label: 'Properties' },
     { path: '/cashflow', icon: Activity, label: 'Cash Flow' },
     { path: '/analytics', icon: BarChart3, label: 'Analytics & Reports' },
     { path: '/planning', icon: Target, label: 'Planning Tools' },
