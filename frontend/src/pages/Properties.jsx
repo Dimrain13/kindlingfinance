@@ -521,7 +521,7 @@ const Properties = () => {
                     {newProperty.is_rental && (
                       <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg space-y-4">
                         <h4 className="font-semibold text-sm text-blue-900 dark:text-blue-100">
-                          Rental Property Details
+                          {newProperty.is_short_term_rental ? 'Short-Term Rental (STR) Details' : 'Long-Term Rental Details'}
                         </h4>
                         
                         <div className="grid grid-cols-2 gap-4">
