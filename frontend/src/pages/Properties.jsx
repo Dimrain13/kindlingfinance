@@ -113,6 +113,13 @@ const Properties = () => {
       purchase_date: property.purchase_date,
       current_value: property.current_value.toString(),
       linked_mortgage_account_id: property.linked_mortgage_account_id || '',
+      annual_property_tax: property.annual_property_tax?.toString() || '',
+      hoa_fee_monthly: property.hoa_fee_monthly?.toString() || '',
+      is_rental: property.is_rental || false,
+      rental_income_monthly: property.rental_income_monthly?.toString() || '',
+      rental_expenses_monthly: property.rental_expenses_monthly?.toString() || '',
+      depreciation_basis: property.depreciation_basis?.toString() || '',
+      placed_in_service_date: property.placed_in_service_date || '',
       notes: property.notes || ''
     });
     setShowAdd(true);
