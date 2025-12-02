@@ -109,7 +109,7 @@ async def update_property(
             k: v for k, v in property_data.dict().items()
             if v is not None
         }
-        update_data["last_updated"] = datetime.utcnow()
+        update_data["last_updated"] = datetime.utcnow().isoformat()
         
         # If updating current_value, mark as manual valuation
         if "current_value" in update_data:
