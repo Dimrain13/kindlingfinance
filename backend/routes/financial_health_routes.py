@@ -55,8 +55,11 @@ async def get_financial_health_score(user_id: str = Depends(get_current_user)):
         # 6. Net Worth Trend (10 points)
         factors["net_worth_trend"] = await calculate_net_worth_trend(user_id)
         
+        # Get properties for diversification calculation
+        properties = await db.properties.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
+        
         # 7. Investment Diversification (8 points)
-        factors["investment_diversification"] = calculate_investment_diversification(accounts)
+        factors["investment_diversification"] = calculate_investment_diversification(accounts, properties)
         
         # 8. Financial Goal Progress (5 points)
         factors["goal_progress"] = calculate_goal_progress(goals)
