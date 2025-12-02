@@ -23,6 +23,7 @@ const Properties = () => {
     purchase_date: '',
     current_value: '',
     linked_mortgage_account_id: '',
+    manual_mortgage_balance: '',
     annual_property_tax: '',
     hoa_fee_monthly: '',
     is_rental: false,
