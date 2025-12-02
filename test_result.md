@@ -1872,3 +1872,41 @@ User requested a colorful donut chart visualization (similar to reference image)
 Interactive expense donut chart visualization successfully implemented on both Transactions and Cash Flow pages with full click-to-filter functionality.
 
 ---
+
+# Fork Job - Net Worth Equity Fix - Dec 2, 2025
+
+## Priority 0 (P0): Net Worth Calculation - Property Equity Integration
+
+  - task: "Net Worth calculation includes property equity across all UI components"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py, /app/frontend/src/components/NetWorthChart.jsx"
+    stuck_count: 0
+    priority: "P0"
+    needs_retesting: false
+    status_history:
+        -working: false
+        -agent: "main"
+        -comment: "User reported that Net Worth display areas (Dashboard, NetWorthChart) were not using property equity for their calculations, even though Portfolio page and backend networth_routes.py were updated. This led to inconsistent and inaccurate financial reporting across the app."
+        -working: true
+        -agent: "main"
+        -comment: "✅ FIXED & TESTED: Updated `/api/analytics/dashboard` endpoint in server.py (lines 1496-1644) to fetch properties and calculate property equity, then add it to total_assets before calculating net_worth. Also updated NetWorthChart.jsx component to fetch properties via `/api/properties` endpoint and include equity in the displayed current net worth. TESTING RESULTS: 1) ✅ Dashboard shows Net Worth: $1,201,202.13 (includes $237,000 property equity), 2) ✅ Portfolio page shows Real Estate Equity: $237,000.00 correctly calculated from 2 properties, 3) ✅ NetWorthChart shows $1,201,202.13 matching dashboard, 4) ✅ Properties page shows correct equity: Property 1 ($160,000 equity) + Property 2 ($77,000 equity) = $237,000 total. Net Worth is now accurate and consistent across entire application."
+
+## Priority 1 (P1): Recurring Duplicate Properties Issue
+
+  - task: "Investigate and prevent duplicate properties from appearing in UI"
+    implemented: false
+    working: "NA"
+    file: "/app/backend/routes/properties_routes.py, testing scripts"
+    stuck_count: 2
+    priority: "P1"
+    needs_retesting: true
+    status_history:
+        -working: false
+        -agent: "main"
+        -comment: "User repeatedly reported seeing 3+ duplicate properties in the UI throughout previous session. Previous agent cleaned database multiple times but issue recurred. Suspected causes: 1) Testing scripts writing to wrong database (financehub_db instead of financial_app), 2) Frontend caching issues, 3) Test data creation without proper cleanup. CURRENT STATUS: Properties page currently shows only 2 properties (correct), but issue is recurring and needs root cause fix."
+
+agent_communication:
+    -agent: "main"
+    -message: "P0 COMPLETED: Fixed Net Worth equity calculation inconsistency. Dashboard, Portfolio, and NetWorthChart all now correctly include property equity in net worth calculations. Ready to address P1 (duplicate properties) next."
+
