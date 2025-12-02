@@ -585,6 +585,7 @@ class PropertyCreate(BaseModel):
     purchase_date: str
     current_value: float
     linked_mortgage_account_id: Optional[str] = None
+    manual_mortgage_balance: Optional[float] = None
     annual_property_tax: Optional[float] = None
     hoa_fee_monthly: Optional[float] = None
     is_rental: bool = False
