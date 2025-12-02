@@ -30,6 +30,7 @@ import PlanningTools from './pages/PlanningTools';
 import Pricing from './pages/Pricing';
 import SubscriptionSuccess from './pages/SubscriptionSuccess';
 import FinancialHealth from './pages/FinancialHealth';
+import Properties from './pages/Properties';
 import './App.css';
 import './styles/modern.css';
 import './styles/pages.css';
