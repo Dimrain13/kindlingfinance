@@ -1,0 +1,430 @@
+import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Home, Plus, Edit, Trash2, TrendingUp, DollarSign } from 'lucide-react';
+import { formatCurrency } from '../utils/formatNumber';
+
+const Properties = () => {
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
+  const [editingProperty, setEditingProperty] = useState(null);
+  const [accounts, setAccounts] = useState([]);
+  
+  const [newProperty, setNewProperty] = useState({
+    address: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    property_type: 'single_family',
+    purchase_price: '',
+    purchase_date: '',
+    current_value: '',
+    linked_mortgage_account_id: '',
+    notes: ''
+  });
+
+  useEffect(() => {
+    loadProperties();
+    loadAccounts();
+  }, []);
+
+  const loadProperties = async () => {
+    try {
+      const response = await api.get('/properties');
+      setProperties(response.data);
+    } catch (error) {
+      console.error('Failed to load properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadAccounts = async () => {
+    try {
+      const response = await api.get('/accounts');
+      // Filter for mortgage and loan accounts
+      const mortgageAccounts = response.data.filter(acc => 
+        acc.account_type === 'mortgage' || 
+        acc.type?.toLowerCase().includes('loan') ||
+        acc.type?.toLowerCase().includes('mortgage')
+      );
+      setAccounts(mortgageAccounts);
+    } catch (error) {
+      console.error('Failed to load accounts:', error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      if (editingProperty) {
+        await api.put(`/properties/${editingProperty.id}`, newProperty);
+        alert('✅ Property updated successfully!');
+      } else {
+        await api.post('/properties', {
+          ...newProperty,
+          purchase_price: parseFloat(newProperty.purchase_price) || 0,
+          current_value: parseFloat(newProperty.current_value) || 0
+        });
+        alert('✅ Property added successfully!');
+      }
+      
+      setShowAdd(false);
+      setEditingProperty(null);
+      setNewProperty({
+        address: '',
+        city: '',
+        state: '',
+        zip_code: '',
+        property_type: 'single_family',
+        purchase_price: '',
+        purchase_date: '',
+        current_value: '',
+        linked_mortgage_account_id: '',
+        notes: ''
+      });
+      loadProperties();
+    } catch (error) {
+      console.error('Failed to save property:', error);
+      alert('Failed to save property. Please try again.');
+    }
+  };
+
+  const handleEdit = (property) => {
+    setEditingProperty(property);
+    setNewProperty({
+      address: property.address,
+      city: property.city,
+      state: property.state,
+      zip_code: property.zip_code,
+      property_type: property.property_type || 'single_family',
+      purchase_price: property.purchase_price.toString(),
+      purchase_date: property.purchase_date,
+      current_value: property.current_value.toString(),
+      linked_mortgage_account_id: property.linked_mortgage_account_id || '',
+      notes: property.notes || ''
+    });
+    setShowAdd(true);
+  };
+
+  const handleDelete = async (propertyId) => {
+    if (!window.confirm('Are you sure you want to delete this property?')) {
+      return;
+    }
+
+    try {
+      await api.delete(`/properties/${propertyId}`);
+      alert('✅ Property deleted successfully!');
+      loadProperties();
+    } catch (error) {
+      console.error('Failed to delete property:', error);
+      alert('Failed to delete property. Please try again.');
+    }
+  };
+
+  const totalPropertyValue = properties.reduce((sum, prop) => sum + prop.current_value, 0);
+  const totalEquity = properties.reduce((sum, prop) => sum + (prop.equity || 0), 0);
+
+  if (loading) {
+    return <div className="p-6">Loading...</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-kindling-fire to-kindling-blaze bg-clip-text text-transparent">
+              Properties
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Manage your real estate and track property values
+            </p>
+            {properties.length > 0 && (
+              <div className="mt-4 flex gap-6">
+                <div>
+                  <span className="text-sm text-gray-500">Total Value</span>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {formatCurrency(totalPropertyValue)}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-sm text-gray-500">Total Equity</span>
+                  <p className="text-2xl font-bold text-green-600">
+                    {formatCurrency(totalEquity)}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+          <Button 
+            onClick={() => {
+              setShowAdd(true);
+              setEditingProperty(null);
+            }}
+            className="bg-gradient-to-r from-kindling-fire to-kindling-blaze shadow-lg"
+          >
+            <Plus size={16} className="mr-2" />
+            Add Property
+          </Button>
+        </div>
+
+        {/* Properties Grid */}
+        {properties.length === 0 && !showAdd ? (
+          <Card className="shadow-lg">
+            <CardContent className="pt-6 text-center py-12">
+              <Home className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">No Properties Yet</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Add your first property to track its value and equity
+              </p>
+              <Button 
+                onClick={() => setShowAdd(true)}
+                className="bg-gradient-to-r from-kindling-fire to-kindling-blaze"
+              >
+                <Plus size={16} className="mr-2" />
+                Add Property
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {properties.map((property) => (
+              <Card key={property.id} className="shadow-lg border-0 hover:shadow-xl transition-shadow">
+                <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-kindling-fire rounded-lg">
+                        <Home className="h-6 w-6 text-white" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-lg">{property.address}</CardTitle>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {property.city}, {property.state} {property.zip_code}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" onClick={() => handleEdit(property)}>
+                        <Edit size={14} />
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-red-600"
+                        onClick={() => handleDelete(property.id)}
+                      >
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <span className="text-sm text-gray-500">Current Value</span>
+                        <p className="text-xl font-bold text-gray-900 dark:text-white">
+                          {formatCurrency(property.current_value)}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-sm text-gray-500">Purchase Price</span>
+                        <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                          {formatCurrency(property.purchase_price)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {property.mortgage_balance !== undefined && (
+                      <div className="pt-4 border-t space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Mortgage Balance</span>
+                          <span className="font-semibold text-red-600">
+                            {formatCurrency(property.mortgage_balance)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600 font-medium">Equity</span>
+                          <span className="font-bold text-green-600 text-lg">
+                            {formatCurrency(property.equity)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600">Equity %</span>
+                          <span className="font-semibold text-gray-900 dark:text-white">
+                            {property.equity_percentage}%
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <TrendingUp size={14} />
+                      <span>Purchased: {new Date(property.purchase_date).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        {/* Add/Edit Property Modal */}
+        {showAdd && (
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm overflow-y-auto">
+            <Card className="w-full max-w-2xl shadow-2xl bg-white dark:bg-gray-800 border-0 my-8">
+              <CardHeader className="bg-gradient-to-r from-kindling-fire to-kindling-blaze text-white">
+                <CardTitle className="text-xl flex items-center gap-2">
+                  <Home className="h-5 w-5" />
+                  {editingProperty ? 'Edit Property' : 'Add Property'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Address</label>
+                    <Input
+                      required
+                      value={newProperty.address}
+                      onChange={(e) => setNewProperty({...newProperty, address: e.target.value})}
+                      placeholder="123 Main St"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">City</label>
+                      <Input
+                        required
+                        value={newProperty.city}
+                        onChange={(e) => setNewProperty({...newProperty, city: e.target.value})}
+                        placeholder="San Francisco"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">State</label>
+                      <Input
+                        required
+                        value={newProperty.state}
+                        onChange={(e) => setNewProperty({...newProperty, state: e.target.value})}
+                        placeholder="CA"
+                        maxLength={2}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">ZIP Code</label>
+                      <Input
+                        required
+                        value={newProperty.zip_code}
+                        onChange={(e) => setNewProperty({...newProperty, zip_code: e.target.value})}
+                        placeholder="94102"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Purchase Date</label>
+                      <Input
+                        type="date"
+                        required
+                        value={newProperty.purchase_date}
+                        onChange={(e) => setNewProperty({...newProperty, purchase_date: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Purchase Price</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-3 text-gray-500">$</span>
+                        <Input
+                          type="number"
+                          required
+                          value={newProperty.purchase_price}
+                          onChange={(e) => setNewProperty({...newProperty, purchase_price: e.target.value})}
+                          placeholder="500000"
+                          className="pl-8"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Current Value</label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-3 text-gray-500">$</span>
+                        <Input
+                          type="number"
+                          required
+                          value={newProperty.current_value}
+                          onChange={(e) => setNewProperty({...newProperty, current_value: e.target.value})}
+                          placeholder="550000"
+                          className="pl-8"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Link to Mortgage (Optional)</label>
+                    <select
+                      value={newProperty.linked_mortgage_account_id}
+                      onChange={(e) => setNewProperty({...newProperty, linked_mortgage_account_id: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kindling-fire dark:bg-gray-800 dark:border-gray-600"
+                    >
+                      <option value="">-- No Mortgage --</option>
+                      {accounts.map((acc) => (
+                        <option key={acc.id} value={acc.id}>
+                          {acc.name} - {formatCurrency(acc.balance)}
+                        </option>
+                      ))}
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Link this property to a mortgage account to track equity
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Notes (Optional)</label>
+                    <textarea
+                      value={newProperty.notes}
+                      onChange={(e) => setNewProperty({...newProperty, notes: e.target.value})}
+                      placeholder="Additional property information..."
+                      rows={3}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-kindling-fire dark:bg-gray-800 dark:border-gray-600"
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <Button type="submit" className="flex-1 bg-gradient-to-r from-kindling-fire to-kindling-blaze">
+                      {editingProperty ? 'Update Property' : 'Add Property'}
+                    </Button>
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      onClick={() => {
+                        setShowAdd(false);
+                        setEditingProperty(null);
+                      }}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Properties;
