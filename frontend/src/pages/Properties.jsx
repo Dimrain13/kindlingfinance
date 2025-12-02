@@ -409,6 +409,117 @@ const Properties = () => {
                     </p>
                   </div>
 
+                  {/* Tax & Financial Information */}
+                  <div className="border-t pt-4 mt-4">
+                    <h3 className="font-semibold text-lg mb-3 text-gray-900 dark:text-gray-100">
+                      Tax & Financial Information
+                    </h3>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Annual Property Tax</label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-3 text-gray-500">$</span>
+                          <Input
+                            type="number"
+                            value={newProperty.annual_property_tax}
+                            onChange={(e) => setNewProperty({...newProperty, annual_property_tax: e.target.value})}
+                            placeholder="2606"
+                            className="pl-8"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Monthly HOA Fee</label>
+                        <div className="relative">
+                          <span className="absolute left-3 top-3 text-gray-500">$</span>
+                          <Input
+                            type="number"
+                            value={newProperty.hoa_fee_monthly}
+                            onChange={(e) => setNewProperty({...newProperty, hoa_fee_monthly: e.target.value})}
+                            placeholder="0"
+                            className="pl-8"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={newProperty.is_rental}
+                          onChange={(e) => setNewProperty({...newProperty, is_rental: e.target.checked})}
+                          className="w-4 h-4"
+                        />
+                        <span className="text-sm font-medium">This is a rental property</span>
+                      </label>
+                    </div>
+
+                    {newProperty.is_rental && (
+                      <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg space-y-4">
+                        <h4 className="font-semibold text-sm text-blue-900 dark:text-blue-100">
+                          Rental Property Details
+                        </h4>
+                        
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Monthly Rental Income</label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-3 text-gray-500">$</span>
+                              <Input
+                                type="number"
+                                value={newProperty.rental_income_monthly}
+                                onChange={(e) => setNewProperty({...newProperty, rental_income_monthly: e.target.value})}
+                                placeholder="2162"
+                                className="pl-8"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Monthly Expenses</label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-3 text-gray-500">$</span>
+                              <Input
+                                type="number"
+                                value={newProperty.rental_expenses_monthly}
+                                onChange={(e) => setNewProperty({...newProperty, rental_expenses_monthly: e.target.value})}
+                                placeholder="500"
+                                className="pl-8"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Depreciation Basis</label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-3 text-gray-500">$</span>
+                              <Input
+                                type="number"
+                                value={newProperty.depreciation_basis}
+                                onChange={(e) => setNewProperty({...newProperty, depreciation_basis: e.target.value})}
+                                placeholder="250000"
+                                className="pl-8"
+                              />
+                            </div>
+                            <p className="text-xs text-gray-500 mt-1">Purchase price + improvements</p>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Placed in Service</label>
+                            <Input
+                              type="date"
+                              value={newProperty.placed_in_service_date}
+                              onChange={(e) => setNewProperty({...newProperty, placed_in_service_date: e.target.value})}
+                            />
+                            <p className="text-xs text-gray-500 mt-1">When rental started</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium mb-2">Notes (Optional)</label>
                     <textarea
