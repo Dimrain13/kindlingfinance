@@ -1504,10 +1504,35 @@ async def get_dashboard_stats(
     # Get all accounts
     accounts = await accounts_collection.find({"user_id": user_id}).to_list(100)
     
+    # Get properties and calculate equity
+    properties = await db.properties.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
+    
+    # Calculate property equity (not full value)
+    property_equity = 0
+    for prop in properties:
+        prop_value = prop.get("current_value", 0)
+        mortgage_balance = 0
+        
+        # Check for linked mortgage
+        if prop.get("linked_mortgage_account_id"):
+            mortgage = await accounts_collection.find_one({
+                "id": prop["linked_mortgage_account_id"],
+                "user_id": user_id
+            }, {"_id": 0})
+            if mortgage:
+                mortgage_balance = abs(mortgage.get("balance", 0))
+        
+        # Check for manual mortgage
+        elif prop.get("manual_mortgage_balance"):
+            mortgage_balance = prop.get("manual_mortgage_balance", 0)
+        
+        # Add equity (property value - mortgage)
+        property_equity += (prop_value - mortgage_balance)
+    
     # Define liability account types
     liability_types = ["credit_card", "mortgage", "loan"]
     
-    # Calculate assets and liabilities separately
+    # Calculate assets and liabilities separately from accounts
     total_assets = sum(
         acc.get("balance", 0) 
         for acc in accounts 
@@ -1519,6 +1544,9 @@ async def get_dashboard_stats(
         for acc in accounts 
         if acc.get("account_type") in liability_types
     )
+    
+    # Add property EQUITY to assets (not full value)
+    total_assets += property_equity
     
     # Net worth = assets - liabilities
     net_worth = total_assets - total_liabilities
