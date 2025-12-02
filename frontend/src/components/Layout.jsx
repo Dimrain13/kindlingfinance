@@ -25,7 +25,8 @@ import {
   LineChart,
   CreditCard,
   Menu,
-  X
+  X,
+  Home
 } from 'lucide-react';
 
 const Layout = ({ children }) => {
