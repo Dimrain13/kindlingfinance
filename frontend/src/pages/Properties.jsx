@@ -26,6 +26,7 @@ const Properties = () => {
     annual_property_tax: '',
     hoa_fee_monthly: '',
     is_rental: false,
+    is_short_term_rental: false,
     rental_income_monthly: '',
     rental_expenses_monthly: '',
     depreciation_basis: '',
