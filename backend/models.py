@@ -587,6 +587,7 @@ class PropertyCreate(BaseModel):
     annual_property_tax: Optional[float] = None
     hoa_fee_monthly: Optional[float] = None
     is_rental: bool = False
+    is_short_term_rental: bool = False
     rental_income_monthly: Optional[float] = None
     rental_expenses_monthly: Optional[float] = None
     depreciation_basis: Optional[float] = None
