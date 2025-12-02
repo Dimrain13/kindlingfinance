@@ -13,10 +13,12 @@ import DiversificationScore from '../components/DiversificationScore';
 
 const Portfolio = () => {
   const [accounts, setAccounts] = useState([]);
+  const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadAccounts();
+    loadProperties();
   }, []);
 
   const loadAccounts = async () => {
@@ -27,6 +29,15 @@ const Portfolio = () => {
       console.error('Failed to load accounts:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadProperties = async () => {
+    try {
+      const response = await api.get('/properties');
+      setProperties(response.data);
+    } catch (error) {
+      console.error('Failed to load properties:', error);
     }
   };
 
