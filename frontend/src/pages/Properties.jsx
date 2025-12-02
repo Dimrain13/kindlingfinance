@@ -74,7 +74,7 @@ const Properties = () => {
         await api.put(`/properties/${editingProperty.id}`, newProperty);
         alert('✅ Property updated successfully!');
       } else {
-        await api.post('/properties', {
+        const propertyData = {
           ...newProperty,
           purchase_price: parseFloat(newProperty.purchase_price) || 0,
           current_value: parseFloat(newProperty.current_value) || 0,
@@ -82,8 +82,16 @@ const Properties = () => {
           hoa_fee_monthly: newProperty.hoa_fee_monthly ? parseFloat(newProperty.hoa_fee_monthly) : null,
           rental_income_monthly: newProperty.rental_income_monthly ? parseFloat(newProperty.rental_income_monthly) : null,
           rental_expenses_monthly: newProperty.rental_expenses_monthly ? parseFloat(newProperty.rental_expenses_monthly) : null,
-          depreciation_basis: newProperty.depreciation_basis ? parseFloat(newProperty.depreciation_basis) : null
-        });
+          depreciation_basis: newProperty.depreciation_basis ? parseFloat(newProperty.depreciation_basis) : null,
+          manual_mortgage_balance: newProperty.manual_mortgage_balance ? parseFloat(newProperty.manual_mortgage_balance) : null
+        };
+        
+        // If manual mortgage, clear the linked account ID
+        if (propertyData.linked_mortgage_account_id === 'manual') {
+          propertyData.linked_mortgage_account_id = null;
+        }
+        
+        await api.post('/properties', propertyData);
         alert('✅ Property added successfully!');
       }
       
