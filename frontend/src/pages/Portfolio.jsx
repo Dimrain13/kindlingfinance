@@ -52,6 +52,10 @@ const Portfolio = () => {
     acc.name.toLowerCase().includes('retirement')
   );
 
+  // Calculate property values
+  const totalRealEstate = properties.reduce((sum, prop) => sum + prop.current_value, 0);
+  const totalPropertyEquity = properties.reduce((sum, prop) => sum + (prop.equity || prop.current_value), 0);
+
   // Calculate totals
   const totalChecking = checkingAccounts.reduce((sum, acc) => sum + acc.balance, 0);
   const totalSavings = savingsAccounts.reduce((sum, acc) => sum + acc.balance, 0);
@@ -59,14 +63,16 @@ const Portfolio = () => {
   const totalCrypto = cryptoAccounts.reduce((sum, acc) => sum + acc.balance, 0);
   const totalRetirement = retirementAccounts.reduce((sum, acc) => sum + acc.balance, 0);
   
-  // Portfolio value using utility (investment + savings + crypto only)
-  const totalPortfolio = calculatePortfolioValue(accounts);
+  // Portfolio value using utility (investment + savings + crypto + real estate)
+  const totalPortfolio = calculatePortfolioValue(accounts) + totalRealEstate;
   
-  // Net worth using utility (all assets - liabilities)
+  // Net worth using utility (all assets - liabilities + real estate)
   const { netWorth, totalAssets, totalLiabilities } = calculateNetWorth(accounts);
+  const netWorthWithRealEstate = netWorth + totalPropertyEquity;
 
-  // Chart data - only show portfolio breakdown (not checking accounts)
+  // Chart data - include real estate in portfolio breakdown
   const portfolioData = [
+    { name: 'Real Estate', value: totalRealEstate, color: '#10B981' }, // green
     { name: 'Savings', value: totalSavings, color: CHART_COLORS[1] },
     { name: 'Investments', value: totalInvestments, color: CHART_COLORS[0] },
     { name: 'Crypto', value: totalCrypto, color: CHART_COLORS[2] },
