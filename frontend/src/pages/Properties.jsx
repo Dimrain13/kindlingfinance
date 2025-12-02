@@ -304,7 +304,9 @@ const Properties = () => {
                           <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded">
                             <div className="flex items-center gap-2 mb-2">
                               <DollarSign size={14} className="text-blue-600" />
-                              <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Rental Property</span>
+                              <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                                {property.is_short_term_rental ? 'Short-Term Rental (STR)' : 'Long-Term Rental'}
+                              </span>
                             </div>
                             {property.rental_income_monthly && (
                               <div className="flex justify-between items-center text-sm">
