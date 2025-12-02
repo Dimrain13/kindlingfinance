@@ -516,20 +516,32 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     
     # Build description
     asset_list = ", ".join(asset_types)
-    description = f"You have {account_count} investment account(s) across {asset_list}"
+    total_assets = len(investment_accounts) + len(properties)
+    description = f"You have {total_assets} asset(s) across {asset_list}"
+    
+    details = []
+    if has_real_estate:
+        re_pct = (total_real_estate / total_investment_value * 100) if total_investment_value > 0 else 0
+        details.append(f"{round(re_pct, 1)}% real estate")
     
     if has_crypto:
         crypto_pct = (crypto_value / total_investment_value * 100) if total_investment_value > 0 else 0
-        description += f" (including {round(crypto_pct, 1)}% crypto)"
+        details.append(f"{round(crypto_pct, 1)}% crypto")
+    
+    if details:
+        description += f" (including {', '.join(details)})"
     
     return {
         "name": "Investment Diversification",
         "score": round(score, 1),
         "max_score": 8,
-        "account_count": account_count,
+        "account_count": len(investment_accounts),
+        "property_count": len(properties),
         "asset_types": list(asset_types),
         "has_crypto": has_crypto,
+        "has_real_estate": has_real_estate,
         "crypto_percentage": round((crypto_value / total_investment_value * 100), 1) if total_investment_value > 0 and has_crypto else 0,
+        "real_estate_percentage": round((total_real_estate / total_investment_value * 100), 1) if total_investment_value > 0 and has_real_estate else 0,
         "status": status,
         "description": description
     }
