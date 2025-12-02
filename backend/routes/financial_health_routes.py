@@ -438,6 +438,7 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     # Detect asset types from account names and types
     asset_types = set()
     has_crypto = False
+    has_real_estate = False
     crypto_value = 0
     
     for acc in investment_accounts:
@@ -458,7 +459,12 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
         if "brokerage" in subtype_lower or any(keyword in name_lower for keyword in ["brokerage", "trading", "robinhood", "fidelity", "vanguard", "schwab"]):
             asset_types.add("stocks/etfs")
     
-    # If no specific types detected, assume stocks/etfs
+    # Add real estate if properties exist
+    if properties and total_real_estate > 0:
+        asset_types.add("real estate")
+        has_real_estate = True
+    
+    # If no specific types detected (and no real estate), assume stocks/etfs
     if not asset_types:
         asset_types.add("stocks/etfs")
     
