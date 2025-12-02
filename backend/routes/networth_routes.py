@@ -20,9 +20,30 @@ async def get_calculated_networth_history(days: int = 30, user_id: str = Depends
         # Get current accounts
         accounts = await db.accounts.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
         
-        # Get properties
+        # Get properties and calculate equity
         properties = await db.properties.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
-        properties_value = sum(prop.get("current_value", 0) for prop in properties)
+        
+        # Calculate property equity (not full value)
+        property_equity = 0
+        for prop in properties:
+            prop_value = prop.get("current_value", 0)
+            mortgage_balance = 0
+            
+            # Check for linked mortgage
+            if prop.get("linked_mortgage_account_id"):
+                mortgage = await db.accounts.find_one({
+                    "id": prop["linked_mortgage_account_id"],
+                    "user_id": user_id
+                }, {"_id": 0})
+                if mortgage:
+                    mortgage_balance = abs(mortgage.get("balance", 0))
+            
+            # Check for manual mortgage
+            elif prop.get("manual_mortgage_balance"):
+                mortgage_balance = prop.get("manual_mortgage_balance", 0)
+            
+            # Add equity (property value - mortgage)
+            property_equity += (prop_value - mortgage_balance)
         
         # Calculate current net worth
         liability_types = ["credit_card", "mortgage", "loan"]
@@ -37,8 +58,8 @@ async def get_calculated_networth_history(days: int = 30, user_id: str = Depends
             if acc.get("account_type") in liability_types
         )
         
-        # Add property values to assets
-        current_assets += properties_value
+        # Add property EQUITY to assets (not full value)
+        current_assets += property_equity
         current_net_worth = current_assets - current_liabilities
         
         # Get transactions for the time period
