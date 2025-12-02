@@ -198,8 +198,8 @@ const Budgets = () => {
     setLoadingSuggestions(true);
     setShowSmartSuggestions(true);
     try {
-      const response = await api.post('/budget-suggestions');
-      setSmartSuggestions(response.data.suggestions || []);
+      const response = await api.get('/budgets/suggestions/smart');
+      setSmartSuggestions(response.data || {});
     } catch (error) {
       console.error('Failed to fetch smart suggestions:', error);
       alert('Failed to generate budget suggestions. Please try again.');
