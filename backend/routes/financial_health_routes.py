@@ -409,11 +409,17 @@ async def calculate_net_worth_trend(user_id: str) -> Dict:
         }
 
 
-def calculate_investment_diversification(accounts: List[Dict]) -> Dict:
+def calculate_investment_diversification(accounts: List[Dict], properties: List[Dict] = None) -> Dict:
     """Calculate investment diversification score (8 points)"""
+    if properties is None:
+        properties = []
+    
     investment_accounts = [acc for acc in accounts if acc.get("type", "").lower() in ["investment", "brokerage", "retirement"]]
     
-    if not investment_accounts:
+    # Calculate total real estate value
+    total_real_estate = sum(prop.get("current_value", 0) for prop in properties)
+    
+    if not investment_accounts and not properties:
         return {
             "name": "Investment Diversification",
             "score": 0,
@@ -421,12 +427,13 @@ def calculate_investment_diversification(accounts: List[Dict]) -> Dict:
             "account_count": 0,
             "asset_types": [],
             "has_crypto": False,
+            "has_real_estate": False,
             "status": "No investments",
-            "description": "No investment accounts found"
+            "description": "No investment accounts or properties found"
         }
     
     # Analyze asset types for better diversification scoring
-    total_investment_value = sum(acc.get("balance", 0) for acc in investment_accounts)
+    total_investment_value = sum(acc.get("balance", 0) for acc in investment_accounts) + total_real_estate
     
     # Detect asset types from account names and types
     asset_types = set()
