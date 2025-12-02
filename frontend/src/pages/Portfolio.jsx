@@ -111,6 +111,20 @@ const Portfolio = () => {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-pink-500 via-rose-500 to-red-600 text-white hover:-translate-y-2 group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <CardHeader className="relative z-10 flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium opacity-90">Real Estate</CardTitle>
+            <div className="bg-white bg-opacity-20 p-2 rounded-lg backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+              <Briefcase className="h-5 w-5" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-3xl font-bold">{formatCurrency(totalRealEstate)}</div>
+            <p className="text-xs opacity-80 mt-2">{properties.length} propert{properties.length === 1 ? 'y' : 'ies'}</p>
+          </CardContent>
+        </Card>
+
         <Card className="relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-600 text-white hover:-translate-y-2 group">
           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           <CardHeader className="relative z-10 flex flex-row items-center justify-between pb-2">
