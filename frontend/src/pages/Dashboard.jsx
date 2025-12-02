@@ -38,6 +38,13 @@ const Dashboard = () => {
   useEffect(() => {
     loadDashboard();
     loadGoals();
+    
+    // Check if user has completed onboarding
+    const onboardingCompleted = localStorage.getItem('onboarding_completed');
+    if (!onboardingCompleted) {
+      // Small delay to let dashboard load first
+      setTimeout(() => setShowOnboarding(true), 500);
+    }
   }, [timePeriod]);
   
   const loadGoals = async () => {
