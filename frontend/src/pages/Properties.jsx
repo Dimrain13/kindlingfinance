@@ -492,7 +492,7 @@ const Properties = () => {
                       </div>
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-4 space-y-2">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
@@ -502,6 +502,18 @@ const Properties = () => {
                         />
                         <span className="text-sm font-medium">This is a rental property</span>
                       </label>
+                      
+                      {newProperty.is_rental && (
+                        <label className="flex items-center gap-2 cursor-pointer ml-6">
+                          <input
+                            type="checkbox"
+                            checked={newProperty.is_short_term_rental}
+                            onChange={(e) => setNewProperty({...newProperty, is_short_term_rental: e.target.checked})}
+                            className="w-4 h-4"
+                          />
+                          <span className="text-sm font-medium">Short-term rental (Airbnb, VRBO, etc.)</span>
+                        </label>
+                      )}
                     </div>
 
                     {newProperty.is_rental && (
