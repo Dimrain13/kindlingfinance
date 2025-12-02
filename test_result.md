@@ -335,8 +335,9 @@ test_plan:
 
 test_plan:
   current_focus:
-    - "Add Property Feature - 808 Lotus Dr Test Case"
+    - "Complete Property System Testing - 808 Lotus Dr with Short-Term Rental Feature"
     - "Properties API Endpoints"
+    - "Portfolio Integration with Properties"
   stuck_tasks:
     - "Daily Cash Flow Candlestick Chart on Dashboard and Cash Flow pages"
     - "Frontend authentication context for browser testing"
