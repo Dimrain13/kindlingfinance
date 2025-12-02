@@ -8,7 +8,7 @@ import json
 from datetime import datetime, timedelta
 
 # Get backend URL from environment
-BACKEND_URL = "https://money-manager-1384.preview.emergentagent.com/api"
+BACKEND_URL = "https://kindling-finance.preview.emergentagent.com/api"
 
 # Test credentials
 TEST_EMAIL = "daniel.r.millner@gmail.com"

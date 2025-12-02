@@ -6,7 +6,7 @@ import requests
 import json
 import sys
 
-API_URL = "https://money-manager-1384.preview.emergentagent.com/api"
+API_URL = "https://kindling-finance.preview.emergentagent.com/api"
 
 # Test credentials
 EMAIL = "daniel.r.millner@gmail.com"
