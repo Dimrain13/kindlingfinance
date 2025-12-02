@@ -73,9 +73,9 @@ const Portfolio = () => {
   const { netWorth, totalAssets, totalLiabilities } = calculateNetWorth(accounts);
   const netWorthWithRealEstate = netWorth + totalPropertyEquity;
 
-  // Chart data - include real estate in portfolio breakdown
+  // Chart data - include real estate equity in portfolio breakdown
   const portfolioData = [
-    { name: 'Real Estate', value: totalRealEstate, color: '#10B981' }, // green
+    { name: 'Real Estate Equity', value: totalRealEstate, color: '#10B981' }, // green
     { name: 'Savings', value: totalSavings, color: CHART_COLORS[1] },
     { name: 'Investments', value: totalInvestments, color: CHART_COLORS[0] },
     { name: 'Crypto', value: totalCrypto, color: CHART_COLORS[2] },
