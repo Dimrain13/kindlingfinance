@@ -283,6 +283,52 @@ const Properties = () => {
                       </div>
                     )}
 
+                    {/* Tax & Rental Information */}
+                    {(property.annual_property_tax || property.hoa_fee_monthly || property.is_rental) && (
+                      <div className="pt-4 border-t space-y-2">
+                        {property.annual_property_tax && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-600">Annual Property Tax</span>
+                            <span className="font-semibold">{formatCurrency(property.annual_property_tax)}</span>
+                          </div>
+                        )}
+                        {property.hoa_fee_monthly && (
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-600">Monthly HOA</span>
+                            <span className="font-semibold">{formatCurrency(property.hoa_fee_monthly)}/mo</span>
+                          </div>
+                        )}
+                        {property.is_rental && (
+                          <div className="mt-2 p-2 bg-blue-50 dark:bg-blue-900/20 rounded">
+                            <div className="flex items-center gap-2 mb-2">
+                              <DollarSign size={14} className="text-blue-600" />
+                              <span className="text-sm font-semibold text-blue-900 dark:text-blue-100">Rental Property</span>
+                            </div>
+                            {property.rental_income_monthly && (
+                              <div className="flex justify-between items-center text-sm">
+                                <span className="text-gray-600">Monthly Income</span>
+                                <span className="font-semibold text-green-600">{formatCurrency(property.rental_income_monthly)}</span>
+                              </div>
+                            )}
+                            {property.rental_expenses_monthly && (
+                              <div className="flex justify-between items-center text-sm">
+                                <span className="text-gray-600">Monthly Expenses</span>
+                                <span className="font-semibold text-red-600">{formatCurrency(property.rental_expenses_monthly)}</span>
+                              </div>
+                            )}
+                            {property.rental_income_monthly && property.rental_expenses_monthly && (
+                              <div className="flex justify-between items-center text-sm font-bold pt-1 border-t mt-1">
+                                <span className="text-gray-900 dark:text-gray-100">Net Monthly</span>
+                                <span className={property.rental_income_monthly - property.rental_expenses_monthly >= 0 ? 'text-green-600' : 'text-red-600'}>
+                                  {formatCurrency(property.rental_income_monthly - property.rental_expenses_monthly)}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <TrendingUp size={14} />
                       <span>Purchased: {new Date(property.purchase_date).toLocaleDateString()}</span>
