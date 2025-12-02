@@ -52,9 +52,12 @@ const Portfolio = () => {
     acc.name.toLowerCase().includes('retirement')
   );
 
-  // Calculate property values
-  const totalRealEstate = properties.reduce((sum, prop) => sum + prop.current_value, 0);
-  const totalPropertyEquity = properties.reduce((sum, prop) => sum + (prop.equity || prop.current_value), 0);
+  // Calculate property values (use EQUITY, not full value)
+  const totalPropertyEquity = properties.reduce((sum, prop) => {
+    // If property has a mortgage, use equity. Otherwise use full value
+    return sum + (prop.equity !== undefined ? prop.equity : prop.current_value);
+  }, 0);
+  const totalRealEstate = totalPropertyEquity; // Use equity for portfolio calculations
 
   // Calculate totals
   const totalChecking = checkingAccounts.reduce((sum, acc) => sum + acc.balance, 0);
