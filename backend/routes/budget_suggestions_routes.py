@@ -1,184 +1,180 @@
 """
-Budget Suggestions Routes
-Provides AI-powered budget recommendations based on income and household size
+Smart Budget Suggestions based on household size and national averages
 """
-from fastapi import APIRouter, Depends
-from server import get_current_user, db
+from fastapi import APIRouter, Depends, HTTPException
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from typing import List, Dict
+from auth import get_current_user
+from database import db, user_settings_collection, transactions_collection
 
-router = APIRouter(prefix="/budgets", tags=["budget-suggestions"])
+router = APIRouter(prefix="/budgets/suggestions", tags=["budgets"])
 
-
-# Industry average spending percentages by category (based on 2025 data)
-# Source: Bureau of Labor Statistics, Nerdwallet, Consumer Expenditure Survey
-SPENDING_AVERAGES = {
-    "HOUSING": {
-        "name": "Housing", 
-        "percent": 33.0,  # 33% of income
-        "icon": "🏠",
-        "description": "Rent/mortgage, utilities, maintenance"
+# National average spending by household size (monthly, 2024-2025 data)
+NATIONAL_AVERAGES = {
+    1: {  # Single person
+        "Dining Out": 250,
+        "Groceries": 400,
+        "Transportation": 800,
+        "Utilities": 200,
+        "Entertainment": 200,
+        "Healthcare": 400,
+        "Shopping": 150,
+        "Personal Care": 80,
+        "Bills & Utilities": 200,
+        "Home": 1600,
+        "Travel": 150,
     },
-    "TRANSPORTATION": {
-        "name": "Transportation",
-        "percent": 17.0,  # 17% of income
-        "icon": "🚗",
-        "description": "Car payments, gas, insurance, maintenance"
+    2: {  # Couple
+        "Dining Out": 400,
+        "Groceries": 675,
+        "Transportation": 1000,
+        "Utilities": 250,
+        "Entertainment": 280,
+        "Healthcare": 500,
+        "Shopping": 220,
+        "Personal Care": 120,
+        "Bills & Utilities": 250,
+        "Home": 2050,
+        "Travel": 200,
     },
-    "FOOD": {
-        "name": "Food & Dining",
-        "percent": 13.0,  # 13% of income
-        "icon": "🍽️",
-        "description": "Groceries and dining out"
+    3: {  # Family of 3
+        "Dining Out": 550,
+        "Groceries": 850,
+        "Transportation": 1200,
+        "Utilities": 300,
+        "Entertainment": 320,
+        "Healthcare": 550,
+        "Shopping": 280,
+        "Personal Care": 140,
+        "Bills & Utilities": 300,
+        "Home": 2400,
+        "Travel": 250,
     },
-    "HEALTHCARE": {
-        "name": "Healthcare",
-        "percent": 8.0,  # 8% of income
-        "icon": "🏥",
-        "description": "Insurance, medical expenses, medications"
+    4: {  # Family of 4
+        "Dining Out": 650,
+        "Groceries": 1000,
+        "Transportation": 1300,
+        "Utilities": 325,
+        "Entertainment": 340,
+        "Healthcare": 600,
+        "Shopping": 320,
+        "Personal Care": 160,
+        "Bills & Utilities": 325,
+        "Home": 2600,
+        "Travel": 280,
     },
-    "ENTERTAINMENT": {
-        "name": "Entertainment",
-        "percent": 5.0,  # 5% of income
-        "icon": "🎬",
-        "description": "Movies, hobbies, subscriptions"
-    },
-    "PERSONAL_CARE": {
-        "name": "Personal Care",
-        "percent": 3.0,  # 3% of income
-        "icon": "💄",
-        "description": "Haircuts, toiletries, clothing"
-    },
-    "EDUCATION": {
-        "name": "Education",
-        "percent": 3.0,  # 3% of income
-        "icon": "📚",
-        "description": "Tuition, books, courses"
-    },
-    "SAVINGS": {
-        "name": "Savings & Investments",
-        "percent": 10.0,  # 10% of income (recommended)
-        "icon": "💰",
-        "description": "Emergency fund, retirement, investments"
-    },
-    "MISCELLANEOUS": {
-        "name": "Miscellaneous",
-        "percent": 8.0,  # 8% of income
-        "icon": "📦",
-        "description": "Other expenses and flex spending"
-    }
 }
 
+# For families 5+, use family of 4 + 15% per additional person
+def get_national_average(family_size: int, category: str) -> float:
+    """Get national average for a category based on family size"""
+    if family_size <= 4:
+        base_averages = NATIONAL_AVERAGES.get(family_size, NATIONAL_AVERAGES[4])
+    else:
+        # Use family of 4 as base, add 15% per additional person
+        base_averages = NATIONAL_AVERAGES[4]
+        multiplier = 1 + (0.15 * (family_size - 4))
+        base_averages = {k: v * multiplier for k, v in base_averages.items()}
+    
+    return base_averages.get(category, 0)
 
-# Household size multipliers
-HOUSEHOLD_MULTIPLIERS = {
-    1: 1.0,      # Single
-    2: 1.6,      # Couple
-    3: 1.9,      # Small family
-    4: 2.2,      # Medium family
-    5: 2.5,      # Large family
-    6: 2.8,      # Extra large family
-}
 
-
-@router.get("/suggestions")
-async def get_budget_suggestions(user_id: str = Depends(get_current_user)):
+@router.get("/smart")
+async def get_smart_budget_suggestions(user_id: str = Depends(get_current_user)):
     """
-    Generate smart budget suggestions based on user's income and household size
+    Generate smart budget suggestions based on:
+    1. Last month's actual spending by category
+    2. National averages for user's household size
+    3. Savings opportunities
     """
     try:
-        # Get user settings for household size
-        user_doc = await db.users.find_one({"id": user_id})
-        household_size = user_doc.get("household_size", 1) if user_doc else 1
+        # Get user settings for family size
+        settings = await user_settings_collection.find_one({"user_id": user_id}, {"_id": 0})
+        family_size = settings.get("family_size", 1) if settings else 1
         
-        # Get user's monthly income from transactions (last 3 months)
-        three_months_ago = (datetime.now(timezone.utc) - timedelta(days=90)).strftime("%Y-%m-%d")
-        income_transactions = await db.transactions.find({
+        # Get last month's date range
+        now = datetime.now(timezone.utc)
+        last_month_start = (now.replace(day=1) - timedelta(days=1)).replace(day=1)
+        last_month_end = now.replace(day=1) - timedelta(days=1)
+        
+        # Get last month's transactions
+        transactions = await transactions_collection.find({
             "user_id": user_id,
-            "transaction_type": "income",
-            "date": {"$gte": three_months_ago}
-        }).to_list(1000)
+            "transaction_type": "expense",
+            "date": {
+                "$gte": last_month_start.strftime("%Y-%m-%d"),
+                "$lte": last_month_end.strftime("%Y-%m-%d")
+            }
+        }, {"_id": 0}).to_list(10000)
         
-        # Calculate average monthly income
-        if income_transactions:
-            total_income = sum(t.get("amount", 0) for t in income_transactions)
-            months = 3
-            avg_monthly_income = total_income / months
-        else:
-            # Default to median household income if no data
-            avg_monthly_income = 6717  # $80,610 annual / 12 = $6,717 monthly
-        
-        # Get household multiplier
-        multiplier = HOUSEHOLD_MULTIPLIERS.get(household_size, 1.0)
+        # Calculate spending by category
+        category_spending = {}
+        for txn in transactions:
+            category = txn.get("category", "Other")
+            amount = abs(txn.get("amount", 0))
+            category_spending[category] = category_spending.get(category, 0) + amount
         
         # Generate suggestions
         suggestions = []
-        for category_key, category_info in SPENDING_AVERAGES.items():
-            base_amount = avg_monthly_income * (category_info["percent"] / 100)
+        
+        for category, actual_spent in category_spending.items():
+            national_avg = get_national_average(family_size, category)
             
-            # Adjust for household size (some categories scale more than others)
-            if category_key in ["FOOD", "HEALTHCARE", "PERSONAL_CARE", "ENTERTAINMENT"]:
-                # These scale directly with household size
-                suggested_amount = base_amount * multiplier
-            elif category_key in ["HOUSING", "TRANSPORTATION"]:
-                # These scale less dramatically
-                suggested_amount = base_amount * (1 + (multiplier - 1) * 0.6)
-            else:
-                # Others scale moderately
-                suggested_amount = base_amount * (1 + (multiplier - 1) * 0.8)
-            
-            suggestions.append({
-                "category": category_key,
-                "name": category_info["name"],
-                "suggested_amount": round(suggested_amount, 2),
-                "percent_of_income": category_info["percent"],
-                "icon": category_info["icon"],
-                "description": category_info["description"],
-                "is_essential": category_key in ["HOUSING", "FOOD", "TRANSPORTATION", "HEALTHCARE"]
-            })
-        
-        # Calculate current spending by category
-        current_spending = await db.transactions.aggregate([
-            {
-                "$match": {
-                    "user_id": user_id,
-                    "transaction_type": "expense",
-                    "date": {"$gte": three_months_ago}
+            if national_avg > 0:
+                difference = actual_spent - national_avg
+                percentage_diff = (difference / national_avg * 100) if national_avg > 0 else 0
+                
+                suggestion = {
+                    "category": category,
+                    "last_month_spent": round(actual_spent, 2),
+                    "national_average": round(national_avg, 2),
+                    "difference": round(difference, 2),
+                    "percentage_difference": round(percentage_diff, 1),
+                    "suggested_budget": round(national_avg, 2),
+                    "potential_savings": round(max(0, difference), 2),
+                    "status": "over" if difference > 0 else "under" if difference < 0 else "on_track"
                 }
-            },
-            {
-                "$group": {
-                    "_id": "$category",
-                    "total": {"$sum": "$amount"}
-                }
-            }
-        ]).to_list(100)
+                
+                # Add recommendation text
+                if difference > national_avg * 0.2:  # 20% over
+                    suggestion["recommendation"] = f"You're spending {abs(percentage_diff):.0f}% more than average. Consider reducing to ${national_avg:.0f}/mo to save ${max(0, difference):.0f}/mo"
+                elif difference > 0:
+                    suggestion["recommendation"] = f"Slightly above average. Target ${national_avg:.0f}/mo to save ${difference:.0f}/mo"
+                elif difference < -national_avg * 0.2:  # 20% under
+                    suggestion["recommendation"] = f"Great job! You're {abs(percentage_diff):.0f}% below average"
+                else:
+                    suggestion["recommendation"] = f"On track with national average for household of {family_size}"
+                
+                suggestions.append(suggestion)
         
-        # Map current spending to suggestions
-        spending_map = {item["_id"]: item["total"] / 3 for item in current_spending}  # Average per month
+        # Add categories with zero spending but have national averages
+        for category in NATIONAL_AVERAGES[min(family_size, 4)].keys():
+            if category not in category_spending:
+                national_avg = get_national_average(family_size, category)
+                suggestions.append({
+                    "category": category,
+                    "last_month_spent": 0,
+                    "national_average": round(national_avg, 2),
+                    "difference": -national_avg,
+                    "percentage_difference": -100,
+                    "suggested_budget": round(national_avg, 2),
+                    "potential_savings": 0,
+                    "status": "no_spending",
+                    "recommendation": f"Consider budgeting ${national_avg:.0f}/mo for {category}"
+                })
         
-        for suggestion in suggestions:
-            category_match = suggestion["category"].replace("_", " ").title()
-            current = spending_map.get(category_match, 0)
-            suggestion["current_spending"] = round(current, 2)
-            suggestion["difference"] = round(suggestion["suggested_amount"] - current, 2)
+        # Sort by potential savings (highest first)
+        suggestions.sort(key=lambda x: x["potential_savings"], reverse=True)
         
         return {
-            "monthly_income": round(avg_monthly_income, 2),
-            "household_size": household_size,
+            "family_size": family_size,
             "suggestions": suggestions,
-            "total_suggested": round(sum(s["suggested_amount"] for s in suggestions), 2),
-            "source": "Based on U.S. Consumer Expenditure Survey 2025 data"
+            "total_potential_savings": round(sum(s["potential_savings"] for s in suggestions), 2),
+            "last_month": last_month_start.strftime("%B %Y")
         }
         
     except Exception as e:
-        print(f"Error generating budget suggestions: {e}")
+        print(f"Error generating smart suggestions: {e}")
         import traceback
         traceback.print_exc()
-        return {
-            "monthly_income": 0,
-            "household_size": 1,
-            "suggestions": [],
-            "total_suggested": 0,
-            "error": str(e)
-        }
+        raise HTTPException(status_code=500, detail=str(e))
