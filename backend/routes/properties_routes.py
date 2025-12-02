@@ -56,7 +56,7 @@ async def create_property(
             "user_id": user_id,
             **property_data.dict(),
             "valuation_source": "manual",
-            "last_updated": datetime.utcnow(),
+            "last_updated": datetime.utcnow().isoformat(),
             "zillow_zpid": None
         }
         
