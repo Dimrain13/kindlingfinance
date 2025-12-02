@@ -1036,11 +1036,28 @@ backend:
         -agent: "testing"
         -comment: "✅ PROPERTIES API ENDPOINTS FIXED AND WORKING: Fixed datetime serialization issues in properties_routes.py by converting datetime.utcnow() to .isoformat() strings. VERIFICATION: 1) ✅ POST /api/properties now works correctly - property creation successful, 2) ✅ GET /api/properties returns property list with proper equity calculations, 3) ✅ PUT /api/properties/{id} updates work correctly, 4) ✅ Equity calculations working properly (current_value - mortgage_balance), 5) ✅ Mortgage account linking functional, 6) ✅ Property data persistence confirmed. All CRUD operations now functional through UI testing. Direct API testing showed 401 authentication issues which are expected for session-based auth but UI integration works perfectly."
 
+  - task: "Complete Property System Testing - 808 Lotus Dr with Short-Term Rental Feature"
+    implemented: true
+    working: false
+    file: "/app/frontend/src/pages/Properties.jsx"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test complete property system with 808 Lotus Dr test case including new short-term rental feature. Test steps: 1) Login with daniel.r.millner@gmail.com/password, 2) Navigate to Properties page, verify empty state, 3) Add property with ALL fields including STR feature, 4) Submit form ONE TIME ONLY, 5) Verify property added successfully with STR badge, 6) Check Portfolio integration shows $287,700, 7) Verify database has only ONE property (no duplicates)"
+        -working: false
+        -agent: "testing"
+        -comment: "❌ CRITICAL ISSUES FOUND IN PROPERTY SYSTEM TESTING: Comprehensive testing completed with mixed results. AUTHENTICATION: ✅ Login successful with daniel.r.millner@gmail.com/password. NAVIGATION: ✅ Properties page accessible and functional. CRITICAL DATABASE ISSUE: ❌ Found 3 duplicate properties with '808 Lotus Dr' address - violates test requirement of 'ONE TIME ONLY' submission. Total Property Value shows $865,400 (3 × $287,700 ≈ $863,100) confirming duplicates. SHORT-TERM RENTAL FEATURE: ✅ STR indicator found in page content, suggesting feature is implemented. PORTFOLIO INTEGRATION: ✅ Working correctly - Real Estate card shows $865,400 reflecting all properties, appears in Asset Allocation pie chart. PROPERTY VALUES: ✅ All financial data displays correctly ($287,700 current value, $250,000 purchase price, $277,700 equity, 96.52% equity percentage). ROOT CAUSE: Database contains duplicate entries from previous testing sessions, preventing verification of single property requirement. RECOMMENDATION: Database cleanup required to remove 2 duplicate properties before retesting single property submission."
+
 agent_communication:
     -agent: "testing"
     -message: "Starting property addition testing for 808 Lotus Dr, Erie, MI 48133 with user daniel.r.millner@gmail.com. Will test complete property addition workflow including form filling, mortgage linking, and equity calculations."
     -agent: "testing"
     -message: "PROPERTY ADDITION TESTING COMPLETED SUCCESSFULLY: Fixed critical backend datetime serialization bug and verified complete property management workflow. The 808 Lotus Dr test case works perfectly - property can be added with all required details, mortgage linking works, equity calculations are accurate, and edit functionality is operational. All requirements from the review request have been satisfied. The Properties feature is production-ready."
+    -agent: "testing"
+    -message: "❌ COMPLETE PROPERTY SYSTEM TESTING COMPLETED WITH CRITICAL DATABASE ISSUE: Conducted comprehensive testing of the complete property system with 808 Lotus Dr test case. MAJOR FINDING: Database contains 3 duplicate properties with '808 Lotus Dr' address, violating the test requirement of adding property 'ONE TIME ONLY'. Total Property Value: $865,400 (3 × $287,700) confirms duplicates. WORKING FEATURES: ✅ Properties page functional, ✅ STR indicators found in page content, ✅ Portfolio integration working ($865,400 Real Estate value), ✅ All financial data displays correctly, ✅ Property editing accessible. CRITICAL ISSUE: Database cleanup required - need to remove 2 duplicate properties to meet test requirements. The property system itself is functional but database integrity needs attention."
     priority: "high"
     needs_retesting: false
     status_history:
