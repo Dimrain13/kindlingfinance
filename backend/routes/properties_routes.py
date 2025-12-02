@@ -86,9 +86,12 @@ async def create_property(
                 }
             )
         
+        # Remove MongoDB _id before returning
+        property_response = {k: v for k, v in property_doc.items() if k != '_id'}
+        
         return {
             "success": True,
-            "property": property_doc,
+            "property": property_response,
             "message": "Property created successfully"
         }
     except Exception as e:
