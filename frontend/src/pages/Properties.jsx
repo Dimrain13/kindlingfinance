@@ -23,6 +23,13 @@ const Properties = () => {
     purchase_date: '',
     current_value: '',
     linked_mortgage_account_id: '',
+    annual_property_tax: '',
+    hoa_fee_monthly: '',
+    is_rental: false,
+    rental_income_monthly: '',
+    rental_expenses_monthly: '',
+    depreciation_basis: '',
+    placed_in_service_date: '',
     notes: ''
   });
 
