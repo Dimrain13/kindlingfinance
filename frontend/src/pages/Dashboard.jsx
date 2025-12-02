@@ -6,6 +6,7 @@ import { getCategoryDisplayName } from '../utils/categoryUtils';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import MXConnectWidget from '../components/MXConnectWidget';
+import WelcomeOnboarding from '../components/WelcomeOnboarding';
 import { Wallet, TrendingUp, TrendingDown, DollarSign, Plus, RefreshCw, Calendar, Sparkles, PieChart as PieChartIcon, Target, ArrowRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import ModernBillCalendar from '../components/ModernBillCalendar';
@@ -21,6 +22,7 @@ const Dashboard = () => {
   const [syncing, setSyncing] = useState(false);
   const [mxWidgetLoading, setMxWidgetLoading] = useState(false);
   const [timePeriod, setTimePeriod] = useState('monthly');
+  const [showOnboarding, setShowOnboarding] = useState(false);
 
   const getPeriodLabel = () => {
     const labels = {
