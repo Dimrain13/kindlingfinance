@@ -75,7 +75,12 @@ const Properties = () => {
         await api.post('/properties', {
           ...newProperty,
           purchase_price: parseFloat(newProperty.purchase_price) || 0,
-          current_value: parseFloat(newProperty.current_value) || 0
+          current_value: parseFloat(newProperty.current_value) || 0,
+          annual_property_tax: newProperty.annual_property_tax ? parseFloat(newProperty.annual_property_tax) : null,
+          hoa_fee_monthly: newProperty.hoa_fee_monthly ? parseFloat(newProperty.hoa_fee_monthly) : null,
+          rental_income_monthly: newProperty.rental_income_monthly ? parseFloat(newProperty.rental_income_monthly) : null,
+          rental_expenses_monthly: newProperty.rental_expenses_monthly ? parseFloat(newProperty.rental_expenses_monthly) : null,
+          depreciation_basis: newProperty.depreciation_basis ? parseFloat(newProperty.depreciation_basis) : null
         });
         alert('✅ Property added successfully!');
       }
