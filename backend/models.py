@@ -562,6 +562,7 @@ class Property(BaseModel):
     valuation_source: str = "manual"  # manual, zillow, or other API
     zillow_zpid: Optional[str] = None  # Zillow Property ID for API lookups
     linked_mortgage_account_id: Optional[str] = None
+    manual_mortgage_balance: Optional[float] = None  # If not linked to account
     # Tax-related fields
     annual_property_tax: Optional[float] = None
     hoa_fee_monthly: Optional[float] = None
