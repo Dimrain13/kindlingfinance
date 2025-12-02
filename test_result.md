@@ -998,6 +998,34 @@ metadata:
     working: true
     file: "/app/frontend/src/pages/Login.jsx"
     stuck_count: 0
+  - task: "Add Property Feature - 808 Lotus Dr Test Case"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/Properties.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test adding property at 808 Lotus Dr, Erie, MI 48133 with mortgage $223k, current value $287,700. Test login with daniel.r.millner@gmail.com/password, navigate to Properties page, fill form with provided data, submit, verify property card displays with equity calculation, test edit functionality."
+
+backend:
+  - task: "Properties API Endpoints"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/routes/properties_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Need to test Properties API endpoints: GET /api/properties, POST /api/properties, PUT /api/properties/{id}, DELETE /api/properties/{id}. Verify property creation, equity calculations with mortgage linking, and CRUD operations work correctly."
+
+agent_communication:
+    -agent: "testing"
+    -message: "Starting property addition testing for 808 Lotus Dr, Erie, MI 48133 with user daniel.r.millner@gmail.com. Will test complete property addition workflow including form filling, mortgage linking, and equity calculations."
     priority: "high"
     needs_retesting: false
     status_history:
