@@ -545,3 +545,47 @@ class InvestmentHoldingUpdate(BaseModel):
     cost_basis_per_share: Optional[float] = None
     asset_class: Optional[str] = None
 
+
+# Property Models for Mortgage Tracking
+class Property(BaseModel):
+    id: str
+    user_id: str
+    address: str
+    city: str
+    state: str
+    zip_code: str
+    property_type: str = "single_family"  # single_family, condo, multi_family, etc
+    purchase_price: float
+    purchase_date: str
+    current_value: float
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+    valuation_source: str = "manual"  # manual, zillow, or other API
+    zillow_zpid: Optional[str] = None  # Zillow Property ID for API lookups
+    linked_mortgage_account_id: Optional[str] = None
+    notes: Optional[str] = None
+
+class PropertyCreate(BaseModel):
+    address: str
+    city: str
+    state: str
+    zip_code: str
+    property_type: str = "single_family"
+    purchase_price: float
+    purchase_date: str
+    current_value: float
+    linked_mortgage_account_id: Optional[str] = None
+    notes: Optional[str] = None
+
+class PropertyUpdate(BaseModel):
+    address: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    zip_code: Optional[str] = None
+    property_type: Optional[str] = None
+    current_value: Optional[float] = None
+    linked_mortgage_account_id: Optional[str] = None
+    notes: Optional[str] = None
+
+class ZillowValuationRequest(BaseModel):
+    property_id: str  # Our internal property ID
+
