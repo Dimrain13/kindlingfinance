@@ -328,7 +328,7 @@ async def link_property_to_mortgage(
             "purchase_price": purchase_price,
             "purchase_date": purchase_date,
             "current_value": current_value,
-            "last_updated": datetime.utcnow(),
+            "last_updated": datetime.utcnow().isoformat(),
             "valuation_source": "manual",
             "linked_mortgage_account_id": account_id,
             "zillow_zpid": None,
