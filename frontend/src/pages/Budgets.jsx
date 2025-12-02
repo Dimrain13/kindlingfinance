@@ -685,11 +685,18 @@ const Budgets = () => {
               <CardHeader className="bg-gradient-to-r from-purple-500 to-pink-500 text-white sticky top-0 z-10">
                 <CardTitle className="text-xl flex items-center gap-2">
                   <Lightbulb className="h-5 w-5" />
-                  AI-Powered Budget Suggestions
+                  Smart Budget Suggestions
                 </CardTitle>
                 <p className="text-sm opacity-90 mt-1">
-                  Based on your income and household size
+                  Based on {smartSuggestions.last_month} spending vs. national averages for household of {smartSuggestions.family_size}
                 </p>
+                {smartSuggestions.total_potential_savings > 0 && (
+                  <div className="mt-2 bg-white/20 rounded-lg px-3 py-2">
+                    <p className="text-sm font-medium">
+                      💰 Potential Monthly Savings: {formatCurrency(smartSuggestions.total_potential_savings)}
+                    </p>
+                  </div>
+                )}
               </CardHeader>
               <CardContent className="pt-6 space-y-4">
                 {loadingSuggestions ? (
@@ -697,63 +704,85 @@ const Budgets = () => {
                     <RefreshCw className="h-12 w-12 text-purple-500 animate-spin mb-4" />
                     <p className="text-gray-600 dark:text-gray-400">Analyzing your finances...</p>
                   </div>
-                ) : smartSuggestions.length === 0 ? (
+                ) : !smartSuggestions.suggestions || smartSuggestions.suggestions.length === 0 ? (
                   <div className="text-center py-12">
                     <p className="text-gray-600 dark:text-gray-400">
-                      No suggestions available. Make sure you have linked your accounts and have transaction data.
+                      No suggestions available. Make sure you have transaction data from last month.
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {smartSuggestions.map((suggestion, index) => (
-                      <Card 
-                        key={index} 
-                        className="border-2 hover:border-purple-400 transition-colors cursor-pointer"
-                        onClick={() => applySuggestion(suggestion)}
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex items-start gap-3 flex-1">
-                              <div className="text-3xl">{suggestion.icon || '💰'}</div>
-                              <div className="flex-1">
-                                <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
-                                  {suggestion.category}
-                                </h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                  {suggestion.reasoning}
-                                </p>
-                                <div className="flex items-center gap-4 mt-3">
+                    {smartSuggestions.suggestions.map((suggestion, index) => {
+                      const categoryInfo = getBudgetCategoryInfo(suggestion.category);
+                      return (
+                        <Card 
+                          key={index} 
+                          className={`border-2 hover:border-purple-400 transition-colors ${
+                            suggestion.status === 'over' ? 'border-red-200' : 
+                            suggestion.status === 'under' ? 'border-green-200' : 
+                            'border-gray-200'
+                          }`}
+                        >
+                          <CardContent className="p-4">
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex items-start gap-3 flex-1">
+                                <div className="text-3xl">{categoryInfo.icon}</div>
+                                <div className="flex-1">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-xs font-medium text-gray-500">Suggested:</span>
-                                    <span className="text-lg font-bold text-purple-600">
-                                      {formatCurrency(suggestion.suggested_amount)}
-                                    </span>
+                                    <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+                                      {suggestion.category}
+                                    </h3>
+                                    {suggestion.status === 'over' && (
+                                      <Badge variant="destructive" className="text-xs">Over Budget</Badge>
+                                    )}
+                                    {suggestion.status === 'under' && (
+                                      <Badge className="bg-green-500 text-xs">Under Budget</Badge>
+                                    )}
                                   </div>
-                                  {suggestion.current_spending && (
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-xs font-medium text-gray-500">Current:</span>
-                                      <span className="text-sm text-gray-700 dark:text-gray-300">
-                                        {formatCurrency(suggestion.current_spending)}
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                    {suggestion.recommendation}
+                                  </p>
+                                  <div className="grid grid-cols-3 gap-3 mt-3">
+                                    <div>
+                                      <span className="text-xs font-medium text-gray-500 block">Last Month</span>
+                                      <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                        {formatCurrency(suggestion.last_month_spent)}
                                       </span>
                                     </div>
-                                  )}
+                                    <div>
+                                      <span className="text-xs font-medium text-gray-500 block">Avg for {smartSuggestions.family_size}</span>
+                                      <span className="text-sm font-semibold text-blue-600">
+                                        {formatCurrency(suggestion.national_average)}
+                                      </span>
+                                    </div>
+                                    {suggestion.potential_savings > 0 && (
+                                      <div>
+                                        <span className="text-xs font-medium text-gray-500 block">Save/Mo</span>
+                                        <span className="text-sm font-semibold text-green-600">
+                                          {formatCurrency(suggestion.potential_savings)}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
                               </div>
+                              <Button
+                                size="sm"
+                                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shrink-0"
+                                onClick={() => applySuggestion({
+                                  category: suggestion.category,
+                                  suggested_amount: suggestion.suggested_budget,
+                                  icon: categoryInfo.icon,
+                                  color: categoryInfo.color
+                                })}
+                              >
+                                Set Budget
+                              </Button>
                             </div>
-                            <Button
-                              size="sm"
-                              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shrink-0"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                applySuggestion(suggestion);
-                              }}
-                            >
-                              Apply
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
                   </div>
                 )}
 
