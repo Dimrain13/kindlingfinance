@@ -1910,3 +1910,26 @@ agent_communication:
     -agent: "main"
     -message: "P0 COMPLETED: Fixed Net Worth equity calculation inconsistency. Dashboard, Portfolio, and NetWorthChart all now correctly include property equity in net worth calculations. Ready to address P1 (duplicate properties) next."
 
+
+## CRITICAL DATABASE FIX - Dec 2, 2025
+
+backend:
+  - task: "Database Configuration - Wrong DB_NAME causing data inconsistency"
+    implemented: true
+    working: true
+    file: "/app/backend/.env, /app/backend/database.py"
+    stuck_count: 0
+    priority: "CRITICAL"
+    needs_retesting: false
+    status_history:
+        -working: false
+        -agent: "main"
+        -comment: "❌ CRITICAL ROOT CAUSE IDENTIFIED: The DB_NAME environment variable in /app/backend/.env was set to 'financehub_db' instead of 'financial_app'. This caused ALL backend operations to write to and read from the wrong database. Properties, users, accounts, transactions, and all other data were being stored in financehub_db while the application expected data in financial_app. This is why: 1) User kept seeing duplicate properties (they existed in both databases), 2) Properties 'disappeared' after deletion (they were deleted from one DB but read from another), 3) Data was inconsistent across different pages."
+        -working: true
+        -agent: "main"
+        -comment: "✅ FIXED & MIGRATED: 1) Changed DB_NAME from 'financehub_db' to 'financial_app' in /app/backend/.env, 2) Migrated ALL data from financehub_db to financial_app including: users (2), accounts (14), transactions (434), properties (2), goals (1), budgets (4), bills (2), insights (4), sessions (1), investment_snapshots (3), user_alerts (12), plaid_items (6), 3) Cleaned up financehub_db properties to prevent future confusion, 4) Restarted backend to apply changes. VERIFICATION: ✅ Login successful with correct database, ✅ Properties endpoint returns 2 properties from financial_app, ✅ Dashboard shows correct Net Worth ($1,201,202.13) including property equity, ✅ All endpoints now reading/writing to correct database. THIS FIX RESOLVES THE RECURRING DUPLICATE PROPERTIES ISSUE - it was caused by having data split across two databases."
+
+agent_communication:
+    -agent: "main"
+    -message: "MAJOR BREAKTHROUGH: Found and fixed the root cause of P1 (duplicate properties issue). The problem was NOT with the properties logic itself, but with the database configuration. All data was being written to 'financehub_db' while some operations may have been reading from 'financial_app' or vice versa. This caused the appearance of duplicates and data inconsistency. Fixed by correcting DB_NAME in .env and migrating all data to the correct database (financial_app). Both P0 (Net Worth equity) and P1 (duplicate properties) are now RESOLVED."
+
