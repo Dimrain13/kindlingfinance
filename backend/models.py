@@ -562,6 +562,15 @@ class Property(BaseModel):
     valuation_source: str = "manual"  # manual, zillow, or other API
     zillow_zpid: Optional[str] = None  # Zillow Property ID for API lookups
     linked_mortgage_account_id: Optional[str] = None
+    # Tax-related fields
+    annual_property_tax: Optional[float] = None
+    hoa_fee_monthly: Optional[float] = None
+    is_rental: bool = False
+    rental_income_monthly: Optional[float] = None
+    rental_expenses_monthly: Optional[float] = None
+    # Depreciation tracking (for rental properties)
+    depreciation_basis: Optional[float] = None  # Usually purchase price + improvements
+    placed_in_service_date: Optional[str] = None  # When rental started
     notes: Optional[str] = None
 
 class PropertyCreate(BaseModel):
@@ -574,6 +583,13 @@ class PropertyCreate(BaseModel):
     purchase_date: str
     current_value: float
     linked_mortgage_account_id: Optional[str] = None
+    annual_property_tax: Optional[float] = None
+    hoa_fee_monthly: Optional[float] = None
+    is_rental: bool = False
+    rental_income_monthly: Optional[float] = None
+    rental_expenses_monthly: Optional[float] = None
+    depreciation_basis: Optional[float] = None
+    placed_in_service_date: Optional[str] = None
     notes: Optional[str] = None
 
 class PropertyUpdate(BaseModel):
@@ -584,6 +600,13 @@ class PropertyUpdate(BaseModel):
     property_type: Optional[str] = None
     current_value: Optional[float] = None
     linked_mortgage_account_id: Optional[str] = None
+    annual_property_tax: Optional[float] = None
+    hoa_fee_monthly: Optional[float] = None
+    is_rental: Optional[bool] = None
+    rental_income_monthly: Optional[float] = None
+    rental_expenses_monthly: Optional[float] = None
+    depreciation_basis: Optional[float] = None
+    placed_in_service_date: Optional[str] = None
     notes: Optional[str] = None
 
 class ZillowValuationRequest(BaseModel):
