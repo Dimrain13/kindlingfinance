@@ -18,10 +18,12 @@ async def get_properties(user_id: str = Depends(get_current_user)):
             {"_id": 0}
         ).to_list(1000)
         
-        # For each property, calculate equity if linked to mortgage
+        # For each property, calculate equity
         for prop in properties:
+            mortgage_balance = 0
+            
+            # Check for linked mortgage account
             if prop.get("linked_mortgage_account_id"):
-                # Get mortgage account
                 mortgage = await db.accounts.find_one({
                     "id": prop["linked_mortgage_account_id"],
                     "user_id": user_id
@@ -29,13 +31,20 @@ async def get_properties(user_id: str = Depends(get_current_user)):
                 
                 if mortgage:
                     mortgage_balance = abs(mortgage.get("balance", 0))
-                    current_value = prop.get("current_value", 0)
-                    equity = current_value - mortgage_balance
-                    equity_percentage = (equity / current_value * 100) if current_value > 0 else 0
-                    
-                    prop["mortgage_balance"] = mortgage_balance
-                    prop["equity"] = equity
-                    prop["equity_percentage"] = round(equity_percentage, 2)
+            
+            # Check for manual mortgage balance
+            elif prop.get("manual_mortgage_balance"):
+                mortgage_balance = prop.get("manual_mortgage_balance", 0)
+            
+            # Calculate equity if there's a mortgage
+            if mortgage_balance > 0:
+                current_value = prop.get("current_value", 0)
+                equity = current_value - mortgage_balance
+                equity_percentage = (equity / current_value * 100) if current_value > 0 else 0
+                
+                prop["mortgage_balance"] = mortgage_balance
+                prop["equity"] = equity
+                prop["equity_percentage"] = round(equity_percentage, 2)
         
         return properties
     except Exception as e:
