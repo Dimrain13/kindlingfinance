@@ -20,6 +20,10 @@ async def get_calculated_networth_history(days: int = 30, user_id: str = Depends
         # Get current accounts
         accounts = await db.accounts.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
         
+        # Get properties
+        properties = await db.properties.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
+        properties_value = sum(prop.get("current_value", 0) for prop in properties)
+        
         # Calculate current net worth
         liability_types = ["credit_card", "mortgage", "loan"]
         current_assets = sum(
@@ -32,6 +36,9 @@ async def get_calculated_networth_history(days: int = 30, user_id: str = Depends
             for acc in accounts 
             if acc.get("account_type") in liability_types
         )
+        
+        # Add property values to assets
+        current_assets += properties_value
         current_net_worth = current_assets - current_liabilities
         
         # Get transactions for the time period
