@@ -1551,8 +1551,9 @@ async def get_dashboard_stats(
     # Net worth = assets - liabilities
     net_worth = total_assets - total_liabilities
     
-    # Total balance shown is net worth (not summing liabilities as assets)
-    total_balance = net_worth
+    # Total balance = raw sum of all account balances (including negative liabilities)
+    # This is what the "Total Balance" card shows — "Across all accounts"
+    total_balance = sum(acc.get("balance", 0) for acc in accounts)
     
     # Calculate date range based on period
     now = datetime.now(timezone.utc)
@@ -1658,7 +1659,7 @@ async def get_dashboard_stats(
     ]
     
     # Recent transactions
-    recent_txns = await transactions_collection.find({"user_id": user_id}).sort("date", -1).limit(5).to_list(5)
+    recent_txns = await transactions_collection.find({"user_id": user_id, "deleted": {"$ne": True}}).sort("date", -1).limit(5).to_list(5)
     recent_transactions = [Transaction(**txn) for txn in recent_txns]
     
     return DashboardStats(
@@ -2334,7 +2335,7 @@ async def get_networth_history(days: int = 365, user_id: str = Depends(get_curre
     """Get net worth history snapshots"""
     cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
     
-    snapshots = await db.networth_snapshots.find({
+    snapshots = await db.net_worth_snapshots.find({
         "user_id": user_id,
         "snapshot_date": {"$gte": cutoff_date}
     }, {"_id": 0}).sort("snapshot_date", 1).to_list(1000)
@@ -2350,7 +2351,7 @@ async def create_networth_snapshot(user_id: str = Depends(get_current_user)):
     }, {"_id": 0}).to_list(1000)
     
     # Calculate assets (positive balances)
-    asset_accounts = [acc for acc in accounts if acc['account_type'] in ['checking', 'savings', 'investment', 'crypto']]
+    asset_accounts = [acc for acc in accounts if acc['account_type'] not in ['credit_card', 'loan', 'mortgage']]
     total_assets = sum(acc['balance'] for acc in asset_accounts)
     
     # Calculate liabilities (debt accounts)
@@ -2374,7 +2375,7 @@ async def create_networth_snapshot(user_id: str = Depends(get_current_user)):
         }
     }
     
-    result = await db.networth_snapshots.insert_one(snapshot)
+    result = await db.net_worth_snapshots.insert_one(snapshot)
     
     # Remove MongoDB's _id for the response
     snapshot_response = {k: v for k, v in snapshot.items() if k != '_id'}

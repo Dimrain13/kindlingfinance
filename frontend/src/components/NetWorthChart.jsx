@@ -32,7 +32,7 @@ const NetWorthChart = () => {
       
       // Calculate property equity
       const propertyEquity = properties.reduce((sum, prop) => {
-        return sum + (prop.equity !== undefined ? prop.equity : prop.current_value);
+        return sum + (prop.equity != null ? prop.equity : (prop.current_value || 0));
       }, 0);
       
       // Calculate net worth from accounts

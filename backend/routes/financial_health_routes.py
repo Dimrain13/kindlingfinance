@@ -164,7 +164,7 @@ def calculate_emergency_fund(accounts: List[Dict], transactions: List[Dict]) -> 
     liquid_balance = sum(
         acc.get("balance", 0) 
         for acc in accounts 
-        if acc.get("type", "").lower() in ["depository", "checking", "savings"]
+        if acc.get("account_type", "").lower() in ["checking", "savings"]
     )
     
     # Calculate monthly expenses
@@ -271,7 +271,7 @@ def calculate_debt_management(accounts: List[Dict], transactions: List[Dict]) ->
     total_debt = sum(
         abs(acc.get("balance", 0)) 
         for acc in accounts 
-        if acc.get("type", "").lower() in ["credit", "loan", "liability"]
+        if acc.get("account_type", "").lower() in ["credit_card", "loan", "mortgage"]
     )
     
     # Calculate monthly income
@@ -357,10 +357,10 @@ async def calculate_net_worth_trend(user_id: str) -> Dict:
     try:
         # Get net worth from 3 months ago
         three_months_ago = datetime.now() - timedelta(days=90)
-        old_snapshot = await db.networth_snapshots.find_one({
+        old_snapshot = await db.net_worth_snapshots.find_one({
             "user_id": user_id,
-            "date": {"$lte": three_months_ago.isoformat()}
-        }, {"_id": 0}, sort=[("date", -1)])
+            "snapshot_date": {"$lte": three_months_ago.isoformat()}
+        }, {"_id": 0}, sort=[("snapshot_date", -1)])
         
         # Get current net worth
         accounts = await db.accounts.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
@@ -414,7 +414,7 @@ def calculate_investment_diversification(accounts: List[Dict], properties: List[
     if properties is None:
         properties = []
     
-    investment_accounts = [acc for acc in accounts if acc.get("type", "").lower() in ["investment", "brokerage", "retirement"]]
+    investment_accounts = [acc for acc in accounts if acc.get("account_type", "").lower() in ["investment"]]
     
     # Calculate total real estate EQUITY (not full value)
     total_real_estate = 0
