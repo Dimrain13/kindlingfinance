@@ -4,8 +4,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { TrendingUp, Lock, Mail, ArrowLeft, Home, Zap } from 'lucide-react';
+import { TrendingUp, Lock, Mail, ArrowLeft, Zap } from 'lucide-react';
 import CampfireLogo from '../components/CampfireLogo';
+
+const GOOGLE_CLIENT_ID = '9671176760-ddv79e4fbsl8tht1i2m15ga1pdobna5t.apps.googleusercontent.com';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,41 +18,61 @@ const Login = () => {
   const { login, googleLogin, user } = useAuth();
   const navigate = useNavigate();
 
-  // Handle Google OAuth callback with session_id
-  useEffect(() => {
-    const processGoogleSession = async () => {
-      // Check if there's a session_id in the URL fragment
-      const hash = window.location.hash;
-      const params = new URLSearchParams(hash.substring(1));
-      const sessionId = params.get('session_id');
-
-      if (sessionId) {
-        setGoogleLoading(true);
-        setError('');
-
-        const result = await googleLogin(sessionId);
-        
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-
-        if (result.success) {
-          navigate('/dashboard');
-        } else {
-          setError(result.error);
-          setGoogleLoading(false);
-        }
-      }
-    };
-
-    processGoogleSession();
-  }, [googleLogin, navigate]);
-
   // Redirect if already logged in
   useEffect(() => {
     if (user && !googleLoading) {
       navigate('/dashboard');
     }
   }, [user, navigate, googleLoading]);
+
+  // Initialize Google Sign-In
+  useEffect(() => {
+    const loadGoogleScript = () => {
+      if (window.google) return;
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    };
+    loadGoogleScript();
+
+    // Wait for script to load then initialize
+    const initTimer = setInterval(() => {
+      if (window.google && window.google.accounts) {
+        clearInterval(initTimer);
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleResponse,
+          auto_select: false,
+        });
+      }
+    }, 200);
+
+    return () => clearInterval(initTimer);
+  }, []);
+
+  const handleGoogleResponse = async (response) => {
+    setGoogleLoading(true);
+    setError('');
+    
+    const result = await googleLogin(response.credential);
+    
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setError(result.error);
+    }
+    setGoogleLoading(false);
+  };
+
+  const handleGoogleSignIn = () => {
+    if (window.google && window.google.accounts) {
+      window.google.accounts.id.prompt();
+    } else {
+      setError('Google Sign-In is loading. Please try again in a moment.');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,13 +87,6 @@ const Login = () => {
     } else {
       setError(result.error);
     }
-  };
-
-  const handleGoogleSignIn = () => {
-    // Redirect to Emergent Auth with redirect URL to login page
-    // After auth, user will land back here with session_id in URL fragment
-    const redirectUrl = `${window.location.origin}/login`;
-    window.location.href = `https://auth.emergentagent.com/?redirect=${encodeURIComponent(redirectUrl)}`;
   };
 
   return (
@@ -252,22 +267,10 @@ const Login = () => {
               className="w-full h-12 text-base font-semibold bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
               Sign in with Google
             </Button>

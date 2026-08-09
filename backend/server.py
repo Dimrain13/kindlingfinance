@@ -180,85 +180,93 @@ async def get_current_user_info(user_id: str = Depends(get_current_user)):
 
 # ==================== GOOGLE OAUTH ENDPOINTS ====================
 
-@api_router.post("/auth/google/process-session", response_model=SessionResponse)
-async def process_google_session(request: ProcessSessionRequest, response: Response):
+@api_router.post("/auth/google")
+async def google_auth(request: Request):
     """
-    Process session_id from Emergent Auth and create session_token
+    Google OAuth - verify ID token from Google Sign-In, create/find user, return JWT
     """
     try:
-        # Call Emergent Auth API to get user data
-        async with httpx.AsyncClient() as client:
-            emergent_response = await client.get(
-                "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
-                headers={"X-Session-ID": request.session_id},
-                timeout=10.0
+        from google.oauth2 import id_token
+        from google.auth.transport import requests as google_requests
+
+        body = await request.json()
+        credential = body.get("credential")
+        if not credential:
+            raise HTTPException(status_code=400, detail="Missing Google credential")
+
+        # Verify the token with Google
+        try:
+            idinfo = id_token.verify_oauth2_token(
+                credential,
+                google_requests.Request(),
+                os.getenv("GOOGLE_CLIENT_ID")
             )
-            
-            if emergent_response.status_code != 200:
-                raise HTTPException(status_code=401, detail="Invalid session ID")
-            
-            user_data = emergent_response.json()
-        
-        # Check if user exists by email
-        user_doc = await users_collection.find_one({"email": user_data["email"]})
-        
+        except ValueError as e:
+            raise HTTPException(status_code=401, detail=f"Invalid Google token: {str(e)}")
+
+        # Extract user info
+        email = idinfo.get("email")
+        name = idinfo.get("name", email.split("@")[0] if email else "User")
+        google_id = idinfo.get("sub")
+
+        if not email:
+            raise HTTPException(status_code=400, detail="Email not provided by Google")
+
+        # Find or create user
+        user_doc = await users_collection.find_one({"email": email})
+
         if user_doc:
-            # User exists - don't update existing data
             user_id = user_doc["id"]
+            # Update Google ID if not set
+            if not user_doc.get("google_id"):
+                await users_collection.update_one(
+                    {"id": user_id},
+                    {"$set": {"google_id": google_id}}
+                )
         else:
-            # Create new user
             user_id = str(uuid.uuid4())
             new_user = {
                 "id": user_id,
-                "email": user_data["email"],
-                "name": user_data.get("name", user_data["email"].split("@")[0]),
-                "password": None,  # No password for OAuth users
+                "email": email,
+                "name": name,
+                "password": None,
+                "google_id": google_id,
                 "created_at": datetime.now(timezone.utc)
             }
             await users_collection.insert_one(new_user)
-        
-        # Create session with 7-day expiry
-        session_token = user_data["session_token"]
-        expires_at = datetime.now(timezone.utc) + timedelta(days=7)
-        
-        session_doc = {
-            "id": str(uuid.uuid4()),
-            "user_id": user_id,
-            "session_token": session_token,
-            "expires_at": expires_at,
-            "created_at": datetime.now(timezone.utc)
-        }
-        
-        # Store session in database
-        await sessions_collection.insert_one(session_doc)
-        
-        # Set httpOnly cookie
-        response.set_cookie(
-            key="session_token",
-            value=session_token,
-            httponly=True,
-            secure=True,
-            samesite="none",
-            max_age=7 * 24 * 60 * 60,  # 7 days in seconds
-            path="/"
-        )
-        
+
+        # Create JWT token
+        access_token = create_access_token(data={"sub": user_id})
+
         # Get fresh user doc
         user_doc = await users_collection.find_one({"id": user_id})
-        
         user = User(
             id=user_doc["id"],
             email=user_doc["email"],
             name=user_doc["name"],
             created_at=user_doc["created_at"]
         )
-        
-        return SessionResponse(session_token=session_token, user=user)
-    
-    except httpx.RequestError as e:
-        raise HTTPException(status_code=500, detail=f"Failed to connect to auth service: {str(e)}")
+
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": user.dict()
+        }
+
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to process session: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Google auth failed: {str(e)}")
+
+@api_router.post("/auth/google/process-session", response_model=SessionResponse)
+async def process_google_session(request: ProcessSessionRequest, response: Response):
+    """
+    Legacy endpoint - kept for backward compatibility. Redirects to new flow.
+    """
+    raise HTTPException(
+        status_code=410,
+        detail="This endpoint is deprecated. Use POST /api/auth/google with a Google credential."
+    )
 
 @api_router.post("/auth/logout")
 async def logout(response: Response, user_id: str = Depends(get_current_user)):

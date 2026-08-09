@@ -59,13 +59,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const googleLogin = async (sessionId) => {
+  const googleLogin = async (credential) => {
     try {
-      const response = await api.post('/auth/google/process-session', {
-        session_id: sessionId
+      const response = await api.post('/auth/google', {
+        credential: credential
       });
       
-      const { user: userData } = response.data;
+      const { access_token, user: userData } = response.data;
+      
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
       
       return { success: true };
